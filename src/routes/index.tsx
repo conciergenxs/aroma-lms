@@ -68,13 +68,6 @@ function LoginPage() {
         </button>
       </form>
 
-      <img
-        src={logoAroma.url}
-        alt=""
-        aria-hidden
-        className="absolute -right-[170px] bottom-[72px] w-[520px] max-w-none pointer-events-none select-none"
-        style={{ filter: "grayscale(1) brightness(1.72) opacity(0.18)" }}
-      />
     </div>
   );
 }
