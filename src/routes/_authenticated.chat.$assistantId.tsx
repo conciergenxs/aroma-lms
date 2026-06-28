@@ -5,7 +5,6 @@ import { chatSessions, getSession, type ChatMessage } from "@/data/chat";
 import { useNavHistory } from "@/lib/nav-history";
 import aiLogo from "@/assets/ai-logo.svg.asset.json";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { useChat, type UIMessage } from "@ai-sdk/react";
 import { Conversation, ConversationContent } from "@/components/ai-elements/conversation";
 import { MessageResponse } from "@/components/ai-elements/message";
 import { PromptInput, PromptInputTextarea } from "@/components/ai-elements/prompt-input";
@@ -22,21 +21,26 @@ export const Route = createFileRoute("/_authenticated/chat/$assistantId")({
   errorComponent: () => <div className="p-8 text-center">Something went wrong</div>,
 });
 
+type UiChatMessage = {
+  id: string;
+  role: "user" | "assistant";
+  text: string;
+  time: string;
+};
+
 const initialTextToMarkdown = (text: string) => text.replace(/^• /gm, "- ");
 
-function toUiMessage(message: ChatMessage): UIMessage {
+function toUiMessage(message: ChatMessage): UiChatMessage {
   return {
     id: message.id,
     role: message.role,
-    parts: [{ type: "text", text: initialTextToMarkdown(message.text) }],
+    text: initialTextToMarkdown(message.text),
+    time: message.time,
   };
 }
 
-function getMessageText(message: UIMessage) {
-  return message.parts
-    .filter((part) => part.type === "text")
-    .map((part) => part.text)
-    .join("");
+function currentTime() {
+  return new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
 }
 
 function ChatRoom() {
@@ -46,11 +50,48 @@ function ChatRoom() {
   const [showProduct, setShowProduct] = useState(!!session.product);
   const [historyOpen, setHistoryOpen] = useState(false);
   const initialMessages = useMemo(() => session.messages.map(toUiMessage), [session.id, session.messages]);
-  const { messages, sendMessage, status, stop, error } = useChat({
-    id: session.id,
-    messages: initialMessages,
-  });
-  const busy = status === "submitted" || status === "streaming";
+  const [messages, setMessages] = useState<UiChatMessage[]>(initialMessages);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const sendAiMessage = async (text: string) => {
+    if (busy) return;
+    setError(null);
+    const userMessage: UiChatMessage = { id: crypto.randomUUID(), role: "user", text, time: currentTime() };
+    const assistantMessage: UiChatMessage = { id: crypto.randomUUID(), role: "assistant", text: "", time: currentTime() };
+    const nextMessages = [...messages, userMessage, assistantMessage];
+    setMessages(nextMessages);
+    setBusy(true);
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          product: session.product?.name,
+          messages: [...messages, userMessage].map((message) => ({ role: message.role, text: message.text })),
+        }),
+      });
+
+      if (!response.ok || !response.body) throw new Error("AI response failed");
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let accumulated = "";
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        accumulated += decoder.decode(value, { stream: true });
+        setMessages((current) => current.map((message) => message.id === assistantMessage.id ? { ...message, text: accumulated } : message));
+      }
+    } catch {
+      setError("AI sedang bermasalah. Coba kirim ulang sebentar lagi.");
+      setMessages((current) => current.filter((message) => message.id !== assistantMessage.id));
+    } finally {
+      setBusy(false);
+    }
+  };
 
   return (
     <div className="h-screen min-h-[667px] flex flex-col bg-card">
@@ -118,7 +159,7 @@ function ChatRoom() {
           )}
 
           {messages.map((m, index) => {
-            const text = getMessageText(m);
+            const text = m.text;
             return (
               <div key={m.id} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
                 <div
@@ -130,26 +171,25 @@ function ChatRoom() {
                 >
                   {text ? <MessageResponse>{text}</MessageResponse> : <Shimmer>Thinking...</Shimmer>}
                   <div className="text-[11px] text-foreground/18 text-right mt-1.5">
-                    {session.messages[index]?.time ?? new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}
+                    {m.time || session.messages[index]?.time || currentTime()}
                   </div>
                 </div>
               </div>
             );
           })}
-          {error && <div className="text-xs text-brand px-2">AI sedang bermasalah. Coba kirim ulang sebentar lagi.</div>}
+          {error && <div className="text-xs text-brand px-2">{error}</div>}
         </ConversationContent>
       </Conversation>
 
       <div className="shrink-0 bg-[#f4f4f4] px-[10px] pt-2 pb-1">
         <PromptInput
-          onSubmit={({ text }) => sendMessage({ text }, { body: { product: session.product?.name } })}
+          onSubmit={({ text }) => void sendAiMessage(text)}
           className="gap-2"
         >
           <PromptInputTextarea placeholder="Message" className="min-h-[46px] rounded-full border border-black/10 bg-card shadow-sm text-[15px]" />
           <button
             type="button"
             aria-label={busy ? "Stop response" : "Voice message"}
-            onClick={() => { if (busy) void stop(); }}
             className="h-[46px] w-[46px] rounded-full bg-brand text-brand-foreground flex items-center justify-center shrink-0"
           >
             <Mic className="h-5 w-5" />

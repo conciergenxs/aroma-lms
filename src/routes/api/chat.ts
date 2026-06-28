@@ -1,18 +1,37 @@
 import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
 import { createFileRoute } from "@tanstack/react-router";
-import { convertToModelMessages, streamText, type UIMessage } from "ai";
+import { streamText, type ModelMessage } from "ai";
 
 type ChatRequestBody = {
   messages?: unknown;
   product?: string;
 };
 
+type IncomingMessage = {
+  role?: unknown;
+  text?: unknown;
+  content?: unknown;
+};
+
+function normalizeMessages(messages: unknown): ModelMessage[] {
+  if (!Array.isArray(messages)) return [];
+
+  return (messages as IncomingMessage[])
+    .map((message) => {
+      const role = message.role === "assistant" ? "assistant" : message.role === "system" ? "system" : "user";
+      const content = typeof message.text === "string" ? message.text : typeof message.content === "string" ? message.content : "";
+      return { role, content } as ModelMessage;
+    })
+    .filter((message) => typeof message.content === "string" && message.content.trim().length > 0);
+}
+
 export const Route = createFileRoute("/api/chat")({
   server: {
     handlers: {
       POST: async ({ request }) => {
         const { messages, product } = (await request.json()) as ChatRequestBody;
-        if (!Array.isArray(messages)) {
+        const normalizedMessages = normalizeMessages(messages);
+        if (normalizedMessages.length === 0) {
           return new Response("Messages are required", { status: 400 });
         }
 
@@ -30,12 +49,10 @@ export const Route = createFileRoute("/api/chat")({
             "Be practical, friendly, and product-training focused. Use short paragraphs and bullets when useful.",
             product ? `Current product context: ${product}.` : "",
           ].filter(Boolean).join("\n"),
-          messages: await convertToModelMessages(messages as UIMessage[]),
+          messages: normalizedMessages,
         });
 
-        return result.toUIMessageStreamResponse({
-          originalMessages: messages as UIMessage[],
-        });
+        return result.toTextStreamResponse();
       },
     },
   },
