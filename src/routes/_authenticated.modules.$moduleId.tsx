@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { getModule, modules, type ModuleStatus } from "@/data/modules";
+import { getModule, modules, type ModuleStatus, type KnowledgeCard } from "@/data/modules";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { ModuleCard } from "@/components/ModuleCard";
 import { useRef } from "react";
@@ -57,7 +57,7 @@ function ModuleDetail() {
       </div>
 
       <div className="mt-4 space-y-4">
-        {m.cards.map((c: typeof m.cards[number]) => (
+        {m.cards.map((c: KnowledgeCard) => (
           <Link
             key={c.id}
             to="/modules/$moduleId/cards/$cardId"
