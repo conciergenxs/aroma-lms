@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginSuccessRouteImport } from './routes/login-success'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated.profile'
 import { Route as AuthenticatedMyLearningRouteImport } from './routes/_authenticated.my-learning'
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated.home'
@@ -32,6 +33,11 @@ const AuthenticatedRoute = AuthenticatedRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/home': typeof AuthenticatedHomeRoute
   '/my-learning': typeof AuthenticatedMyLearningRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/api/chat': typeof ApiChatRoute
   '/chat/$assistantId': typeof AuthenticatedChatAssistantIdRoute
   '/modules/$moduleId': typeof AuthenticatedModulesModuleIdRouteWithChildren
   '/modules/$moduleId/cards/$cardId': typeof AuthenticatedModulesModuleIdCardsCardIdRoute
@@ -91,6 +98,7 @@ export interface FileRoutesByTo {
   '/home': typeof AuthenticatedHomeRoute
   '/my-learning': typeof AuthenticatedMyLearningRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/api/chat': typeof ApiChatRoute
   '/chat/$assistantId': typeof AuthenticatedChatAssistantIdRoute
   '/modules/$moduleId': typeof AuthenticatedModulesModuleIdRouteWithChildren
   '/modules/$moduleId/cards/$cardId': typeof AuthenticatedModulesModuleIdCardsCardIdRoute
@@ -104,6 +112,7 @@ export interface FileRoutesById {
   '/_authenticated/home': typeof AuthenticatedHomeRoute
   '/_authenticated/my-learning': typeof AuthenticatedMyLearningRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/api/chat': typeof ApiChatRoute
   '/_authenticated/chat/$assistantId': typeof AuthenticatedChatAssistantIdRoute
   '/_authenticated/modules/$moduleId': typeof AuthenticatedModulesModuleIdRouteWithChildren
   '/_authenticated/modules/$moduleId/cards/$cardId': typeof AuthenticatedModulesModuleIdCardsCardIdRoute
@@ -117,6 +126,7 @@ export interface FileRouteTypes {
     | '/home'
     | '/my-learning'
     | '/profile'
+    | '/api/chat'
     | '/chat/$assistantId'
     | '/modules/$moduleId'
     | '/modules/$moduleId/cards/$cardId'
@@ -128,6 +138,7 @@ export interface FileRouteTypes {
     | '/home'
     | '/my-learning'
     | '/profile'
+    | '/api/chat'
     | '/chat/$assistantId'
     | '/modules/$moduleId'
     | '/modules/$moduleId/cards/$cardId'
@@ -140,6 +151,7 @@ export interface FileRouteTypes {
     | '/_authenticated/home'
     | '/_authenticated/my-learning'
     | '/_authenticated/profile'
+    | '/api/chat'
     | '/_authenticated/chat/$assistantId'
     | '/_authenticated/modules/$moduleId'
     | '/_authenticated/modules/$moduleId/cards/$cardId'
@@ -149,6 +161,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   LoginSuccessRoute: typeof LoginSuccessRoute
+  ApiChatRoute: typeof ApiChatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -172,6 +185,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/profile': {
@@ -268,6 +288,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   LoginSuccessRoute: LoginSuccessRoute,
+  ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
