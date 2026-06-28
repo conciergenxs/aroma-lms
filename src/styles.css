@@ -40,8 +40,8 @@
   --color-soft: var(--soft);
   --color-rose-line: var(--rose-line);
   --color-ink: var(--ink);
-  --font-serif: "Cormorant Garamond", "Playfair Display", Georgia, serif;
-  --font-sans: "Inter", system-ui, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Montserrat", system-ui, sans-serif;
 }
 
 :root {
