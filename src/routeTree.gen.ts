@@ -9,38 +9,164 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LoginSuccessRouteImport } from './routes/login-success'
+import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated.profile'
+import { Route as AuthenticatedMyLearningRouteImport } from './routes/_authenticated.my-learning'
+import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated.home'
+import { Route as AuthenticatedCategoryRouteImport } from './routes/_authenticated.category'
+import { Route as AuthenticatedModulesModuleIdRouteImport } from './routes/_authenticated.modules.$moduleId'
+import { Route as AuthenticatedChatAssistantIdRouteImport } from './routes/_authenticated.chat.$assistantId'
+import { Route as AuthenticatedModulesModuleIdCardsCardIdRouteImport } from './routes/_authenticated.modules.$moduleId.cards.$cardId'
 
+const LoginSuccessRoute = LoginSuccessRouteImport.update({
+  id: '/login-success',
+  path: '/login-success',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRoute = AuthenticatedRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedMyLearningRoute = AuthenticatedMyLearningRouteImport.update({
+  id: '/my-learning',
+  path: '/my-learning',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedCategoryRoute = AuthenticatedCategoryRouteImport.update({
+  id: '/category',
+  path: '/category',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedModulesModuleIdRoute =
+  AuthenticatedModulesModuleIdRouteImport.update({
+    id: '/modules/$moduleId',
+    path: '/modules/$moduleId',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedChatAssistantIdRoute =
+  AuthenticatedChatAssistantIdRouteImport.update({
+    id: '/chat/$assistantId',
+    path: '/chat/$assistantId',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedModulesModuleIdCardsCardIdRoute =
+  AuthenticatedModulesModuleIdCardsCardIdRouteImport.update({
+    id: '/cards/$cardId',
+    path: '/cards/$cardId',
+    getParentRoute: () => AuthenticatedModulesModuleIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/login-success': typeof LoginSuccessRoute
+  '/category': typeof AuthenticatedCategoryRoute
+  '/home': typeof AuthenticatedHomeRoute
+  '/my-learning': typeof AuthenticatedMyLearningRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/chat/$assistantId': typeof AuthenticatedChatAssistantIdRoute
+  '/modules/$moduleId': typeof AuthenticatedModulesModuleIdRouteWithChildren
+  '/modules/$moduleId/cards/$cardId': typeof AuthenticatedModulesModuleIdCardsCardIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login-success': typeof LoginSuccessRoute
+  '/category': typeof AuthenticatedCategoryRoute
+  '/home': typeof AuthenticatedHomeRoute
+  '/my-learning': typeof AuthenticatedMyLearningRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/chat/$assistantId': typeof AuthenticatedChatAssistantIdRoute
+  '/modules/$moduleId': typeof AuthenticatedModulesModuleIdRouteWithChildren
+  '/modules/$moduleId/cards/$cardId': typeof AuthenticatedModulesModuleIdCardsCardIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/login-success': typeof LoginSuccessRoute
+  '/_authenticated/category': typeof AuthenticatedCategoryRoute
+  '/_authenticated/home': typeof AuthenticatedHomeRoute
+  '/_authenticated/my-learning': typeof AuthenticatedMyLearningRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/chat/$assistantId': typeof AuthenticatedChatAssistantIdRoute
+  '/_authenticated/modules/$moduleId': typeof AuthenticatedModulesModuleIdRouteWithChildren
+  '/_authenticated/modules/$moduleId/cards/$cardId': typeof AuthenticatedModulesModuleIdCardsCardIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/login-success'
+    | '/category'
+    | '/home'
+    | '/my-learning'
+    | '/profile'
+    | '/chat/$assistantId'
+    | '/modules/$moduleId'
+    | '/modules/$moduleId/cards/$cardId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/login-success'
+    | '/category'
+    | '/home'
+    | '/my-learning'
+    | '/profile'
+    | '/chat/$assistantId'
+    | '/modules/$moduleId'
+    | '/modules/$moduleId/cards/$cardId'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/login-success'
+    | '/_authenticated/category'
+    | '/_authenticated/home'
+    | '/_authenticated/my-learning'
+    | '/_authenticated/profile'
+    | '/_authenticated/chat/$assistantId'
+    | '/_authenticated/modules/$moduleId'
+    | '/_authenticated/modules/$moduleId/cards/$cardId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  LoginSuccessRoute: typeof LoginSuccessRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/login-success': {
+      id: '/login-success'
+      path: '/login-success'
+      fullPath: '/login-success'
+      preLoaderRoute: typeof LoginSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +174,100 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/my-learning': {
+      id: '/_authenticated/my-learning'
+      path: '/my-learning'
+      fullPath: '/my-learning'
+      preLoaderRoute: typeof AuthenticatedMyLearningRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/home': {
+      id: '/_authenticated/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof AuthenticatedHomeRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/category': {
+      id: '/_authenticated/category'
+      path: '/category'
+      fullPath: '/category'
+      preLoaderRoute: typeof AuthenticatedCategoryRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/modules/$moduleId': {
+      id: '/_authenticated/modules/$moduleId'
+      path: '/modules/$moduleId'
+      fullPath: '/modules/$moduleId'
+      preLoaderRoute: typeof AuthenticatedModulesModuleIdRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/chat/$assistantId': {
+      id: '/_authenticated/chat/$assistantId'
+      path: '/chat/$assistantId'
+      fullPath: '/chat/$assistantId'
+      preLoaderRoute: typeof AuthenticatedChatAssistantIdRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/modules/$moduleId/cards/$cardId': {
+      id: '/_authenticated/modules/$moduleId/cards/$cardId'
+      path: '/cards/$cardId'
+      fullPath: '/modules/$moduleId/cards/$cardId'
+      preLoaderRoute: typeof AuthenticatedModulesModuleIdCardsCardIdRouteImport
+      parentRoute: typeof AuthenticatedModulesModuleIdRoute
+    }
   }
 }
 
+interface AuthenticatedModulesModuleIdRouteChildren {
+  AuthenticatedModulesModuleIdCardsCardIdRoute: typeof AuthenticatedModulesModuleIdCardsCardIdRoute
+}
+
+const AuthenticatedModulesModuleIdRouteChildren: AuthenticatedModulesModuleIdRouteChildren =
+  {
+    AuthenticatedModulesModuleIdCardsCardIdRoute:
+      AuthenticatedModulesModuleIdCardsCardIdRoute,
+  }
+
+const AuthenticatedModulesModuleIdRouteWithChildren =
+  AuthenticatedModulesModuleIdRoute._addFileChildren(
+    AuthenticatedModulesModuleIdRouteChildren,
+  )
+
+interface AuthenticatedRouteChildren {
+  AuthenticatedCategoryRoute: typeof AuthenticatedCategoryRoute
+  AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
+  AuthenticatedMyLearningRoute: typeof AuthenticatedMyLearningRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedChatAssistantIdRoute: typeof AuthenticatedChatAssistantIdRoute
+  AuthenticatedModulesModuleIdRoute: typeof AuthenticatedModulesModuleIdRouteWithChildren
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedCategoryRoute: AuthenticatedCategoryRoute,
+  AuthenticatedHomeRoute: AuthenticatedHomeRoute,
+  AuthenticatedMyLearningRoute: AuthenticatedMyLearningRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedChatAssistantIdRoute: AuthenticatedChatAssistantIdRoute,
+  AuthenticatedModulesModuleIdRoute:
+    AuthenticatedModulesModuleIdRouteWithChildren,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  LoginSuccessRoute: LoginSuccessRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

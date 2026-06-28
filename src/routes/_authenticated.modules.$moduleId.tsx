@@ -57,7 +57,7 @@ function ModuleDetail() {
       </div>
 
       <div className="mt-4 space-y-4">
-        {m.cards.map((c) => (
+        {m.cards.map((c: typeof m.cards[number]) => (
           <Link
             key={c.id}
             to="/modules/$moduleId/cards/$cardId"

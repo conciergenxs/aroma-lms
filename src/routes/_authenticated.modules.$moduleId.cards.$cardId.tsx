@@ -132,13 +132,13 @@ function KnowledgeDetail() {
             <h1 className="font-serif text-3xl mt-3 leading-tight">{card.title}</h1>
             <div className="my-4 h-px bg-border" />
             <ul className="list-disc pl-5 space-y-1.5 text-[15px] text-foreground/90">
-              {card.bullets.map((b, i) => <li key={i}>{b}</li>)}
+              {card.bullets.map((b: string, i: number) => <li key={i}>{b}</li>)}
             </ul>
             {card.keyIngredients.length > 0 && (
               <>
                 <div className="mt-5 font-semibold text-[15px]">Key Ingredients:</div>
                 <ul className="list-disc pl-5 mt-1.5 space-y-1.5 text-[15px] text-foreground/90">
-                  {card.keyIngredients.map((k, i) => (
+                  {card.keyIngredients.map((k: { name: string; description: string }, i: number) => (
                     <li key={i}><span className="font-bold">{k.name}</span> → {k.description}</li>
                   ))}
                 </ul>
