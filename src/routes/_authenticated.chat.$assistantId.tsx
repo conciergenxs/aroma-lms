@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate, notFound } from "@tanstack/react-router";
 import { ChevronLeft, History, MoreVertical, X, Mic } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { chatSessions, getSession, type ChatMessage } from "@/data/chat";
 import { useNavHistory } from "@/lib/nav-history";
 import aiLogo from "@/assets/ai-logo.svg.asset.json";
@@ -53,6 +53,12 @@ function ChatRoom() {
   const [messages, setMessages] = useState<UiChatMessage[]>(initialMessages);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setMessages(initialMessages);
+    setError(null);
+    setBusy(false);
+  }, [initialMessages]);
 
   const sendAiMessage = async (text: string) => {
     if (busy) return;
@@ -188,7 +194,7 @@ function ChatRoom() {
         >
           <PromptInputTextarea placeholder="Message" className="min-h-[46px] rounded-full border border-black/10 bg-card shadow-sm text-[15px]" />
           <button
-            type="button"
+            type="submit"
             aria-label={busy ? "Stop response" : "Voice message"}
             className="h-[46px] w-[46px] rounded-full bg-brand text-brand-foreground flex items-center justify-center shrink-0"
           >
