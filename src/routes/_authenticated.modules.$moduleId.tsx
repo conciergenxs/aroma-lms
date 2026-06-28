@@ -35,19 +35,20 @@ function ModuleDetail() {
   const others = modules.filter((x) => x.id !== m.id);
 
   return (
-    <div className="px-4 pt-4">
-      <Link to="/home" className="inline-flex items-center text-sm text-brand font-medium">
+    <div className="px-[14px] pt-5">
+      <Link to="/home" className="inline-flex items-center text-sm text-brand font-semibold">
         <ChevronLeft className="h-4 w-4" /> Back to Home
       </Link>
 
-      <div className="mt-3 bg-white rounded-2xl shadow-sm overflow-hidden">
+      <div className="mt-4 bg-card rounded-lg border border-border shadow-sm overflow-hidden">
         <div className="flex items-center gap-3 p-3">
-          <img src={m.image} alt="" className="h-16 w-16 rounded-xl object-cover" />
+          <img src={m.image} alt="" className="h-20 w-20 rounded-lg object-cover" width={1024} height={1024} />
           <div className="flex-1 min-w-0">
-            <div className="font-serif text-lg leading-tight">{m.title}</div>
-            <div className="text-xs text-foreground/70 mt-1">{m.completed}/{m.total} Cards completed</div>
-            <div className="mt-1 flex items-center gap-2">
-              <div className="flex-1 h-1.5 bg-brand/15 rounded-full overflow-hidden">
+            <div className="text-[10px] tracking-wider text-tan font-semibold">{m.category}</div>
+            <div className="font-serif text-xl leading-tight mt-1">{m.title}</div>
+            <div className="text-xs text-brand font-semibold mt-2">{m.completed}/{m.total} Cards completed</div>
+            <div className="mt-1.5 flex items-center gap-2">
+              <div className="flex-1 h-1.5 bg-rose-line rounded-full overflow-hidden">
                 <div className="h-full bg-brand" style={{ width: `${pct}%` }} />
               </div>
               <span className="text-xs font-semibold text-brand">{pct}%</span>
@@ -56,17 +57,17 @@ function ModuleDetail() {
         </div>
       </div>
 
-      <div className="mt-4 space-y-4">
+      <div className="mt-4 space-y-3">
         {m.cards.map((c: KnowledgeCard) => (
           <Link
             key={c.id}
             to="/modules/$moduleId/cards/$cardId"
             params={{ moduleId: m.id, cardId: c.id }}
-            className="block bg-white rounded-2xl shadow-sm overflow-hidden"
+            className="block bg-card rounded-lg border border-border shadow-sm overflow-hidden"
           >
             <div className="p-3">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-bold tracking-widest bg-cream px-2.5 py-1 rounded-md text-foreground/80 border border-brand/20">
+                <span className="text-[10px] font-bold tracking-widest bg-card px-2.5 py-1 rounded-md text-tan border border-[#dfc9b8]">
                   KNOWLEDGE CARD {c.index}
                 </span>
                 <span className={`text-[10px] font-bold tracking-widest px-2.5 py-1 rounded-md ${statusStyle[c.status]}`}>
@@ -74,14 +75,14 @@ function ModuleDetail() {
                 </span>
               </div>
               <div className="mt-2 flex items-center gap-2">
-                <div className="flex-1 h-1.5 bg-brand/15 rounded-full overflow-hidden">
+                <div className="flex-1 h-1.5 bg-rose-line rounded-full overflow-hidden">
                   <div className="h-full bg-brand" style={{ width: `${c.progress}%` }} />
                 </div>
                 <span className="text-[11px] font-semibold text-brand">{c.progress}%</span>
               </div>
             </div>
-            <div className="aspect-[16/9] bg-cream/60">
-              <img src={c.image} alt="" className="w-full h-full object-cover" loading="lazy" />
+            <div className="aspect-[16/8] bg-cream/60">
+              <img src={c.image} alt="" className="w-full h-full object-cover" loading="lazy" width={1024} height={768} />
             </div>
             <div className="px-3 py-3">
               <div className="font-serif text-lg">{c.title}</div>

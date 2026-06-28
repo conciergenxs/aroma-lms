@@ -77,41 +77,38 @@ function KnowledgeDetail() {
   const progress = completed ? 100 : 0;
 
   return (
-    <div className="relative">
-      {/* Hero image — full background, no gradient */}
-      <div className="relative h-64 overflow-hidden">
-        <img src={card.image} alt="" className="absolute inset-0 w-full h-full object-cover" />
-        <Link
-          to="/modules/$moduleId"
-          params={{ moduleId: m.id }}
-          className="absolute top-3 left-4 inline-flex items-center gap-1 text-white drop-shadow text-sm font-medium"
-        >
-          <ChevronLeft className="h-4 w-4" /> Back to Modules
-        </Link>
-      </div>
-
-      {/* Congratulations banner (Complete Read) */}
+    <div className="relative bg-cream">
       <AnimatePresence>
         {completed && (
           <motion.div
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="bg-brand text-white px-5 py-3 flex items-center gap-3"
+            className="bg-brand text-brand-foreground px-[15px] py-[15px] flex items-center gap-3"
           >
-            <div className="h-8 w-8 rounded-full bg-tan flex items-center justify-center">
-              <Check className="h-4 w-4 text-white" strokeWidth={3} />
+            <div className="h-10 w-10 rounded-full bg-tan flex items-center justify-center shrink-0">
+              <Check className="h-6 w-6 text-white" strokeWidth={3} />
             </div>
             <div>
-              <div className="font-serif text-lg leading-tight">Congratulations!</div>
-              <div className="text-xs opacity-90">You've finished this module.</div>
+              <div className="font-serif text-[18px] font-bold leading-tight">Congratulations!</div>
+              <div className="text-[13px] opacity-95 mt-1">You've finished this module.</div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Swipeable white card */}
-      <div className="px-4 -mt-20 relative z-10">
+      <div className="relative h-[211px] overflow-hidden">
+        <img src={card.image} alt="" className="absolute inset-0 w-full h-full object-cover" width={1024} height={768} />
+        <Link
+          to="/modules/$moduleId"
+          params={{ moduleId: m.id }}
+          className="absolute top-[31px] left-[14px] inline-flex items-center gap-1 text-white drop-shadow text-[15px] font-semibold"
+        >
+          <ChevronLeft className="h-4 w-4" /> Back to Modules
+        </Link>
+      </div>
+
+      <div className="px-[15px] -mt-[147px] relative z-10 overflow-visible">
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={card.id}
@@ -124,20 +121,20 @@ function KnowledgeDetail() {
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: direction * -60, opacity: 0 }}
             transition={{ type: "spring", stiffness: 280, damping: 30 }}
-            className="bg-white rounded-2xl shadow-xl p-5 cursor-grab active:cursor-grabbing select-none"
+            className="bg-card rounded-xl border border-border p-[15px] pb-[18px] cursor-grab active:cursor-grabbing select-none shadow-sm min-h-[408px]"
           >
-            <span className="inline-block text-[10px] font-bold tracking-widest bg-cream border border-brand/20 px-2.5 py-1 rounded-md text-foreground/80">
+            <span className="inline-block text-[12px] uppercase bg-card border border-[#dfc9b8] px-2.5 py-1 rounded-md text-tan leading-none">
               KNOWLEDGE CARD {card.index}
             </span>
-            <h1 className="font-serif text-3xl mt-3 leading-tight">{card.title}</h1>
+            <h1 className="font-serif text-[27px] font-bold mt-4 leading-[1.17]">{card.title}</h1>
             <div className="my-4 h-px bg-border" />
-            <ul className="list-disc pl-5 space-y-1.5 text-[15px] text-foreground/90">
+            <ul className="list-disc pl-5 space-y-1.5 text-[15px] leading-[1.6] text-foreground/90">
               {card.bullets.map((b: string, i: number) => <li key={i}>{b}</li>)}
             </ul>
             {card.keyIngredients.length > 0 && (
               <>
-                <div className="mt-5 font-semibold text-[15px]">Key Ingredients:</div>
-                <ul className="list-disc pl-5 mt-1.5 space-y-1.5 text-[15px] text-foreground/90">
+                <div className="mt-6 font-bold text-[15px]">Key Ingredients:</div>
+                <ul className="list-disc pl-5 mt-1.5 space-y-1.5 text-[15px] leading-[1.6] text-foreground/90">
                   {card.keyIngredients.map((k: { name: string; description: string }, i: number) => (
                     <li key={i}><span className="font-bold">{k.name}</span> → {k.description}</li>
                   ))}
@@ -148,19 +145,18 @@ function KnowledgeDetail() {
         </AnimatePresence>
       </div>
 
-      {/* Tan progress band */}
-      <div className="mt-10 bg-tan/90 px-4 py-4">
-        <div className="flex items-center gap-3">
-          <div className="flex-1 h-1.5 bg-white/40 rounded-full overflow-hidden">
+      <div className="mt-[104px] bg-tan px-[15px] py-[14px]">
+        <div className="flex items-center gap-2">
+          <div className="flex-1 h-[5px] bg-white/35 rounded-full overflow-hidden">
             <div className="h-full bg-white transition-all duration-500" style={{ width: `${progress}%` }} />
           </div>
-          <span className="text-white text-sm font-semibold">{progress}%</span>
+          <span className="text-white text-[15px] font-bold">{progress}%</span>
         </div>
         <div className="mt-3 flex items-center justify-between gap-3">
           {prevCard ? (
             <button
               onClick={() => goTo(prevCard.id, -1)}
-              className="bg-white text-brand font-semibold text-sm px-4 py-2 rounded-full inline-flex items-center gap-1.5 shadow"
+              className="bg-card text-brand font-semibold text-[13px] px-2.5 py-2 rounded-md inline-flex items-center gap-1 shadow-sm"
             >
               <ChevronLeft className="h-4 w-4" /> Knowledge Card {prevCard.index}
             </button>
@@ -168,7 +164,7 @@ function KnowledgeDetail() {
           {nextCard ? (
             <button
               onClick={() => goTo(nextCard.id, 1)}
-              className="bg-white text-brand font-semibold text-sm px-4 py-2 rounded-full inline-flex items-center gap-1.5 shadow"
+              className="bg-card text-brand font-semibold text-[13px] px-2.5 py-2 rounded-md inline-flex items-center gap-1 shadow-sm"
             >
               Knowledge Card {nextCard.index} <ChevronRight className="h-4 w-4" />
             </button>

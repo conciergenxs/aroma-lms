@@ -12,14 +12,15 @@ export function MessageContent({ className, ...props }: React.HTMLAttributes<HTM
 
 export function MessageResponse({ children, className }: { children: string; className?: string }) {
   return (
-    <ReactMarkdown
-      className={cn("prose prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-li:my-0 prose-strong:font-semibold", className)}
-      components={{
-        p: ({ children }) => <p>{children}</p>,
-        ul: ({ children }) => <ul className="list-disc pl-5">{children}</ul>,
-      }}
-    >
-      {children}
-    </ReactMarkdown>
+    <div className={cn("prose prose-sm max-w-none prose-p:my-1 prose-ul:my-1 prose-li:my-0 prose-strong:font-semibold", className)}>
+      <ReactMarkdown
+        components={{
+          p: ({ children }) => <p>{children}</p>,
+          ul: ({ children }) => <ul className="list-disc pl-5">{children}</ul>,
+        }}
+      >
+        {children}
+      </ReactMarkdown>
+    </div>
   );
 }
