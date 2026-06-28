@@ -13,17 +13,17 @@ export function BottomNav() {
 
   return (
     <nav
-      className="fixed bottom-0 left-1/2 -translate-x-1/2 z-40 w-full max-w-md px-3 pb-3 pointer-events-none"
+      className="fixed bottom-0 left-1/2 -translate-x-1/2 z-40 w-full max-w-[390px] pointer-events-none"
       aria-label="Primary"
     >
-      <div className="pointer-events-auto bg-ink text-white/80 rounded-2xl shadow-2xl px-2 py-3 flex items-center justify-around">
+      <div className="pointer-events-auto bg-ink text-white/90 shadow-[0_-8px_24px_rgba(0,0,0,0.24)] px-5 pt-4 pb-3 flex items-center justify-around">
         {items.map(({ to, label, icon: Icon }) => {
           const active = pathname === to || pathname.startsWith(to + "/");
           return (
             <Link
               key={to}
               to={to}
-              className={`flex flex-col items-center gap-1 px-3 py-1 text-[11px] font-medium transition-colors ${
+              className={`flex w-[72px] flex-col items-center gap-1 px-1 py-0.5 text-[12px] font-medium transition-colors ${
                 active ? "text-gold" : "text-white/70 hover:text-white"
               }`}
             >

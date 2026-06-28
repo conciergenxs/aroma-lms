@@ -1,3 +1,5 @@
+import beautyProducts from "@/assets/beauty-products.jpg";
+
 export type ChatMessage = {
   id: string;
   role: "user" | "assistant";
@@ -20,7 +22,7 @@ export const chatSessions: ChatSession[] = [
     product: {
       name: "Real Flawless Foundation",
       brand: "LAURA MERCIER",
-      image: "https://picsum.photos/seed/foundation/300/300",
+      image: beautyProducts,
     },
     lastTime: "08.15",
     messages: [

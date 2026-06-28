@@ -36,6 +36,8 @@
   --color-gold: var(--gold);
   --color-tan: var(--tan);
   --color-peach: var(--peach);
+  --color-soft: var(--soft);
+  --color-rose-line: var(--rose-line);
   --color-ink: var(--ink);
   --font-serif: "Cormorant Garamond", "Playfair Display", Georgia, serif;
   --font-sans: "Inter", system-ui, sans-serif;
@@ -43,9 +45,9 @@
 
 :root {
   --radius: 1rem;
-  --background: oklch(0.965 0.008 80);
+  --background: #f3f0ec;
   --foreground: oklch(0.18 0.01 60);
-  --card: oklch(1 0 0);
+  --card: #ffffff;
   --card-foreground: oklch(0.18 0.01 60);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.18 0.01 60);
@@ -59,20 +61,22 @@
   --accent-foreground: oklch(0.2 0.01 60);
   --destructive: oklch(0.55 0.22 27);
   --destructive-foreground: oklch(0.985 0.005 80);
-  --border: oklch(0.88 0.01 70);
+  --border: #e6d8cd;
   --input: oklch(1 0 0);
   --ring: oklch(0.32 0.13 18);
 
   /* brand */
   --brand: #710014;
   --brand-foreground: #ffffff;
-  --cream: #f1ece4;
+  --cream: #f3f0ec;
   --gold: #c9a455;
-  --tan: #c7a274;
-  --peach: #fbeadb;
+  --tan: #bf9877;
+  --peach: #fff4ed;
+  --soft: #fbfaf8;
+  --rose-line: #ead3d7;
   --ink: #161616;
 
-  --floating-ai-bottom: 7rem;
+  --floating-ai-bottom: 7.6rem;
 }
 
 @layer base {
@@ -85,6 +89,7 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    letter-spacing: 0;
   }
 
   h1, h2, h3, h4, .font-serif {
@@ -95,4 +100,9 @@
 @utility scrollbar-none {
   scrollbar-width: none;
   &::-webkit-scrollbar { display: none; }
+}
+
+@utility mobile-shell {
+  max-width: 390px;
+  margin-inline: auto;
 }
