@@ -6,7 +6,6 @@ import { useNavHistory } from "@/lib/nav-history";
 import aiLogo from "@/assets/ai-logo.svg.asset.json";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useChat, type UIMessage } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
 import { Conversation, ConversationContent } from "@/components/ai-elements/conversation";
 import { MessageResponse } from "@/components/ai-elements/message";
 import { PromptInput, PromptInputTextarea } from "@/components/ai-elements/prompt-input";
@@ -50,10 +49,6 @@ function ChatRoom() {
   const { messages, sendMessage, status, stop, error } = useChat({
     id: session.id,
     messages: initialMessages,
-    transport: new DefaultChatTransport({
-      api: "/api/chat",
-      body: { product: session.product?.name },
-    }),
   });
   const busy = status === "submitted" || status === "streaming";
 
