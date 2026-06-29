@@ -1,9 +1,11 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { motion } from "framer-motion";
 import { getModule, modules, type ModuleStatus, type KnowledgeCard } from "@/data/modules";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { ModuleCard } from "@/components/ModuleCard";
 import { useRef } from "react";
+
 
 export const Route = createFileRoute("/_authenticated/modules/$moduleId")({
   loader: ({ params }) => {
@@ -59,36 +61,43 @@ function ModuleDetail() {
       </div>
 
       <div className="mt-4 space-y-3">
-        {m.cards.map((c: KnowledgeCard) => (
-          <Link
+        {m.cards.map((c: KnowledgeCard, i: number) => (
+          <motion.div
             key={c.id}
-            to="/modules/$moduleId/cards/$cardId"
-            params={{ moduleId: m.id, cardId: c.id }}
-            className="block bg-card rounded-lg border border-border shadow-sm overflow-hidden"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.05 }}
+            whileTap={{ scale: 0.98 }}
           >
-            <div className="p-3">
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] font-bold tracking-widest bg-card px-2.5 py-1 rounded-md text-tan border border-[#dfc9b8]">
-                  KNOWLEDGE CARD {c.index}
-                </span>
-                <span className={`text-[10px] font-bold tracking-widest px-2.5 py-1 rounded-md ${statusStyle[c.status]}`}>
-                  {statusLabel[c.status]}
-                </span>
-              </div>
-              <div className="mt-2 flex items-center gap-2">
-                <div className="flex-1 h-1.5 bg-rose-line rounded-full overflow-hidden">
-                  <div className="h-full bg-brand" style={{ width: `${c.progress}%` }} />
+            <Link
+              to="/modules/$moduleId/cards/$cardId"
+              params={{ moduleId: m.id, cardId: c.id }}
+              className="block bg-card rounded-lg border border-border shadow-sm overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
+            >
+              <div className="p-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-bold tracking-widest bg-card px-2.5 py-1 rounded-md text-tan border border-[#dfc9b8]">
+                    KNOWLEDGE CARD {c.index}
+                  </span>
+                  <span className={`text-[10px] font-bold tracking-widest px-2.5 py-1 rounded-md ${statusStyle[c.status]}`}>
+                    {statusLabel[c.status]}
+                  </span>
                 </div>
-                <span className="text-[11px] font-semibold text-brand">{c.progress}%</span>
+                <div className="mt-2 flex items-center gap-2">
+                  <div className="flex-1 h-1.5 bg-rose-line rounded-full overflow-hidden">
+                    <div className="h-full bg-brand" style={{ width: `${c.progress}%` }} />
+                  </div>
+                  <span className="text-[11px] font-semibold text-brand">{c.progress}%</span>
+                </div>
               </div>
-            </div>
-            <div className="aspect-[16/8] bg-cream/60">
-              <img src={c.image} alt="" className="w-full h-full object-cover" loading="lazy" width={1024} height={768} />
-            </div>
-            <div className="px-3 py-3">
-              <div className="font-serif text-lg">{c.title}</div>
-            </div>
-          </Link>
+              <div className="aspect-[16/8] bg-cream/60">
+                <img src={c.image} alt="" className="w-full h-full object-cover" loading="lazy" width={1024} height={768} />
+              </div>
+              <div className="px-3 py-3">
+                <div className="font-serif text-lg">{c.title}</div>
+              </div>
+            </Link>
+          </motion.div>
         ))}
       </div>
 

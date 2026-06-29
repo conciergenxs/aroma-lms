@@ -24,8 +24,8 @@ function CategoryPage() {
               whileTap={{ scale: 0.97 }}
             >
               <Link
-                to="/my-learning"
-                search={{ category: c.id } as never}
+                to="/category/$categoryId"
+                params={{ categoryId: c.id }}
                 className="relative h-[256px] rounded-xl overflow-hidden block shadow-sm"
               >
                 <img src={c.image} alt={c.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 hover:scale-110" loading="lazy" width={768} height={1024} />

@@ -32,13 +32,6 @@ export function BottomNav() {
                 <Icon className="h-5 w-5" strokeWidth={active ? 2.4 : 1.8} />
               </motion.div>
               <span className="leading-none">{label}</span>
-              {active && (
-                <motion.span
-                  layoutId="nav-dot"
-                  className="absolute -top-1 h-1 w-6 rounded-full bg-gold"
-                  transition={{ type: "spring", stiffness: 320, damping: 28 }}
-                />
-              )}
             </Link>
           );
         })}
