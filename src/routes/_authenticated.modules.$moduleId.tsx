@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, notFound, useRouterState } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { getModule, modules, type ModuleStatus, type KnowledgeCard } from "@/data/modules";
@@ -31,10 +31,14 @@ const statusLabel: Record<ModuleStatus, string> = {
 
 function ModuleDetail() {
   const { module: m } = Route.useLoaderData();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isKnowledgeCardRoute = pathname.includes(`/modules/${m.id}/cards/`);
   const pct = Math.round((m.completed / m.total) * 1000) / 10;
   const railRef = useRef<HTMLDivElement>(null);
   const scroll = (dir: -1 | 1) => railRef.current?.scrollBy({ left: dir * 200, behavior: "smooth" });
   const others = modules.filter((x) => x.id !== m.id);
+
+  if (isKnowledgeCardRoute) return <Outlet />;
 
   return (
     <>
