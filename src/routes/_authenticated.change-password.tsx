@@ -47,9 +47,9 @@ function ChangePassword() {
           className="mt-6 space-y-4"
         >
           {[
-            { label: "Current Password", value: curr, set: setCurr },
-            { label: "New Password", value: next, set: setNext },
-            { label: "Confirm New Password", value: confirm, set: setConfirm },
+            { label: "Current Password", value: curr, set: setCurr, placeholder: "Type your old password here.." },
+            { label: "New Password", value: next, set: setNext, placeholder: "Type your new password here.." },
+            { label: "Confirm New Password", value: confirm, set: setConfirm, placeholder: "Confirm your new password.." },
           ].map((f) => (
             <div key={f.label}>
               <label className="block text-[13px] font-medium mb-1.5">{f.label}</label>
@@ -57,8 +57,8 @@ function ChangePassword() {
                 type="password"
                 value={f.value}
                 onChange={(e) => f.set(e.target.value)}
-                placeholder="••••••••"
-                className="w-full bg-card border border-border rounded-lg px-4 py-3 text-[14px] focus:outline-none focus:ring-2 focus:ring-brand/30"
+                placeholder={f.placeholder}
+                className="w-full bg-card border border-border rounded-lg px-4 py-3 text-[14px] placeholder:text-foreground/35 focus:outline-none focus:ring-2 focus:ring-brand/30"
               />
             </div>
           ))}

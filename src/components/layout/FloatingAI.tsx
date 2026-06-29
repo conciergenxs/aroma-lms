@@ -4,7 +4,6 @@ import aiLogo from "@/assets/ai-logo-new.svg.asset.json";
 
 export function FloatingAI() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  // If we're inside a module page, link chat to that module session. Otherwise generic.
   const moduleMatch = pathname.match(/\/modules\/([^/]+)/);
   const target = moduleMatch ? moduleMatch[1] : "general";
 
@@ -20,16 +19,24 @@ export function FloatingAI() {
           aria-label="Chat with AI assistant"
           className="pointer-events-auto absolute right-5 block"
         >
-          <motion.span
-            initial={{ scale: 0.6, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            whileHover={{ scale: 1.08 }}
-            whileTap={{ scale: 0.92 }}
-            transition={{ type: "spring", stiffness: 260, damping: 18 }}
-            className="block h-[58px] w-[58px] rounded-full overflow-hidden shadow-[0_8px_24px_rgba(113,0,20,0.35)] ring-2 ring-white/70"
-          >
-            <img src={aiLogo.url} alt="" className="h-full w-full object-cover" />
-          </motion.span>
+          <span className="relative block h-[64px] w-[64px]">
+            <motion.span
+              aria-hidden
+              className="absolute inset-0 rounded-full bg-brand/30"
+              animate={{ scale: [1, 1.35, 1], opacity: [0.55, 0, 0.55] }}
+              transition={{ duration: 2.2, repeat: Infinity, ease: "easeOut" }}
+            />
+            <motion.span
+              initial={{ scale: 0.6, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.92 }}
+              transition={{ type: "spring", stiffness: 260, damping: 18 }}
+              className="relative block h-[64px] w-[64px] rounded-full overflow-hidden shadow-[0_12px_32px_rgba(113,0,20,0.45)] ring-[3px] ring-white"
+            >
+              <img src={aiLogo.url} alt="" className="h-full w-full object-cover" />
+            </motion.span>
+          </span>
         </Link>
       </div>
     </div>
