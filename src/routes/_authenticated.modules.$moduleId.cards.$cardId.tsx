@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, Check } from "lucide-react";
 import { getModule } from "@/data/modules";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, type PanInfo } from "framer-motion";
+import { SiteFooter } from "@/components/layout/SiteFooter";
 
 export const Route = createFileRoute("/_authenticated/modules/$moduleId/cards/$cardId")({
   loader: ({ params }) => {
@@ -40,27 +41,33 @@ function KnowledgeDetail() {
       setCompleted(true);
       return;
     }
-    // Check if card body fits the viewport — if yes, mark complete immediately
-    const el = cardBodyRef.current;
-    if (!el) return;
-    const fits = el.scrollHeight <= window.innerHeight * 0.7;
-    if (fits) {
+    const markComplete = () => {
       window.localStorage.setItem(completionKey(m.id, card.id), "1");
       setCompleted(true);
-      return;
-    }
-    // Otherwise, mark complete when user scrolls near bottom of page
-    const onScroll = () => {
-      const reachedBottom =
-        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 60;
-      if (reachedBottom) {
-        window.localStorage.setItem(completionKey(m.id, card.id), "1");
-        setCompleted(true);
-        window.removeEventListener("scroll", onScroll);
+    };
+
+    const checkCompletion = () => {
+      const el = cardBodyRef.current;
+      const reachedCardEnd = el ? el.getBoundingClientRect().bottom <= window.innerHeight - 32 : false;
+      const reachedPageBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 60;
+      if (reachedCardEnd || reachedPageBottom) {
+        markComplete();
+        window.removeEventListener("scroll", checkCompletion);
+        window.removeEventListener("wheel", checkCompletion);
+        window.removeEventListener("touchend", checkCompletion);
       }
     };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+
+    const initialCheck = window.setTimeout(checkCompletion, 350);
+    window.addEventListener("scroll", checkCompletion, { passive: true });
+    window.addEventListener("wheel", checkCompletion, { passive: true });
+    window.addEventListener("touchend", checkCompletion, { passive: true });
+    return () => {
+      window.clearTimeout(initialCheck);
+      window.removeEventListener("scroll", checkCompletion);
+      window.removeEventListener("wheel", checkCompletion);
+      window.removeEventListener("touchend", checkCompletion);
+    };
   }, [m.id, card.id]);
 
   const goTo = (cardId: string, dir: 1 | -1) => {
@@ -126,7 +133,7 @@ function KnowledgeDetail() {
             <span className="inline-block text-[12px] uppercase bg-card border border-[#dfc9b8] px-2.5 py-1 rounded-md text-tan leading-none">
               KNOWLEDGE CARD {card.index}
             </span>
-            <h1 className="font-serif text-[27px] font-bold mt-4 leading-[1.17]">{card.title}</h1>
+            <h1 className="font-serif text-[27px] font-medium mt-4 leading-[1.17]">{card.title}</h1>
             <div className="my-4 h-px bg-border" />
             <ul className="list-disc pl-5 space-y-1.5 text-[15px] leading-[1.6] text-foreground/90">
               {card.bullets.map((b: string, i: number) => <li key={i}>{b}</li>)}
@@ -171,6 +178,7 @@ function KnowledgeDetail() {
           ) : <span />}
         </div>
       </div>
+      <SiteFooter />
     </div>
   );
 }
