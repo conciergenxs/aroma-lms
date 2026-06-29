@@ -79,11 +79,11 @@ function HomePage() {
               whileTap={{ scale: 0.97 }}
               className="relative shrink-0 w-[235px] h-[206px] rounded-lg overflow-hidden snap-start cursor-pointer"
             >
-              <img src={b.image} alt={b.name} className="absolute inset-0 w-full h-full object-cover" loading="lazy" width={1024} height={640} />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-              <div className="absolute bottom-5 left-5 right-5 text-white text-center">
-                <div className="text-xl tracking-tight font-medium">{b.name}</div>
-                <div className="text-xs mt-1 text-tan">{b.count} Modules</div>
+              <img src={b.image} alt="" className="absolute inset-0 w-full h-full object-cover" loading="lazy" width={1024} height={640} />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/55 to-black/80" />
+              <div className="absolute inset-0 flex flex-col items-center justify-center px-6">
+                <img src={b.logo} alt={b.name} className="max-h-[44px] w-auto max-w-[80%] object-contain" />
+                <div className="text-xs mt-3 text-tan tracking-wide">{b.count} Modules</div>
               </div>
             </motion.div>
           ))}
