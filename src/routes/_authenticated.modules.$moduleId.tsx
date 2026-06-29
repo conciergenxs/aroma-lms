@@ -110,7 +110,8 @@ function ModuleDetail() {
         ))}
       </div>
 
+      </div>
       <SiteFooter />
-    </div>
+    </>
   );
 }
