@@ -1,7 +1,8 @@
 import { createFileRoute, useNavigate, notFound } from "@tanstack/react-router";
 import { ChevronLeft, History, MoreVertical, X, Mic } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { chatSessions, getSession, type ChatMessage } from "@/data/chat";
+import { chatSessions, getSession, type ChatMessage, type ChatSession } from "@/data/chat";
+import { getModule } from "@/data/modules";
 import { useNavHistory } from "@/lib/nav-history";
 import baHelperLogo from "@/assets/ba-helper-logo.png.asset.json";
 import aiLogo from "@/assets/ai-logo-new.svg.asset.json";
@@ -13,8 +14,25 @@ import { Shimmer } from "@/components/ai-elements/shimmer";
 
 export const Route = createFileRoute("/_authenticated/chat/$assistantId")({
   loader: ({ params }) => {
-    const s = getSession(params.assistantId);
-    if (!s) throw notFound();
+    let s = getSession(params.assistantId);
+    if (!s) {
+      const m = getModule(params.assistantId);
+      if (!m) throw notFound();
+      s = {
+        id: m.id,
+        title: m.title,
+        product: { name: m.title, brand: m.brand, image: m.image },
+        lastTime: "Now",
+        messages: [
+          {
+            id: "intro",
+            role: "assistant",
+            time: new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }),
+            text: `Halo! Ada yang ingin kamu tanyakan tentang **${m.title}**? Aku siap bantu jelasin detail produk, cara pakai, atau ingredients-nya ✨`,
+          },
+        ],
+      } satisfies ChatSession;
+    }
     return { session: s };
   },
   component: ChatRoom,
