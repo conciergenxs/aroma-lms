@@ -2,7 +2,17 @@ import beautyProducts from "@/assets/beauty-products.jpg";
 import categorySkincare from "@/assets/category-skincare.jpg";
 import categoryMakeup from "@/assets/category-makeup.jpg";
 import brandBlue from "@/assets/brand-blue.jpg";
-import knowledgeHero from "@/assets/knowledge-hero.jpg";
+import productPowder from "@/assets/product-powder.jpg";
+import productBlush from "@/assets/product-blush.jpg";
+import productFoundation from "@/assets/product-foundation.jpg";
+import productTinted from "@/assets/product-tinted.jpg";
+import productLipstick from "@/assets/product-lipstick.jpg";
+import productMatte from "@/assets/product-matte.jpg";
+import knowledge1 from "@/assets/knowledge-1.jpg";
+import knowledge2 from "@/assets/knowledge-2.jpg";
+import knowledge3 from "@/assets/knowledge-3.jpg";
+import knowledge4 from "@/assets/knowledge-4.jpg";
+import knowledge5 from "@/assets/knowledge-5.jpg";
 
 export type ModuleStatus = "not-started" | "in-progress" | "completed";
 
@@ -28,13 +38,12 @@ export type Module = {
   cards: KnowledgeCard[];
 };
 
-const productImage = beautyProducts;
-const heroImage = knowledgeHero;
+const cardImages = [knowledge1, knowledge2, knowledge3, knowledge4, knowledge5];
 
-const baseCards = (modSeed: string): KnowledgeCard[] => [
+const baseCards = (): KnowledgeCard[] => [
   {
     id: "1", index: 1, title: "Setting Ringan & Kontrol Minyak",
-    status: "not-started", progress: 0, image: heroImage,
+    status: "not-started", progress: 0, image: cardImages[0],
     bullets: [
       "Mengunci makeup tanpa terasa berat",
       "Menyerap minyak berlebih untuk mengurangi kilap",
@@ -47,7 +56,7 @@ const baseCards = (modSeed: string): KnowledgeCard[] => [
   },
   {
     id: "2", index: 2, title: "Tekstur Halus & Formula Ringan",
-    status: "completed", progress: 100, image: heroImage,
+    status: "completed", progress: 100, image: cardImages[1],
     bullets: [
       "Formula super halus, hampir tidak terasa di kulit",
       "Ringan dan breathable sepanjang hari",
@@ -60,7 +69,7 @@ const baseCards = (modSeed: string): KnowledgeCard[] => [
   },
   {
     id: "3", index: 3, title: "Tahan Lama & Anti Kilap",
-    status: "completed", progress: 100, image: heroImage,
+    status: "completed", progress: 100, image: cardImages[2],
     bullets: [
       "Menahan makeup hingga 24 jam",
       "Bebas kilap di area T-zone",
@@ -73,7 +82,7 @@ const baseCards = (modSeed: string): KnowledgeCard[] => [
   },
   {
     id: "4", index: 4, title: "Hasil Soft Matte & Blur Effect",
-    status: "in-progress", progress: 50, image: heroImage,
+    status: "in-progress", progress: 50, image: cardImages[3],
     bullets: [
       "Memberi hasil soft matte yang flattering",
       "Mengaburkan pori dan tekstur kulit",
@@ -86,7 +95,7 @@ const baseCards = (modSeed: string): KnowledgeCard[] => [
   },
   {
     id: "5", index: 5, title: "Cocok untuk Kulit Normal–Berminyak",
-    status: "completed", progress: 100, image: heroImage,
+    status: "completed", progress: 100, image: cardImages[4],
     bullets: [
       "Ideal untuk kulit normal hingga berminyak",
       "Tidak menyumbat pori",
@@ -99,14 +108,46 @@ const baseCards = (modSeed: string): KnowledgeCard[] => [
   },
 ];
 
-export const modules: Module[] = [
-  { id: "translucent-loose-setting-powder", brand: "Laura Mercier", category: "MAKEUP", title: "Translucent Loose Setting Powder", image: productImage, completed: 3, total: 5, cards: baseCards("powder") },
-  { id: "blush-colour-infusion", brand: "Laura Mercier", category: "MAKEUP", title: "Blush Colour Infusion", image: productImage, completed: 2, total: 4, cards: baseCards("blush").slice(0, 4) },
-  { id: "real-flawless-foundation", brand: "Laura Mercier", category: "MAKEUP", title: "Real Flawless Foundation", image: productImage, completed: 0, total: 5, cards: baseCards("foundation") },
-  { id: "tinted-moisturizer", brand: "Laura Mercier", category: "MAKEUP", title: "Tinted Moisturizer Natural Skin", image: productImage, completed: 1, total: 5, cards: baseCards("tinted") },
-  { id: "caviar-hydra-lipstick", brand: "Laura Mercier", category: "MAKEUP", title: "Caviar Hydra-Crème Lipstick 42g", image: productImage, completed: 1, total: 7, cards: baseCards("lipstick") },
-  { id: "real-flawless-feather-matte", brand: "Laura Mercier", category: "MAKEUP", title: "Real Flawless Feather Matte Pow...", image: productImage, completed: 0, total: 4, cards: baseCards("matte").slice(0, 4) },
+const productImagePool = [
+  productPowder, productBlush, productFoundation, productTinted, productLipstick, productMatte,
+  beautyProducts, categoryMakeup, categorySkincare, brandBlue,
 ];
+
+const baseModules: Module[] = [
+  { id: "translucent-loose-setting-powder", brand: "Laura Mercier", category: "MAKEUP", title: "Translucent Loose Setting Powder", image: productPowder, completed: 3, total: 5, cards: baseCards() },
+  { id: "blush-colour-infusion", brand: "Laura Mercier", category: "MAKEUP", title: "Blush Colour Infusion", image: productBlush, completed: 2, total: 4, cards: baseCards().slice(0, 4) },
+  { id: "real-flawless-foundation", brand: "Laura Mercier", category: "MAKEUP", title: "Real Flawless Foundation", image: productFoundation, completed: 0, total: 5, cards: baseCards() },
+  { id: "tinted-moisturizer", brand: "Laura Mercier", category: "MAKEUP", title: "Tinted Moisturizer Natural Skin", image: productTinted, completed: 1, total: 5, cards: baseCards() },
+  { id: "caviar-hydra-lipstick", brand: "Laura Mercier", category: "MAKEUP", title: "Caviar Hydra-Crème Lipstick", image: productLipstick, completed: 1, total: 7, cards: baseCards() },
+  { id: "real-flawless-feather-matte", brand: "Laura Mercier", category: "MAKEUP", title: "Real Flawless Feather Matte", image: productMatte, completed: 0, total: 4, cards: baseCards().slice(0, 4) },
+];
+
+// Generate filler modules to support pagination (10 cards / 5 rows of 2)
+const extraTitles = [
+  "Silk Crème Lip Hydrator",
+  "Velvet Matte Lip Crayon",
+  "Caviar Stick Eye Colour",
+  "Pure Canvas Primer Hydrating",
+  "Smooth Finish Flawless Fluide",
+  "Translucent Pressed Setting",
+  "Rouge Essentiel Lipstick",
+  "Secret Concealer Soft",
+  "Loose Highlighter Powder",
+  "Eye Art Caviar Palette",
+];
+
+const filler: Module[] = extraTitles.map((t, i) => ({
+  id: `module-${i + 7}`,
+  brand: "Laura Mercier",
+  category: "MAKEUP",
+  title: t,
+  image: productImagePool[i % productImagePool.length],
+  completed: (i * 2) % 5,
+  total: 5,
+  cards: baseCards(),
+}));
+
+export const modules: Module[] = [...baseModules, ...filler];
 
 export const brands = [
   { id: "dolce", name: "DOLCE & GABBANA", count: 57, image: brandBlue },
@@ -119,7 +160,7 @@ export const categories = [
   { id: "skin-care", name: "Skin Care", count: 32, image: categorySkincare },
   { id: "makeup", name: "Makeup", count: 45, image: categoryMakeup },
   { id: "fragrance", name: "Fragrance", count: 26, image: beautyProducts },
-  { id: "wellness", name: "Wellness", count: 20, image: productImage },
+  { id: "wellness", name: "Wellness", count: 20, image: productPowder },
   { id: "hair-care", name: "Hair Care", count: 30, image: categorySkincare },
   { id: "body-care", name: "Body Care", count: 26, image: categoryMakeup },
 ];

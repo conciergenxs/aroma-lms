@@ -1,14 +1,15 @@
+import { Link } from "@tanstack/react-router";
 import logoAroma from "@/assets/logo-aroma.svg.asset.json";
 
 export function SiteFooter() {
   return (
-    <footer className="bg-ink text-white/85 pt-14 pb-20 mt-16 -mx-4">
-      <div className="mobile-shell px-5 text-center">
+    <footer className="bg-ink text-white/85 pt-14 pb-[100px] mt-16">
+      <div className="px-5 text-center">
         <img src={logoAroma.url} alt="Aroma" className="h-[58px] w-auto mx-auto opacity-95 invert brightness-0" />
         <div className="mt-8 flex items-center justify-center gap-9 text-sm">
-          <a href="#" className="underline underline-offset-4">FAQ</a>
-          <a href="#" className="underline underline-offset-4">T&amp;C</a>
-          <a href="#" className="underline underline-offset-4">Privacy Policy</a>
+          <Link to="/faq" className="underline underline-offset-4 hover:text-gold transition-colors">FAQ</Link>
+          <Link to="/terms" className="underline underline-offset-4 hover:text-gold transition-colors">T&amp;C</Link>
+          <Link to="/privacy" className="underline underline-offset-4 hover:text-gold transition-colors">Privacy Policy</Link>
         </div>
         <div className="mt-8 border-t border-white/20 pt-8 text-sm text-white/85">
           © 2026 PT Aroma Abadi
