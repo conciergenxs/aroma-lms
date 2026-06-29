@@ -142,7 +142,6 @@ function ChatRoom() {
         <div className="h-[37px] w-[37px] rounded-full overflow-hidden ring-1 ring-black/5">
           <img src={baHelperLogo.url} alt="" className="h-full w-full object-cover" />
         </div>
-        </div>
         <div className="flex-1 min-w-0">
           <div className="font-medium text-[15px] leading-tight">Aroma Abadi BA-Helper</div>
           <div className="text-xs text-foreground/40 mt-0.5">online</div>
