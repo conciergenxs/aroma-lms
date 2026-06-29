@@ -27,7 +27,7 @@ function AuthLayout() {
   return (
     <div className="min-h-screen bg-cream">
       {!isChat && <TopHeader />}
-      <main className={`mobile-shell ${isChat ? "" : "pb-32"}`}>
+      <main className="mobile-shell">
         <Outlet />
       </main>
       {!isChat && <FloatingAI />}

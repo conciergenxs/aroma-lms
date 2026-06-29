@@ -67,12 +67,11 @@ function ModuleDetail() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.05 }}
-            whileTap={{ scale: 0.98 }}
           >
             <Link
               to="/modules/$moduleId/cards/$cardId"
               params={{ moduleId: m.id, cardId: c.id }}
-              className="block bg-card rounded-lg border border-border shadow-sm overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
+              className="block bg-card rounded-lg border border-border shadow-sm overflow-hidden cursor-pointer hover:shadow-md active:scale-[0.99] transition-all"
             >
               <div className="p-3">
                 <div className="flex items-center justify-between">
@@ -89,11 +88,11 @@ function ModuleDetail() {
                   </div>
                   <span className="text-[11px] font-semibold text-brand">{c.progress}%</span>
                 </div>
+                <div className="mt-3 h-[195px] rounded-lg overflow-hidden bg-cream/60">
+                  <img src={c.image} alt="" className="w-full h-full object-cover" loading="lazy" width={1024} height={768} />
+                </div>
               </div>
-              <div className="aspect-[16/8] bg-cream/60">
-                <img src={c.image} alt="" className="w-full h-full object-cover" loading="lazy" width={1024} height={768} />
-              </div>
-              <div className="px-3 py-3">
+              <div className="px-3 pb-3">
                 <div className="font-serif text-lg">{c.title}</div>
               </div>
             </Link>

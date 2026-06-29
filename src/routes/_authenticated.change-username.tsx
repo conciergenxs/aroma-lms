@@ -50,8 +50,8 @@ function ChangeUsername() {
             <input
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter new username"
-              className="w-full bg-card border border-border rounded-lg px-4 py-3 text-[14px] focus:outline-none focus:ring-2 focus:ring-brand/30"
+              placeholder="Type your new username here.."
+              className="w-full bg-card border border-border rounded-lg px-4 py-3 text-[14px] placeholder:text-foreground/35 focus:outline-none focus:ring-2 focus:ring-brand/30"
             />
           </div>
           <button

@@ -13,6 +13,10 @@ import knowledge2 from "@/assets/knowledge-2.jpg";
 import knowledge3 from "@/assets/knowledge-3.jpg";
 import knowledge4 from "@/assets/knowledge-4.jpg";
 import knowledge5 from "@/assets/knowledge-5.jpg";
+import brandDolce from "@/assets/brands/dolce-gabbana.png.asset.json";
+import brandBareminerals from "@/assets/brands/bareminerals.svg.asset.json";
+import brandRimmel from "@/assets/brands/rimmel.svg.asset.json";
+import brandSisley from "@/assets/brands/sisley.svg.asset.json";
 
 export type ModuleStatus = "not-started" | "in-progress" | "completed";
 
@@ -160,10 +164,10 @@ const filler: Module[] = extraTitles.map((x, i) => ({
 export const modules: Module[] = [...baseModules, ...filler];
 
 export const brands = [
-  { id: "dolce", name: "DOLCE & GABBANA", count: 57, image: brandBlue },
-  { id: "baremin", name: "bareMinerals", count: 64, image: beautyProducts },
-  { id: "tomford", name: "TOM FORD", count: 48, image: categoryMakeup },
-  { id: "ysl", name: "YSL BEAUTY", count: 39, image: categorySkincare },
+  { id: "dolce", name: "Dolce & Gabbana", count: 57, image: brandBlue, logo: brandDolce.url },
+  { id: "baremin", name: "bareMinerals", count: 64, image: beautyProducts, logo: brandBareminerals.url },
+  { id: "rimmel", name: "Rimmel", count: 48, image: categoryMakeup, logo: brandRimmel.url },
+  { id: "sisley", name: "Sisley", count: 39, image: categorySkincare, logo: brandSisley.url },
 ];
 
 export const categories = [

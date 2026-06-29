@@ -57,7 +57,7 @@ function ProfilePage() {
             </div>
             <button
               aria-label="Change photo"
-              className="absolute -top-1 -right-1 h-9 w-9 rounded-full bg-brand text-white flex items-center justify-center shadow-md ring-2 ring-card hover:brightness-110 transition-all"
+              className="absolute bottom-1 right-1 h-9 w-9 rounded-full bg-brand text-white flex items-center justify-center shadow-md ring-2 ring-card hover:brightness-110 transition-all"
             >
               <Camera className="h-4 w-4" />
             </button>
