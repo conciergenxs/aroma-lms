@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ChevronLeft } from "lucide-react";
 import { motion } from "framer-motion";
-import { getCategory, getModulesByCategory } from "@/data/modules";
+import { getCategory, getModulesByCategory, type Module } from "@/data/modules";
 import { ModuleCard } from "@/components/ModuleCard";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 
@@ -35,7 +35,7 @@ function CategoryDetailPage() {
           </div>
         ) : (
           <div className="mt-6 grid grid-cols-2 gap-3">
-            {items.map((m, i) => (
+            {items.map((m: Module, i: number) => (
               <motion.div
                 key={m.id}
                 initial={{ opacity: 0, y: 12 }}
