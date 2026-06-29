@@ -1,97 +1,79 @@
-## Plan
+## Plan: Polish pass across pages, navigation, profile, chat behavior
 
-I’ll treat the attached screenshots — not the current prototype output — as the exact visual source of truth and rebuild the mismatched screens around them.
+### 1. Assets
+- Import attached `Logo Aroma Abadi BA-Helper.png` as a Lovable asset and use it for: the chatroom assistant avatar AND the floating AI button.
+- Import attached `AI Logo.svg` as the alternate floating-AI mark if user prefers SVG (use PNG for avatar, SVG for floating button).
+- Generate 6 distinct product images (one per module) and 5 distinct knowledge-card hero images so every module/card has its own picture.
 
-### 1. Global visual system
-- Tighten the app to the mobile reference width and spacing shown in the screenshots.
-- Use the reference palette consistently: warm off-white background, burgundy primary, tan progress band, black footer/navbar, soft peach chat/product cards.
-- Tune typography to match the screenshots: editorial serif headings and clean sans body text, with closer sizes/weights/spacing.
-- Remove generic-looking styling that made the UI drift from the references.
+### 2. Login Success
+- Remove the bottom-right lotus silhouette from `src/routes/login-success.tsx`.
 
-### 2. Login and login success
-- Rebuild login to match `Login-1.png`:
-  - Centered burgundy Aroma lotus near the top.
-  - `Welcome Back` heading and subtitle at the same vertical rhythm.
-  - Rounded white username/password fields with the shown example values.
-  - Forgot password link aligned right.
-  - Burgundy pill login button.
-  - Large pale grey lotus silhouette only in the bottom-right area, not centered across the whole bottom.
-- Match `Login Success.png`:
-  - Centered tan success circle/check.
-  - Correct spacing, divider, Laura Mercier wordmark, and pale bottom-right lotus silhouette.
+### 3. Typography & global tokens
+- In `src/styles.css`, set `--font-serif` headings to `font-weight: 500` by default (Playfair Display Medium). Add a `.font-serif` rule enforcing weight 500.
+- Replace `font-bold` on serif titles across pages with weight-500 classes.
 
-### 3. Authenticated header, footer, bottom navbar, floating AI
-- Match the reference header exactly:
-  - White header bar.
-  - Aroma icon + vertical divider + Laura Mercier wordmark left.
-  - Thin burgundy profile circle right.
-- Bottom navbar:
-  - Fixed dark bar with the same icon layout, height, active tan color, and shadow as the screenshots.
-  - Keep it on Home, Category, My Learning, Profile, Module Detail, and Knowledge Detail.
-- Floating AI button:
-  - Burgundy circular button with the Aroma/AI mark, positioned like the screenshots above the bottom nav, not too low.
-  - Hidden inside chatroom.
-- Footer:
-  - Match dark footer spacing, large white lotus, links, divider, and copyright.
+### 4. Home page (`_authenticated.home.tsx`)
+- Add 15px top padding above "Good Morning, Bella!".
+- Module card title: 16px, sourced from `ModuleCard.tsx`.
+- "X/Y cards completed" → regular weight (font-normal).
+- Other Brands cards: 235×206px (update width/height + scroll offset).
 
-### 4. Home page
-- Rebuild to match `Home.png`:
-  - Exact greeting section spacing.
-  - Search input shape and placeholder styling.
-  - Two-column learning module grid with compact cards.
-  - Progress label/bar/% placement exactly like the screenshot.
-  - Product images inside pale square panels.
-  - Truncated long titles where needed.
-  - `SEE ALL MODULES` burgundy pill button.
-  - `Other Brands` horizontal cards with circular arrow controls and dark image overlays.
+### 5. Bottom navbar (`BottomNav.tsx`)
+- "My Learning" forced to single line (whitespace-nowrap, wider slot).
+- Add soft light gold top outline only (`border-t` with gold color token).
 
-### 5. Category page
-- Rebuild to match `Category.png`:
-  - Same title/subtitle spacing.
-  - Two-column tall image tiles.
-  - Rounded corners, dark lower overlay, serif category title, module count.
-  - Floating AI button overlapping the Wellness area like the reference.
-  - Footer alignment and spacing matched to the screenshot.
+### 6. Floating AI (`FloatingAI.tsx`)
+- Position 15px above bottom navbar (adjust `--floating-ai-bottom` token).
+- Swap icon to uploaded BA-Helper logo PNG.
 
-### 6. Module detail page
-- Refine the module detail page using the same card/progress/status language as the references and current Figma intent:
-  - Less generic white cards.
-  - Progress/card status presentation aligned with the module and knowledge-card visual system.
-  - Card list should lead naturally into the knowledge detail screen.
+### 7. Module detail / Knowledge cards
+- Knowledge card list items become `<Link>` to `/modules/$moduleId/cards/$cardId`.
+- Each card uses its own distinct hero image (from new generated set).
+- Each module uses its own distinct product image.
 
-### 7. Knowledge detail and complete-read states
-- Rebuild to match `Knowledge Detail.png`, `Knowledge Card Details.png`, and `Complete Read.png`:
-  - Header remains visible at top.
-  - Hero image starts below header, no gradient overlay.
-  - `Back to Modules` appears over the image.
-  - White swipeable card overlays the image, with the next card peeking on the right.
-  - Card contents match the screenshot: badge, serif title, divider, bullets, key ingredients.
-  - AI floating button appears below/right of the card like reference.
-  - Tan progress band with white progress bar, percentage, and previous/next knowledge card buttons.
-  - Bottom navbar and footer remain visible like the screenshot.
-  - Complete-read banner appears at the top in burgundy with tan check icon when progress is 100%, matching `Complete Read.png`.
+### 8. Profile page rebuild (`_authenticated.profile.tsx`)
+Match attached UI Profile Page:
+- Avatar with camera badge, name "Bella Victoria", email below.
+- "Account Settings" section: Change Username, Change Password, Help, Logout (clickable rows; Logout in burgundy outline).
+- "Your Achievements" grid (4 badge cards: First Article, 10 Articles, 50 Articles, Beauty Expert).
+- "Reading Statistics": 24 Modules Read, 120 Minutes Reading, 7 Day Streak.
+- Footer links FAQ, T&C, Privacy Policy clickable.
 
-### 8. Chatroom redesign + real AI behavior
-- Rebuild chatroom to match `Chatroom.png`:
-  - No global header/footer/bottom nav/floating AI in chat.
-  - Top white navbar with `Back to Modules` and burgundy history icon.
-  - Assistant strip with burgundy avatar, `Aroma Abadi BA-Helper`, online status, and vertical menu.
-  - Product context card aligned to the right with Laura Mercier wordmark, product image, title, close icon, and chat-tail shape.
-  - User messages on the right with soft peach background.
-  - Assistant messages on the left with subtle light grey background.
-  - Fixed bottom composer with rounded input, burgundy mic/send button, and home indicator spacing.
-- Make the chat behave like a ChatGPT-style AI chat instead of a static mock:
-  - Add an AI chat endpoint using Lovable AI.
-  - Use AI Elements / AI SDK chat primitives as the foundation, styled to match the screenshot.
-  - Send user messages, stream assistant replies, support markdown formatting, and keep the product context in the system prompt.
-  - Keep history UI simple for this pass: show existing/mock sessions visually unless you later ask for saved account history.
+### 9. New static content pages
+- `src/routes/_authenticated.faq.tsx`
+- `src/routes/_authenticated.terms.tsx`
+- `src/routes/_authenticated.privacy.tsx`
+- `src/routes/_authenticated.help.tsx`
+- `src/routes/_authenticated.change-username.tsx`
+- `src/routes/_authenticated.change-password.tsx`
+- Each with dummy fashion/beauty-brand copy and back button.
 
-### 9. Data/assets cleanup
-- Replace random placeholder imagery where possible with more beauty/product-like imagery from the current data setup or available assets.
-- Use the uploaded Aroma SVG for the grey lotus silhouette and burgundy/white marks where appropriate.
-- Avoid embedding screenshot files as UI images; they remain references only.
+### 10. Category page (`_authenticated.category.tsx`)
+- Wrap each category tile in `<Link to="/my-learning">` (or category-filtered listing) so they're clickable.
+- Use full `SiteFooter` (match Home footer) and ensure spacing matches.
 
-### 10. Verification
-- Check the rebuilt mobile screens against the attached references at the current 390px-wide viewport.
-- Verify login flow, Home, Category, Module Detail, Knowledge Detail, Complete Read state, and Chatroom navigation.
-- Confirm chat composer layout is usable and the AI chat surface visually matches the reference.
+### 11. All Modules page
+- New route `src/routes/_authenticated.modules.index.tsx`.
+- 2 cols × 5 rows = 10 cards per page, pagination controls + "Showing X–Y of Z" footer.
+- Wire `SEE ALL MODULES` button on Home and `SEE ALL` link to this route.
+- Extend `modules` mock data to ≥20 items so pagination is meaningful.
+
+### 12. Footer (`SiteFooter.tsx`)
+- Increase bottom padding by 20px (taller black area).
+
+### 13. Chat behavior (`_authenticated.chat.$assistantId.tsx` + `api/chat.ts`)
+- If `assistantId` matches a known module → keep current product-context UX (show product card, system prompt references that product).
+- If `assistantId === "general"` (entered via the FloatingAI from non-module pages) → ChatGPT-style: no product card, generic system prompt.
+- Update `FloatingAI` to route to `/chat/general` when not inside a module.
+
+### 14. Animations & micro-interactions
+- Add Framer Motion entrance fades/slide-ups on Home sections, module grid cards (stagger), profile cards, all-modules grid items.
+- Hover/tap scale on clickable cards (modules, knowledge cards, brand carousel, category tiles, profile rows).
+- Page transitions via `AnimatePresence` in `_authenticated.tsx` Outlet wrapper.
+- Subtle tap feedback on bottom nav icons.
+
+### Technical notes
+- No backend schema changes; all data stays in `src/data/modules.ts` (expanded).
+- New routes auto-register via TanStack file-based routing.
+- Use semantic Tailwind tokens; add `--gold-soft` token for navbar top outline.
+- Distinct images generated via `imagegen` (fast tier) to keep cost low.

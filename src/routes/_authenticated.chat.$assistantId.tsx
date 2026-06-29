@@ -3,7 +3,8 @@ import { ChevronLeft, History, MoreVertical, X, Mic } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { chatSessions, getSession, type ChatMessage } from "@/data/chat";
 import { useNavHistory } from "@/lib/nav-history";
-import aiLogo from "@/assets/ai-logo.svg.asset.json";
+import baHelperLogo from "@/assets/ba-helper-logo.png.asset.json";
+import aiLogo from "@/assets/ai-logo-new.svg.asset.json";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Conversation, ConversationContent } from "@/components/ai-elements/conversation";
 import { MessageResponse } from "@/components/ai-elements/message";
@@ -138,8 +139,8 @@ function ChatRoom() {
       </header>
 
       <div className="h-[65px] shrink-0 bg-card border-b border-black/5 px-[15px] flex items-center gap-3">
-        <div className="h-[37px] w-[37px] rounded-full bg-[#df5b64] flex items-center justify-center overflow-hidden">
-          <img src={aiLogo.url} alt="" className="h-6 w-6 brightness-0 invert" />
+        <div className="h-[37px] w-[37px] rounded-full overflow-hidden ring-1 ring-black/5">
+          <img src={baHelperLogo.url} alt="" className="h-full w-full object-cover" />
         </div>
         <div className="flex-1 min-w-0">
           <div className="font-medium text-[15px] leading-tight">Aroma Abadi BA-Helper</div>

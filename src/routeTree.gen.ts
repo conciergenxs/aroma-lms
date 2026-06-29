@@ -13,10 +13,14 @@ import { Route as LoginSuccessRouteImport } from './routes/login-success'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as AuthenticatedTermsRouteImport } from './routes/_authenticated.terms'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated.profile'
+import { Route as AuthenticatedPrivacyRouteImport } from './routes/_authenticated.privacy'
 import { Route as AuthenticatedMyLearningRouteImport } from './routes/_authenticated.my-learning'
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated.home'
+import { Route as AuthenticatedFaqRouteImport } from './routes/_authenticated.faq'
 import { Route as AuthenticatedCategoryRouteImport } from './routes/_authenticated.category'
+import { Route as AuthenticatedModulesIndexRouteImport } from './routes/_authenticated.modules.index'
 import { Route as AuthenticatedModulesModuleIdRouteImport } from './routes/_authenticated.modules.$moduleId'
 import { Route as AuthenticatedChatAssistantIdRouteImport } from './routes/_authenticated.chat.$assistantId'
 import { Route as AuthenticatedModulesModuleIdCardsCardIdRouteImport } from './routes/_authenticated.modules.$moduleId.cards.$cardId'
@@ -40,9 +44,19 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedTermsRoute = AuthenticatedTermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedPrivacyRoute = AuthenticatedPrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedMyLearningRoute = AuthenticatedMyLearningRouteImport.update({
@@ -55,11 +69,22 @@ const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
   path: '/home',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedFaqRoute = AuthenticatedFaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedCategoryRoute = AuthenticatedCategoryRouteImport.update({
   id: '/category',
   path: '/category',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedModulesIndexRoute =
+  AuthenticatedModulesIndexRouteImport.update({
+    id: '/modules/',
+    path: '/modules/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedModulesModuleIdRoute =
   AuthenticatedModulesModuleIdRouteImport.update({
     id: '/modules/$moduleId',
@@ -83,24 +108,32 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login-success': typeof LoginSuccessRoute
   '/category': typeof AuthenticatedCategoryRoute
+  '/faq': typeof AuthenticatedFaqRoute
   '/home': typeof AuthenticatedHomeRoute
   '/my-learning': typeof AuthenticatedMyLearningRoute
+  '/privacy': typeof AuthenticatedPrivacyRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/terms': typeof AuthenticatedTermsRoute
   '/api/chat': typeof ApiChatRoute
   '/chat/$assistantId': typeof AuthenticatedChatAssistantIdRoute
   '/modules/$moduleId': typeof AuthenticatedModulesModuleIdRouteWithChildren
+  '/modules/': typeof AuthenticatedModulesIndexRoute
   '/modules/$moduleId/cards/$cardId': typeof AuthenticatedModulesModuleIdCardsCardIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login-success': typeof LoginSuccessRoute
   '/category': typeof AuthenticatedCategoryRoute
+  '/faq': typeof AuthenticatedFaqRoute
   '/home': typeof AuthenticatedHomeRoute
   '/my-learning': typeof AuthenticatedMyLearningRoute
+  '/privacy': typeof AuthenticatedPrivacyRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/terms': typeof AuthenticatedTermsRoute
   '/api/chat': typeof ApiChatRoute
   '/chat/$assistantId': typeof AuthenticatedChatAssistantIdRoute
   '/modules/$moduleId': typeof AuthenticatedModulesModuleIdRouteWithChildren
+  '/modules': typeof AuthenticatedModulesIndexRoute
   '/modules/$moduleId/cards/$cardId': typeof AuthenticatedModulesModuleIdCardsCardIdRoute
 }
 export interface FileRoutesById {
@@ -109,12 +142,16 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login-success': typeof LoginSuccessRoute
   '/_authenticated/category': typeof AuthenticatedCategoryRoute
+  '/_authenticated/faq': typeof AuthenticatedFaqRoute
   '/_authenticated/home': typeof AuthenticatedHomeRoute
   '/_authenticated/my-learning': typeof AuthenticatedMyLearningRoute
+  '/_authenticated/privacy': typeof AuthenticatedPrivacyRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/terms': typeof AuthenticatedTermsRoute
   '/api/chat': typeof ApiChatRoute
   '/_authenticated/chat/$assistantId': typeof AuthenticatedChatAssistantIdRoute
   '/_authenticated/modules/$moduleId': typeof AuthenticatedModulesModuleIdRouteWithChildren
+  '/_authenticated/modules/': typeof AuthenticatedModulesIndexRoute
   '/_authenticated/modules/$moduleId/cards/$cardId': typeof AuthenticatedModulesModuleIdCardsCardIdRoute
 }
 export interface FileRouteTypes {
@@ -123,24 +160,32 @@ export interface FileRouteTypes {
     | '/'
     | '/login-success'
     | '/category'
+    | '/faq'
     | '/home'
     | '/my-learning'
+    | '/privacy'
     | '/profile'
+    | '/terms'
     | '/api/chat'
     | '/chat/$assistantId'
     | '/modules/$moduleId'
+    | '/modules/'
     | '/modules/$moduleId/cards/$cardId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/login-success'
     | '/category'
+    | '/faq'
     | '/home'
     | '/my-learning'
+    | '/privacy'
     | '/profile'
+    | '/terms'
     | '/api/chat'
     | '/chat/$assistantId'
     | '/modules/$moduleId'
+    | '/modules'
     | '/modules/$moduleId/cards/$cardId'
   id:
     | '__root__'
@@ -148,12 +193,16 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/login-success'
     | '/_authenticated/category'
+    | '/_authenticated/faq'
     | '/_authenticated/home'
     | '/_authenticated/my-learning'
+    | '/_authenticated/privacy'
     | '/_authenticated/profile'
+    | '/_authenticated/terms'
     | '/api/chat'
     | '/_authenticated/chat/$assistantId'
     | '/_authenticated/modules/$moduleId'
+    | '/_authenticated/modules/'
     | '/_authenticated/modules/$moduleId/cards/$cardId'
   fileRoutesById: FileRoutesById
 }
@@ -194,11 +243,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/terms': {
+      id: '/_authenticated/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof AuthenticatedTermsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/profile': {
       id: '/_authenticated/profile'
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/privacy': {
+      id: '/_authenticated/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof AuthenticatedPrivacyRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/my-learning': {
@@ -215,11 +278,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHomeRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/faq': {
+      id: '/_authenticated/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof AuthenticatedFaqRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/category': {
       id: '/_authenticated/category'
       path: '/category'
       fullPath: '/category'
       preLoaderRoute: typeof AuthenticatedCategoryRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/modules/': {
+      id: '/_authenticated/modules/'
+      path: '/modules'
+      fullPath: '/modules/'
+      preLoaderRoute: typeof AuthenticatedModulesIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/modules/$moduleId': {
@@ -263,21 +340,29 @@ const AuthenticatedModulesModuleIdRouteWithChildren =
 
 interface AuthenticatedRouteChildren {
   AuthenticatedCategoryRoute: typeof AuthenticatedCategoryRoute
+  AuthenticatedFaqRoute: typeof AuthenticatedFaqRoute
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
   AuthenticatedMyLearningRoute: typeof AuthenticatedMyLearningRoute
+  AuthenticatedPrivacyRoute: typeof AuthenticatedPrivacyRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedTermsRoute: typeof AuthenticatedTermsRoute
   AuthenticatedChatAssistantIdRoute: typeof AuthenticatedChatAssistantIdRoute
   AuthenticatedModulesModuleIdRoute: typeof AuthenticatedModulesModuleIdRouteWithChildren
+  AuthenticatedModulesIndexRoute: typeof AuthenticatedModulesIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedCategoryRoute: AuthenticatedCategoryRoute,
+  AuthenticatedFaqRoute: AuthenticatedFaqRoute,
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
   AuthenticatedMyLearningRoute: AuthenticatedMyLearningRoute,
+  AuthenticatedPrivacyRoute: AuthenticatedPrivacyRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedTermsRoute: AuthenticatedTermsRoute,
   AuthenticatedChatAssistantIdRoute: AuthenticatedChatAssistantIdRoute,
   AuthenticatedModulesModuleIdRoute:
     AuthenticatedModulesModuleIdRouteWithChildren,
+  AuthenticatedModulesIndexRoute: AuthenticatedModulesIndexRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
@@ -293,13 +378,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

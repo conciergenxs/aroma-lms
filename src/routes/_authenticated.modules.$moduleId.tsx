@@ -35,7 +35,8 @@ function ModuleDetail() {
   const others = modules.filter((x) => x.id !== m.id);
 
   return (
-    <div className="px-[14px] pt-5">
+    <>
+      <div className="px-[14px] pt-5">
       <Link to="/home" className="inline-flex items-center text-sm text-brand font-semibold">
         <ChevronLeft className="h-4 w-4" /> Back to Home
       </Link>
@@ -110,7 +111,8 @@ function ModuleDetail() {
         ))}
       </div>
 
+      </div>
       <SiteFooter />
-    </div>
+    </>
   );
 }

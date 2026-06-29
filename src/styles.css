@@ -35,6 +35,7 @@
   --color-brand-foreground: var(--brand-foreground);
   --color-cream: var(--cream);
   --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
   --color-tan: var(--tan);
   --color-peach: var(--peach);
   --color-soft: var(--soft);
@@ -71,13 +72,14 @@
   --brand-foreground: #ffffff;
   --cream: #f3f0ec;
   --gold: #c9a455;
+  --gold-soft: #e7cf95;
   --tan: #bf9877;
   --peach: #fff4ed;
   --soft: #fbfaf8;
   --rose-line: #ead3d7;
   --ink: #161616;
 
-  --floating-ai-bottom: 7.6rem;
+  --floating-ai-bottom: 79px;
 }
 
 @layer base {
@@ -95,6 +97,7 @@
 
   h1, h2, h3, h4, .font-serif {
     font-family: var(--font-serif);
+    font-weight: 500;
   }
 }
 
