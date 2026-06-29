@@ -31,6 +31,7 @@ export type Module = {
   id: string;
   brand: string;
   category: string;
+  categoryId: string;
   title: string;
   image: string;
   completed: number;
@@ -114,33 +115,42 @@ const productImagePool = [
 ];
 
 const baseModules: Module[] = [
-  { id: "translucent-loose-setting-powder", brand: "Laura Mercier", category: "MAKEUP", title: "Translucent Loose Setting Powder", image: productPowder, completed: 3, total: 5, cards: baseCards() },
-  { id: "blush-colour-infusion", brand: "Laura Mercier", category: "MAKEUP", title: "Blush Colour Infusion", image: productBlush, completed: 2, total: 4, cards: baseCards().slice(0, 4) },
-  { id: "real-flawless-foundation", brand: "Laura Mercier", category: "MAKEUP", title: "Real Flawless Foundation", image: productFoundation, completed: 0, total: 5, cards: baseCards() },
-  { id: "tinted-moisturizer", brand: "Laura Mercier", category: "MAKEUP", title: "Tinted Moisturizer Natural Skin", image: productTinted, completed: 1, total: 5, cards: baseCards() },
-  { id: "caviar-hydra-lipstick", brand: "Laura Mercier", category: "MAKEUP", title: "Caviar Hydra-Crème Lipstick", image: productLipstick, completed: 1, total: 7, cards: baseCards() },
-  { id: "real-flawless-feather-matte", brand: "Laura Mercier", category: "MAKEUP", title: "Real Flawless Feather Matte", image: productMatte, completed: 0, total: 4, cards: baseCards().slice(0, 4) },
+  { id: "translucent-loose-setting-powder", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Translucent Loose Setting Powder", image: productPowder, completed: 3, total: 5, cards: baseCards() },
+  { id: "blush-colour-infusion", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Blush Colour Infusion", image: productBlush, completed: 2, total: 4, cards: baseCards().slice(0, 4) },
+  { id: "real-flawless-foundation", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Real Flawless Foundation", image: productFoundation, completed: 0, total: 5, cards: baseCards() },
+  { id: "tinted-moisturizer", brand: "Laura Mercier", category: "SKIN CARE", categoryId: "skin-care", title: "Tinted Moisturizer Natural Skin", image: productTinted, completed: 1, total: 5, cards: baseCards() },
+  { id: "caviar-hydra-lipstick", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Caviar Hydra-Crème Lipstick", image: productLipstick, completed: 1, total: 7, cards: baseCards() },
+  { id: "real-flawless-feather-matte", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Real Flawless Feather Matte", image: productMatte, completed: 0, total: 4, cards: baseCards().slice(0, 4) },
 ];
 
-// Generate filler modules to support pagination (10 cards / 5 rows of 2)
 const extraTitles = [
-  "Silk Crème Lip Hydrator",
-  "Velvet Matte Lip Crayon",
-  "Caviar Stick Eye Colour",
-  "Pure Canvas Primer Hydrating",
-  "Smooth Finish Flawless Fluide",
-  "Translucent Pressed Setting",
-  "Rouge Essentiel Lipstick",
-  "Secret Concealer Soft",
-  "Loose Highlighter Powder",
-  "Eye Art Caviar Palette",
+  { t: "Silk Crème Lip Hydrator", c: "makeup" },
+  { t: "Velvet Matte Lip Crayon", c: "makeup" },
+  { t: "Caviar Stick Eye Colour", c: "makeup" },
+  { t: "Pure Canvas Primer Hydrating", c: "skin-care" },
+  { t: "Smooth Finish Flawless Fluide", c: "skin-care" },
+  { t: "Translucent Pressed Setting", c: "makeup" },
+  { t: "Rouge Essentiel Lipstick", c: "makeup" },
+  { t: "Secret Concealer Soft", c: "makeup" },
+  { t: "Loose Highlighter Powder", c: "makeup" },
+  { t: "Eye Art Caviar Palette", c: "makeup" },
 ];
 
-const filler: Module[] = extraTitles.map((t, i) => ({
+const categoryNameMap: Record<string, string> = {
+  "skin-care": "SKIN CARE",
+  "makeup": "MAKEUP",
+  "fragrance": "FRAGRANCE",
+  "wellness": "WELLNESS",
+  "hair-care": "HAIR CARE",
+  "body-care": "BODY CARE",
+};
+
+const filler: Module[] = extraTitles.map((x, i) => ({
   id: `module-${i + 7}`,
   brand: "Laura Mercier",
-  category: "MAKEUP",
-  title: t,
+  category: categoryNameMap[x.c],
+  categoryId: x.c,
+  title: x.t,
   image: productImagePool[i % productImagePool.length],
   completed: (i * 2) % 5,
   total: 5,
@@ -166,3 +176,5 @@ export const categories = [
 ];
 
 export const getModule = (id: string) => modules.find((m) => m.id === id);
+export const getCategory = (id: string) => categories.find((c) => c.id === id);
+export const getModulesByCategory = (id: string) => modules.filter((m) => m.categoryId === id);

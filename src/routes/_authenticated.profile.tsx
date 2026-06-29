@@ -1,18 +1,29 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { User, Lock, HelpCircle, LogOut, Camera, Mail, Award } from "lucide-react";
 import { motion } from "framer-motion";
+import { useState } from "react";
 import avatarBella from "@/assets/avatar-bella.jpg";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export const Route = createFileRoute("/_authenticated/profile")({
   component: ProfilePage,
 });
 
 const menuItems = [
-  { icon: User, label: "Change Username", to: "/profile" },
-  { icon: Lock, label: "Change Password", to: "/profile" },
-  { icon: HelpCircle, label: "Help", to: "/faq" },
-] as const;
+  { icon: User, label: "Change Username", to: "/change-username" as const },
+  { icon: Lock, label: "Change Password", to: "/change-password" as const },
+  { icon: HelpCircle, label: "Help", to: "/help" as const },
+];
 
 const achievements = [
   { label: "First Article", unlocked: true },
@@ -28,6 +39,9 @@ const stats = [
 ];
 
 function ProfilePage() {
+  const [logoutOpen, setLogoutOpen] = useState(false);
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="px-[24px] pt-[28px]">
@@ -36,12 +50,14 @@ function ProfilePage() {
             initial={{ scale: 0.85, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: "spring", stiffness: 220, damping: 18 }}
-            className="relative h-[120px] w-[120px] rounded-full overflow-hidden ring-4 ring-card shadow-md"
+            className="relative"
           >
-            <img src={avatarBella} alt="Bella Victoria" className="h-full w-full object-cover" width={320} height={320} />
+            <div className="h-[120px] w-[120px] rounded-full overflow-hidden ring-4 ring-card shadow-md">
+              <img src={avatarBella} alt="Bella Victoria" className="h-full w-full object-cover" width={320} height={320} />
+            </div>
             <button
               aria-label="Change photo"
-              className="absolute bottom-1 right-1 h-8 w-8 rounded-full bg-brand text-white flex items-center justify-center shadow"
+              className="absolute -top-1 -right-1 h-9 w-9 rounded-full bg-brand text-white flex items-center justify-center shadow-md ring-2 ring-card hover:brightness-110 transition-all"
             >
               <Camera className="h-4 w-4" />
             </button>
@@ -65,15 +81,14 @@ function ProfilePage() {
               </Link>
             </motion.div>
           ))}
-          <motion.div whileTap={{ scale: 0.98 }}>
-            <Link
-              to="/"
-              className="flex items-center gap-3 bg-card rounded-xl border border-brand/40 px-4 py-3.5 text-[15px] text-brand font-medium hover:bg-brand/5 transition-colors"
-            >
-              <LogOut className="h-5 w-5" />
-              <span>Logout</span>
-            </Link>
-          </motion.div>
+          <motion.button
+            whileTap={{ scale: 0.98 }}
+            onClick={() => setLogoutOpen(true)}
+            className="w-full flex items-center gap-3 bg-card rounded-xl border border-brand/40 px-4 py-3.5 text-[15px] text-brand font-medium hover:bg-brand/5 transition-colors"
+          >
+            <LogOut className="h-5 w-5" />
+            <span>Logout</span>
+          </motion.button>
         </div>
 
         <h2 className="mt-10 font-serif text-[22px] font-medium">Your Achievements</h2>
@@ -86,7 +101,7 @@ function ProfilePage() {
               transition={{ delay: i * 0.05 }}
               className={`rounded-xl border p-5 flex flex-col items-center gap-2 ${
                 a.unlocked
-                  ? "bg-[#f5a8ad] border-[#f5a8ad] text-white"
+                  ? "bg-[#d96572] border-[#d96572] text-white"
                   : "bg-card border-border text-foreground/30"
               }`}
             >
@@ -112,6 +127,27 @@ function ProfilePage() {
           ))}
         </div>
       </div>
+
+      <AlertDialog open={logoutOpen} onOpenChange={setLogoutOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Logout from Aroma?</AlertDialogTitle>
+            <AlertDialogDescription>
+              You'll need to sign in again to access your learning progress and modules.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => navigate({ to: "/" })}
+              className="bg-brand text-brand-foreground hover:brightness-110"
+            >
+              Logout
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       <SiteFooter />
     </>
   );
