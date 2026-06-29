@@ -1,79 +1,41 @@
-## Plan: Polish pass across pages, navigation, profile, chat behavior
+## Polish pass — fixes from feedback
 
-### 1. Assets
-- Import attached `Logo Aroma Abadi BA-Helper.png` as a Lovable asset and use it for: the chatroom assistant avatar AND the floating AI button.
-- Import attached `AI Logo.svg` as the alternate floating-AI mark if user prefers SVG (use PNG for avatar, SVG for floating button).
-- Generate 6 distinct product images (one per module) and 5 distinct knowledge-card hero images so every module/card has its own picture.
+### 1. Floating AI button
+- `src/styles.css`: raise `--floating-ai-bottom` by 100px (current 79px → 179px) so the button sits ~100px higher.
 
-### 2. Login Success
-- Remove the bottom-right lotus silhouette from `src/routes/login-success.tsx`.
+### 2. Bottom navbar
+- `src/components/layout/BottomNav.tsx`: remove the gold pill (`<motion.span layoutId="nav-dot" />`) that renders above the active icon. Keep gold color on active icon/label for state.
 
-### 3. Typography & global tokens
-- In `src/styles.css`, set `--font-serif` headings to `font-weight: 500` by default (Playfair Display Medium). Add a `.font-serif` rule enforcing weight 500.
-- Replace `font-bold` on serif titles across pages with weight-500 classes.
+### 3. Category page routing
+- Add a new route `src/routes/_authenticated.category.$categoryId.tsx` showing all modules filtered by category (reuse the All-Modules grid + pagination, scoped to `categoryId`).
+- `src/routes/_authenticated.category.tsx`: change tile `<Link>` from `/my-learning?category=` to `/category/$categoryId`.
+- `src/data/modules.ts`: ensure each module has a `categoryId` matching `categories[].id`; add a `getModulesByCategory(id)` helper.
 
-### 4. Home page (`_authenticated.home.tsx`)
-- Add 15px top padding above "Good Morning, Bella!".
-- Module card title: 16px, sourced from `ModuleCard.tsx`.
-- "X/Y cards completed" → regular weight (font-normal).
-- Other Brands cards: 235×206px (update width/height + scroll offset).
+### 4. Profile page
+- `src/routes/_authenticated.profile.tsx`:
+  - Move the camera button OUTSIDE the avatar circle (absolute-positioned just below-right but not clipped by `overflow-hidden`; wrap avatar img in its own div and place the button as a sibling).
+  - Darken the achievement card unlocked color from `#f5a8ad` to a deeper pink (e.g. `#e87a85`).
+  - Wire menu rows to real routes:
+    - Change Username → `/change-username`
+    - Change Password → `/change-password`
+    - Help → `/help`
+  - Logout: open a shadcn `AlertDialog` confirmation ("Are you sure you want to logout?" / Cancel / Logout). On confirm, navigate to `/`.
 
-### 5. Bottom navbar (`BottomNav.tsx`)
-- "My Learning" forced to single line (whitespace-nowrap, wider slot).
-- Add soft light gold top outline only (`border-t` with gold color token).
+### 5. New routes (clickable previously-broken links)
+- `src/routes/_authenticated.change-username.tsx`: simple form (current username display + new username input + Save). Back button to `/profile`. Dummy save (toast).
+- `src/routes/_authenticated.change-password.tsx`: current password / new password / confirm fields + Save. Back to `/profile`. Dummy save (toast).
+- `src/routes/_authenticated.help.tsx`: headline paragraph + "Contact Support" section + green WhatsApp button linking to `https://wa.me/<number>?text=...` (opens AI WhatsApp). Back to `/profile`.
 
-### 6. Floating AI (`FloatingAI.tsx`)
-- Position 15px above bottom navbar (adjust `--floating-ai-bottom` token).
-- Swap icon to uploaded BA-Helper logo PNG.
+### 6. Knowledge card click bug
+- `src/routes/_authenticated.modules.$moduleId.cards.$cardId.tsx`: verify route exists and renders; the issue is most likely a `<Link>` nested incorrectly or `params` mismatch. Audit `src/routes/_authenticated.modules.$moduleId.tsx` knowledge-card `<Link>` — confirm `to="/modules/$moduleId/cards/$cardId"` and both `moduleId`/`cardId` params are passed. Also check that no parent element intercepts clicks (e.g. button inside link). Fix so clicking any knowledge card opens its detail.
 
-### 7. Module detail / Knowledge cards
-- Knowledge card list items become `<Link>` to `/modules/$moduleId/cards/$cardId`.
-- Each card uses its own distinct hero image (from new generated set).
-- Each module uses its own distinct product image.
-
-### 8. Profile page rebuild (`_authenticated.profile.tsx`)
-Match attached UI Profile Page:
-- Avatar with camera badge, name "Bella Victoria", email below.
-- "Account Settings" section: Change Username, Change Password, Help, Logout (clickable rows; Logout in burgundy outline).
-- "Your Achievements" grid (4 badge cards: First Article, 10 Articles, 50 Articles, Beauty Expert).
-- "Reading Statistics": 24 Modules Read, 120 Minutes Reading, 7 Day Streak.
-- Footer links FAQ, T&C, Privacy Policy clickable.
-
-### 9. New static content pages
-- `src/routes/_authenticated.faq.tsx`
-- `src/routes/_authenticated.terms.tsx`
-- `src/routes/_authenticated.privacy.tsx`
-- `src/routes/_authenticated.help.tsx`
-- `src/routes/_authenticated.change-username.tsx`
-- `src/routes/_authenticated.change-password.tsx`
-- Each with dummy fashion/beauty-brand copy and back button.
-
-### 10. Category page (`_authenticated.category.tsx`)
-- Wrap each category tile in `<Link to="/my-learning">` (or category-filtered listing) so they're clickable.
-- Use full `SiteFooter` (match Home footer) and ensure spacing matches.
-
-### 11. All Modules page
-- New route `src/routes/_authenticated.modules.index.tsx`.
-- 2 cols × 5 rows = 10 cards per page, pagination controls + "Showing X–Y of Z" footer.
-- Wire `SEE ALL MODULES` button on Home and `SEE ALL` link to this route.
-- Extend `modules` mock data to ≥20 items so pagination is meaningful.
-
-### 12. Footer (`SiteFooter.tsx`)
-- Increase bottom padding by 20px (taller black area).
-
-### 13. Chat behavior (`_authenticated.chat.$assistantId.tsx` + `api/chat.ts`)
-- If `assistantId` matches a known module → keep current product-context UX (show product card, system prompt references that product).
-- If `assistantId === "general"` (entered via the FloatingAI from non-module pages) → ChatGPT-style: no product card, generic system prompt.
-- Update `FloatingAI` to route to `/chat/general` when not inside a module.
-
-### 14. Animations & micro-interactions
-- Add Framer Motion entrance fades/slide-ups on Home sections, module grid cards (stagger), profile cards, all-modules grid items.
-- Hover/tap scale on clickable cards (modules, knowledge cards, brand carousel, category tiles, profile rows).
-- Page transitions via `AnimatePresence` in `_authenticated.tsx` Outlet wrapper.
-- Subtle tap feedback on bottom nav icons.
+### 7. Footer spacing
+- Remove the extra bottom padding above every footer:
+  - `src/components/layout/SiteFooter.tsx`: drop `mt-16` (and any large `pt-14`/extra top padding) so it sits flush against page content. Keep internal footer padding as-is.
+  - Audit pages that add their own bottom margin before `<SiteFooter />` and remove it.
 
 ### Technical notes
-- No backend schema changes; all data stays in `src/data/modules.ts` (expanded).
-- New routes auto-register via TanStack file-based routing.
-- Use semantic Tailwind tokens; add `--gold-soft` token for navbar top outline.
-- Distinct images generated via `imagegen` (fast tier) to keep cost low.
+- No backend changes.
+- Use `@/components/ui/alert-dialog` for the logout confirmation (already in components/ui).
+- WhatsApp link uses a placeholder number (`+62 812-0000-0000`) until user provides one.
+- All new pages get framer-motion fade-in to match existing micro-interactions.
