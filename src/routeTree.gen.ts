@@ -26,6 +26,7 @@ import { Route as AuthenticatedCategoryRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedModulesIndexRouteImport } from './routes/_authenticated.modules.index'
 import { Route as AuthenticatedModulesModuleIdRouteImport } from './routes/_authenticated.modules.$moduleId'
 import { Route as AuthenticatedChatAssistantIdRouteImport } from './routes/_authenticated.chat.$assistantId'
+import { Route as AuthenticatedCategoryIndexRouteImport } from './routes/_authenticated.category.index'
 import { Route as AuthenticatedCategoryCategoryIdRouteImport } from './routes/_authenticated.category.$categoryId'
 import { Route as AuthenticatedModulesModuleIdCardsCardIdRouteImport } from './routes/_authenticated.modules.$moduleId.cards.$cardId'
 
@@ -118,6 +119,12 @@ const AuthenticatedChatAssistantIdRoute =
     path: '/chat/$assistantId',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedCategoryIndexRoute =
+  AuthenticatedCategoryIndexRouteImport.update({
+    id: '/category/',
+    path: '/',
+    getParentRoute: () => AuthenticatedCategoryRoute,
+  } as any)
 const AuthenticatedCategoryCategoryIdRoute =
   AuthenticatedCategoryCategoryIdRouteImport.update({
     id: '/$categoryId',
@@ -145,6 +152,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof AuthenticatedProfileRoute
   '/terms': typeof AuthenticatedTermsRoute
   '/api/chat': typeof ApiChatRoute
+  '/category/': typeof AuthenticatedCategoryIndexRoute
   '/category/$categoryId': typeof AuthenticatedCategoryCategoryIdRoute
   '/chat/$assistantId': typeof AuthenticatedChatAssistantIdRoute
   '/modules/$moduleId': typeof AuthenticatedModulesModuleIdRouteWithChildren
@@ -177,6 +185,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login-success': typeof LoginSuccessRoute
   '/_authenticated/category': typeof AuthenticatedCategoryRouteWithChildren
+  '/_authenticated/category/': typeof AuthenticatedCategoryIndexRoute
   '/_authenticated/change-password': typeof AuthenticatedChangePasswordRoute
   '/_authenticated/change-username': typeof AuthenticatedChangeUsernameRoute
   '/_authenticated/faq': typeof AuthenticatedFaqRoute
@@ -199,6 +208,7 @@ export interface FileRouteTypes {
     | '/'
     | '/login-success'
     | '/category'
+    | '/category/'
     | '/change-password'
     | '/change-username'
     | '/faq'
@@ -240,6 +250,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/login-success'
     | '/_authenticated/category'
+    | '/_authenticated/category/'
     | '/_authenticated/change-password'
     | '/_authenticated/change-username'
     | '/_authenticated/faq'
@@ -364,6 +375,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCategoryRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/category/': {
+      id: '/_authenticated/category/'
+      path: '/'
+      fullPath: '/category/'
+      preLoaderRoute: typeof AuthenticatedCategoryIndexRouteImport
+      parentRoute: typeof AuthenticatedCategoryRoute
+    }
     '/_authenticated/modules/': {
       id: '/_authenticated/modules/'
       path: '/modules'
@@ -403,10 +421,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedCategoryRouteChildren {
+  AuthenticatedCategoryIndexRoute: typeof AuthenticatedCategoryIndexRoute
   AuthenticatedCategoryCategoryIdRoute: typeof AuthenticatedCategoryCategoryIdRoute
 }
 
 const AuthenticatedCategoryRouteChildren: AuthenticatedCategoryRouteChildren = {
+  AuthenticatedCategoryIndexRoute: AuthenticatedCategoryIndexRoute,
   AuthenticatedCategoryCategoryIdRoute: AuthenticatedCategoryCategoryIdRoute,
 }
 
