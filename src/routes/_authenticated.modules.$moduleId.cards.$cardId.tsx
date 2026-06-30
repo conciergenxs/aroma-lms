@@ -1,3 +1,4 @@
+import React from "react";
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, Check } from "lucide-react";
 import { getModule } from "@/data/modules";
@@ -94,7 +95,7 @@ function KnowledgeDetail() {
   const progress = completed ? 100 : 0;
 
   return (
-    <div className="relative bg-cream">
+    <div className="relative bg-cream" style={{ "--floating-ai-bottom": "85px" } as React.CSSProperties}>
       {/* Congratulations Modal — shown only after all cards in module are read */}
       <AnimatePresence>
         {showModal && (
