@@ -120,12 +120,20 @@ function KnowledgeDetail() {
               <div className="mt-2 text-[15px] text-white/85 leading-relaxed">
                 You've completed all knowledge cards in this module.
               </div>
-              <button
-                onClick={() => setShowModal(false)}
-                className="mt-8 px-8 py-3 rounded-full bg-white text-[#6b0f1a] font-semibold text-[15px] hover:brightness-95 transition-all"
-              >
-                Done
-              </button>
+              <div className="mt-8 flex flex-col gap-3 w-full">
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="w-full px-8 py-3 rounded-full bg-white text-[#6b0f1a] font-semibold text-[15px] hover:brightness-95 transition-all"
+                >
+                  Finish
+                </button>
+                <button
+                  onClick={() => { setShowModal(false); navigate({ to: "/modules" }); }}
+                  className="w-full px-8 py-3 rounded-full border-2 border-white text-white font-semibold text-[15px] hover:bg-white/10 transition-all"
+                >
+                  Explore Other Module
+                </button>
+              </div>
             </motion.div>
           </motion.div>
         )}
@@ -179,7 +187,12 @@ function KnowledgeDetail() {
         </AnimatePresence>
       </div>
 
-      <div className="mt-[104px] bg-tan px-[15px] py-[14px]">
+      {/* Spacer so content isn't hidden behind fixed nav */}
+      <div className="h-[90px]" />
+      <SiteFooter />
+
+      {/* Sticky card navigation — sits above bottom navbar */}
+      <div className="fixed bottom-[70px] left-0 right-0 z-30 bg-tan px-[15px] py-[14px] pb-[19px] shadow-[0_-4px_16px_rgba(0,0,0,0.12)]">
         <div className="flex items-center gap-2">
           <div className="flex-1 h-[5px] bg-white/35 rounded-full overflow-hidden">
             <div className="h-full bg-white transition-all duration-500" style={{ width: `${progress}%` }} />
@@ -205,7 +218,6 @@ function KnowledgeDetail() {
           ) : <span />}
         </div>
       </div>
-      <SiteFooter />
     </div>
   );
 }
