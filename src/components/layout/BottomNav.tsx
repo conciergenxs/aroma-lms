@@ -17,7 +17,7 @@ export function BottomNav() {
       className="fixed bottom-0 left-0 right-0 z-40 w-full pointer-events-none"
       aria-label="Primary"
     >
-      <div className="pointer-events-auto bg-ink text-white/90 shadow-[0_-8px_24px_rgba(0,0,0,0.24)] border-t-2 border-[color:var(--gold-soft)]/70 px-3 pt-4 pb-[16px] flex items-center justify-around">
+      <div className="pointer-events-auto bg-ink text-white/90 shadow-[0_-8px_24px_rgba(0,0,0,0.24)] border-t-2 border-[color:var(--gold-soft)]/70 px-3 pt-4 pb-[17px] flex items-center justify-around">
         {items.map(({ to, label, icon: Icon }) => {
           const active = pathname === to || pathname.startsWith(to + "/");
           return (
