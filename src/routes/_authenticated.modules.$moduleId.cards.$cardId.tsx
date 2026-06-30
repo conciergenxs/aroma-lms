@@ -1,9 +1,8 @@
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Check } from "lucide-react";
 import { getModule } from "@/data/modules";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, type PanInfo } from "framer-motion";
-// AnimatePresence kept for card slide transitions
 import { SiteFooter } from "@/components/layout/SiteFooter";
 
 export const Route = createFileRoute("/_authenticated/modules/$moduleId/cards/$cardId")({
@@ -23,16 +22,22 @@ function completionKey(moduleId: string, cardId: string) {
   return `aroma:completed:${moduleId}:${cardId}`;
 }
 
+function allCardsCompleted(moduleId: string, cards: { id: string }[]) {
+  return cards.every((c) => window.localStorage.getItem(completionKey(moduleId, c.id)) === "1");
+}
+
 function KnowledgeDetail() {
   const { module: m, cardIndex } = Route.useLoaderData();
   const card = m.cards[cardIndex];
   const navigate = useNavigate();
   const cardBodyRef = useRef<HTMLDivElement>(null);
   const [completed, setCompleted] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [direction, setDirection] = useState<1 | -1>(1);
 
+  const isLastCard = cardIndex === m.cards.length - 1;
   const prevCard = cardIndex > 0 ? m.cards[cardIndex - 1] : null;
-  const nextCard = cardIndex < m.cards.length - 1 ? m.cards[cardIndex + 1] : null;
+  const nextCard = !isLastCard ? m.cards[cardIndex + 1] : null;
 
   // Complete-read detection
   useEffect(() => {
@@ -45,6 +50,10 @@ function KnowledgeDetail() {
     const markComplete = () => {
       window.localStorage.setItem(completionKey(m.id, card.id), "1");
       setCompleted(true);
+      // Show modal only on last card and only when all cards are now done
+      if (isLastCard && allCardsCompleted(m.id, m.cards)) {
+        setShowModal(true);
+      }
     };
 
     const checkCompletion = () => {
@@ -69,7 +78,7 @@ function KnowledgeDetail() {
       window.removeEventListener("wheel", checkCompletion);
       window.removeEventListener("touchend", checkCompletion);
     };
-  }, [m.id, card.id]);
+  }, [m.id, card.id, isLastCard, m.cards]);
 
   const goTo = (cardId: string, dir: 1 | -1) => {
     setDirection(dir);
@@ -86,6 +95,42 @@ function KnowledgeDetail() {
 
   return (
     <div className="relative bg-cream">
+      {/* Congratulations Modal — shown only after all cards in module are read */}
+      <AnimatePresence>
+        {showModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
+            onClick={() => setShowModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.85, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 24 }}
+              onClick={(e) => e.stopPropagation()}
+              className="mx-6 rounded-2xl bg-[#6b0f1a] text-white px-8 py-10 flex flex-col items-center text-center shadow-2xl"
+            >
+              <div className="h-[72px] w-[72px] rounded-full bg-white/20 flex items-center justify-center mb-5">
+                <Check className="h-10 w-10 text-white" strokeWidth={3} />
+              </div>
+              <div className="font-serif text-[28px] font-bold leading-tight">Congratulations!</div>
+              <div className="mt-2 text-[15px] text-white/85 leading-relaxed">
+                You've completed all knowledge cards in this module.
+              </div>
+              <button
+                onClick={() => setShowModal(false)}
+                className="mt-8 px-8 py-3 rounded-full bg-white text-[#6b0f1a] font-semibold text-[15px] hover:brightness-95 transition-all"
+              >
+                Done
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="relative h-[211px] overflow-hidden">
         <img src={card.image} alt="" className="absolute inset-0 w-full h-full object-cover" width={1024} height={768} />
         <Link
