@@ -14,7 +14,7 @@ export function BottomNav() {
 
   return (
     <nav
-      className="fixed bottom-0 left-1/2 -translate-x-1/2 z-40 w-full max-w-[390px] pointer-events-none"
+      className="fixed bottom-0 left-0 right-0 z-40 w-full pointer-events-none"
       aria-label="Primary"
     >
       <div className="pointer-events-auto bg-ink text-white/90 shadow-[0_-8px_24px_rgba(0,0,0,0.24)] border-t-2 border-[color:var(--gold-soft)]/70 px-3 pt-4 pb-3 flex items-center justify-around">

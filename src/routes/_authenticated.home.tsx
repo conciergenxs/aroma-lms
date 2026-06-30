@@ -73,19 +73,25 @@ function HomePage() {
 
         <div ref={railRef} className="mt-3 flex gap-3 overflow-x-auto scrollbar-none snap-x pb-2">
           {brands.map((b) => (
-            <motion.div
+            <Link
               key={b.id}
-              whileHover={{ y: -4 }}
-              whileTap={{ scale: 0.97 }}
-              className="relative shrink-0 w-[235px] h-[206px] rounded-lg overflow-hidden snap-start cursor-pointer"
+              to="/modules"
+              search={{ brand: b.name }}
+              className="relative shrink-0 w-[235px] h-[206px] rounded-lg overflow-hidden snap-start"
             >
-              <img src={b.image} alt="" className="absolute inset-0 w-full h-full object-cover" loading="lazy" width={1024} height={640} />
-              <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/55 to-black/80" />
-              <div className="absolute inset-0 flex flex-col items-center justify-center px-6">
-                <img src={b.logo} alt={b.name} className="max-h-[44px] w-auto max-w-[80%] object-contain" />
-                <div className="text-xs mt-3 text-tan tracking-wide">{b.count} Modules</div>
-              </div>
-            </motion.div>
+              <motion.div
+                whileHover={{ y: -4 }}
+                whileTap={{ scale: 0.97 }}
+                className="relative w-full h-full"
+              >
+                <img src={b.image} alt="" className="absolute inset-0 w-full h-full object-cover" loading="lazy" width={1024} height={640} />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/55 to-black/80" />
+                <div className="absolute inset-0 flex flex-col items-center justify-center px-6">
+                  <img src={b.logo} alt={b.name} className="max-h-[44px] w-auto max-w-[80%] object-contain" />
+                  <div className="text-xs mt-3 text-tan tracking-wide">{b.count} Modules</div>
+                </div>
+              </motion.div>
+            </Link>
           ))}
         </div>
       </div>

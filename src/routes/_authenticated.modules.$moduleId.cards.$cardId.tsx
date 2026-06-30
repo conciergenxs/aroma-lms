@@ -1,8 +1,9 @@
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
-import { ChevronLeft, ChevronRight, Check } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { getModule } from "@/data/modules";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, type PanInfo } from "framer-motion";
+// AnimatePresence kept for card slide transitions
 import { SiteFooter } from "@/components/layout/SiteFooter";
 
 export const Route = createFileRoute("/_authenticated/modules/$moduleId/cards/$cardId")({
@@ -85,25 +86,6 @@ function KnowledgeDetail() {
 
   return (
     <div className="relative bg-cream">
-      <AnimatePresence>
-        {completed && (
-          <motion.div
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="bg-brand text-brand-foreground px-[15px] py-[15px] flex items-center gap-3"
-          >
-            <div className="h-10 w-10 rounded-full bg-tan flex items-center justify-center shrink-0">
-              <Check className="h-6 w-6 text-white" strokeWidth={3} />
-            </div>
-            <div>
-              <div className="font-serif text-[18px] font-bold leading-tight">Congratulations!</div>
-              <div className="text-[13px] opacity-95 mt-1">You've finished this module.</div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       <div className="relative h-[211px] overflow-hidden">
         <img src={card.image} alt="" className="absolute inset-0 w-full h-full object-cover" width={1024} height={768} />
         <Link
