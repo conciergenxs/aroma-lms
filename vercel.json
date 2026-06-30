@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/__l5e/(.*)",
+      "destination": "https://aroma-lms.lovable.app/__l5e/$1"
+    }
+  ]
+}
