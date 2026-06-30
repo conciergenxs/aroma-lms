@@ -3,16 +3,16 @@ import brandBareminerals from "@/assets/brands/bareminerals.svg.asset.json";
 import brandRimmel from "@/assets/brands/rimmel.svg.asset.json";
 import brandSisley from "@/assets/brands/sisley.svg.asset.json";
 
-// Unsplash free photos — unique per module
+// Unsplash free photos — verified makeup product photos
 const u = (id: string) =>
   `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=600&q=80`;
 
-// Makeup-themed card images (Unsplash)
-const c1 = u("1522335789203-4a1bf2f804e8"); // makeup brushes flatlay
-const c2 = u("1512496015851-a90fb38ba796"); // lipstick collection
-const c3 = u("1583241475880-083f84372725"); // eyeshadow palette
-const c4 = u("1596462502278-27bfdc403348"); // blush compact
-const c5 = u("1542704792-e70b63e5180f");    // lip crayon closeup
+// Knowledge card images — actual makeup product photos from Unsplash
+const c1 = u("1596462502278-27bfdc403348"); // pink/brown makeup brush set
+const c2 = u("1542452255191-c85a98f2c5d1"); // red Lancôme lipstick
+const c3 = u("1625093525885-282384697917"); // eyeshadow palette flatlay
+const c4 = u("1608979048467-6194dabc6a3d"); // makeup brushes on white table
+const c5 = u("1571646034647-52e6ea84b28c"); // five assorted lipsticks
 
 export type ModuleStatus = "not-started" | "in-progress" | "completed";
 
@@ -107,83 +107,74 @@ const baseCards = (): KnowledgeCard[] => [
   },
 ];
 
-const categoryNameMap: Record<string, string> = {
-  "skin-care": "SKIN CARE",
-  "makeup": "MAKEUP",
-  "fragrance": "FRAGRANCE",
-  "wellness": "WELLNESS",
-  "hair-care": "HAIR CARE",
-  "body-care": "BODY CARE",
-};
-
 // ── Laura Mercier ─────────────────────────────────────────────────────────────
 const lauraModules: Module[] = [
-  { id: "translucent-loose-setting-powder", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Translucent Loose Setting Powder", image: u("1522335789203-4a1bf2f804e8"), completed: 3, total: 5, cards: baseCards() },
-  { id: "blush-colour-infusion", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Blush Colour Infusion", image: u("1596462502278-27bfdc403348"), completed: 2, total: 4, cards: baseCards().slice(0, 4) },
-  { id: "real-flawless-foundation", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Real Flawless Foundation", image: u("1571019613454-1cb2f99b2d8b"), completed: 0, total: 5, cards: baseCards() },
-  { id: "tinted-moisturizer", brand: "Laura Mercier", category: "SKIN CARE", categoryId: "skin-care", title: "Tinted Moisturizer Natural Skin", image: u("1487412947147-5cebf100d293"), completed: 1, total: 5, cards: baseCards() },
-  { id: "caviar-hydra-lipstick", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Caviar Hydra-Crème Lipstick", image: u("1599305445671-ac291c95aaa9"), completed: 1, total: 7, cards: baseCards() },
-  { id: "real-flawless-feather-matte", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Real Flawless Feather Matte", image: u("1631729371254-42c2892f0e6e"), completed: 0, total: 4, cards: baseCards().slice(0, 4) },
-  { id: "lm-silk-creme-lip", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Silk Crème Lip Hydrator", image: u("1616683993950-52001a7d6b22"), completed: 0, total: 5, cards: baseCards() },
-  { id: "lm-velvet-matte-lip", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Velvet Matte Lip Crayon", image: u("1542704792-e70b63e5180f"), completed: 2, total: 5, cards: baseCards() },
-  { id: "lm-caviar-stick-eye", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Caviar Stick Eye Colour", image: u("1598440947619-2c35fc9aa181"), completed: 0, total: 5, cards: baseCards() },
-  { id: "lm-pure-canvas-primer", brand: "Laura Mercier", category: "SKIN CARE", categoryId: "skin-care", title: "Pure Canvas Primer Hydrating", image: u("1614267157481-ca2a9a86e456"), completed: 4, total: 5, cards: baseCards() },
-  { id: "lm-smooth-finish-fluide", brand: "Laura Mercier", category: "SKIN CARE", categoryId: "skin-care", title: "Smooth Finish Flawless Fluide", image: u("1583241800698-e8ab01c57b97"), completed: 0, total: 5, cards: baseCards() },
-  { id: "lm-translucent-pressed", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Translucent Pressed Setting", image: u("1629059291663-4f12e6a35b4d"), completed: 1, total: 5, cards: baseCards() },
-  { id: "lm-rouge-essentiel", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Rouge Essentiel Lipstick", image: u("1512496015851-a90fb38ba796"), completed: 0, total: 5, cards: baseCards() },
-  { id: "lm-secret-concealer", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Secret Concealer Soft", image: u("1571781926291-c477e8c9b16f"), completed: 3, total: 5, cards: baseCards() },
-  { id: "lm-loose-highlighter", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Loose Highlighter Powder", image: u("1601455262397-9c6af36b5e57"), completed: 0, total: 5, cards: baseCards() },
-  { id: "lm-eye-art-caviar", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Eye Art Caviar Palette", image: u("1583241475880-083f84372725"), completed: 2, total: 5, cards: baseCards() },
+  { id: "translucent-loose-setting-powder", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Translucent Loose Setting Powder", image: u("1625093742435-6fa192b6fb10"), completed: 3, total: 5, cards: baseCards() },
+  { id: "blush-colour-infusion", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Blush Colour Infusion", image: u("1631214499500-2e34edcaccfe"), completed: 2, total: 4, cards: baseCards().slice(0, 4) },
+  { id: "real-flawless-foundation", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Real Flawless Foundation", image: u("1679623100266-db82be84f5f3"), completed: 0, total: 5, cards: baseCards() },
+  { id: "tinted-moisturizer", brand: "Laura Mercier", category: "SKIN CARE", categoryId: "skin-care", title: "Tinted Moisturizer Natural Skin", image: u("1557205465-f3762edea6d3"), completed: 1, total: 5, cards: baseCards() },
+  { id: "caviar-hydra-lipstick", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Caviar Hydra-Crème Lipstick", image: u("1617422275558-e5f616302690"), completed: 1, total: 7, cards: baseCards() },
+  { id: "real-flawless-feather-matte", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Real Flawless Feather Matte", image: u("1583209814683-c023dd293cc6"), completed: 0, total: 4, cards: baseCards().slice(0, 4) },
+  { id: "lm-silk-creme-lip", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Silk Crème Lip Hydrator", image: u("1586495777744-4413f21062fa"), completed: 0, total: 5, cards: baseCards() },
+  { id: "lm-velvet-matte-lip", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Velvet Matte Lip Crayon", image: u("1619352520578-8fefbfa2f904"), completed: 2, total: 5, cards: baseCards() },
+  { id: "lm-caviar-stick-eye", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Caviar Stick Eye Colour", image: u("1583241475880-083f84372725"), completed: 0, total: 5, cards: baseCards() },
+  { id: "lm-pure-canvas-primer", brand: "Laura Mercier", category: "SKIN CARE", categoryId: "skin-care", title: "Pure Canvas Primer Hydrating", image: u("1631214524049-0ebbbe6d81aa"), completed: 4, total: 5, cards: baseCards() },
+  { id: "lm-smooth-finish-fluide", brand: "Laura Mercier", category: "SKIN CARE", categoryId: "skin-care", title: "Smooth Finish Flawless Fluide", image: u("1631214524020-7e18db9a8f92"), completed: 0, total: 5, cards: baseCards() },
+  { id: "lm-translucent-pressed", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Translucent Pressed Setting", image: u("1620464003286-a5b0d79f32c2"), completed: 1, total: 5, cards: baseCards() },
+  { id: "lm-rouge-essentiel", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Rouge Essentiel Lipstick", image: u("1626895872564-b691b6877b83"), completed: 0, total: 5, cards: baseCards() },
+  { id: "lm-secret-concealer", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Secret Concealer Soft", image: u("1723150512429-bfa92988d845"), completed: 3, total: 5, cards: baseCards() },
+  { id: "lm-loose-highlighter", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Loose Highlighter Powder", image: u("1631214540553-ff044a3ff1d4"), completed: 0, total: 5, cards: baseCards() },
+  { id: "lm-eye-art-caviar", brand: "Laura Mercier", category: "MAKEUP", categoryId: "makeup", title: "Eye Art Caviar Palette", image: u("1512496015851-a90fb38ba796"), completed: 2, total: 5, cards: baseCards() },
 ];
 
 // ── Dolce & Gabbana ───────────────────────────────────────────────────────────
 const dolceModules: Module[] = [
-  { id: "dg-the-only-one", brand: "Dolce & Gabbana", category: "FRAGRANCE", categoryId: "fragrance", title: "The Only One Eau de Parfum", image: u("1615529328331-f8917597711f"), completed: 5, total: 5, cards: baseCards() },
-  { id: "dg-light-blue", brand: "Dolce & Gabbana", category: "FRAGRANCE", categoryId: "fragrance", title: "Light Blue Summer Vibes", image: u("1541185934-01b600ea069c"), completed: 2, total: 5, cards: baseCards() },
-  { id: "dg-the-one-rose", brand: "Dolce & Gabbana", category: "FRAGRANCE", categoryId: "fragrance", title: "The One Rose EDP", image: u("1587017539504-67cfbddac569"), completed: 0, total: 5, cards: baseCards() },
-  { id: "dg-intenso", brand: "Dolce & Gabbana", category: "FRAGRANCE", categoryId: "fragrance", title: "Intenso Pour Homme", image: u("1523293182086-7651a899d37f"), completed: 3, total: 5, cards: baseCards() },
-  { id: "dg-perfect-foundation", brand: "Dolce & Gabbana", category: "MAKEUP", categoryId: "makeup", title: "Perfect Luminous Liquid Foundation", image: u("1607604276583-eef5d076aa5f"), completed: 0, total: 5, cards: baseCards() },
-  { id: "dg-passioneyes-mascara", brand: "Dolce & Gabbana", category: "MAKEUP", categoryId: "makeup", title: "Passioneyes Mascara Volume", image: u("1526413232644-8a40f03cc03b"), completed: 1, total: 5, cards: baseCards() },
-  { id: "dg-intenseyes-liner", brand: "Dolce & Gabbana", category: "MAKEUP", categoryId: "makeup", title: "Intenseyes Precise Liner", image: u("1503236823255-94d40b9c81a0"), completed: 0, total: 5, cards: baseCards() },
-  { id: "dg-shinissimo-gloss", brand: "Dolce & Gabbana", category: "MAKEUP", categoryId: "makeup", title: "Dolce Shinissimo Lip Gloss", image: u("1625093523429-ac0be7b3a18c"), completed: 2, total: 5, cards: baseCards() },
+  { id: "dg-the-only-one", brand: "Dolce & Gabbana", category: "FRAGRANCE", categoryId: "fragrance", title: "The Only One Eau de Parfum", image: u("1542452255191-c85a98f2c5d1"), completed: 5, total: 5, cards: baseCards() },
+  { id: "dg-light-blue", brand: "Dolce & Gabbana", category: "FRAGRANCE", categoryId: "fragrance", title: "Light Blue Summer Vibes", image: u("1571646034647-52e6ea84b28c"), completed: 2, total: 5, cards: baseCards() },
+  { id: "dg-the-one-rose", brand: "Dolce & Gabbana", category: "FRAGRANCE", categoryId: "fragrance", title: "The One Rose EDP", image: u("1596462502278-27bfdc403348"), completed: 0, total: 5, cards: baseCards() },
+  { id: "dg-intenso", brand: "Dolce & Gabbana", category: "FRAGRANCE", categoryId: "fragrance", title: "Intenso Pour Homme", image: u("1608979048467-6194dabc6a3d"), completed: 3, total: 5, cards: baseCards() },
+  { id: "dg-perfect-foundation", brand: "Dolce & Gabbana", category: "MAKEUP", categoryId: "makeup", title: "Perfect Luminous Liquid Foundation", image: u("1625093742435-6fa192b6fb10"), completed: 0, total: 5, cards: baseCards() },
+  { id: "dg-passioneyes-mascara", brand: "Dolce & Gabbana", category: "MAKEUP", categoryId: "makeup", title: "Passioneyes Mascara Volume", image: u("1631214499500-2e34edcaccfe"), completed: 1, total: 5, cards: baseCards() },
+  { id: "dg-intenseyes-liner", brand: "Dolce & Gabbana", category: "MAKEUP", categoryId: "makeup", title: "Intenseyes Precise Liner", image: u("1617422275558-e5f616302690"), completed: 0, total: 5, cards: baseCards() },
+  { id: "dg-shinissimo-gloss", brand: "Dolce & Gabbana", category: "MAKEUP", categoryId: "makeup", title: "Dolce Shinissimo Lip Gloss", image: u("1625093525885-282384697917"), completed: 2, total: 5, cards: baseCards() },
 ];
 
 // ── bareMinerals ──────────────────────────────────────────────────────────────
 const bareModules: Module[] = [
-  { id: "bm-original-foundation", brand: "bareMinerals", category: "MAKEUP", categoryId: "makeup", title: "Original Loose Powder Foundation", image: u("1631214524107-7a9a793a8fa7"), completed: 5, total: 5, cards: baseCards() },
-  { id: "bm-barepro-foundation", brand: "bareMinerals", category: "MAKEUP", categoryId: "makeup", title: "BarePro Performance Wear Foundation", image: u("1612817288484-6f916006741a"), completed: 0, total: 5, cards: baseCards() },
-  { id: "bm-gen-nude-lipstick", brand: "bareMinerals", category: "MAKEUP", categoryId: "makeup", title: "Gen Nude Butter Lipstick", image: u("1617450365226-9218895060b5"), completed: 3, total: 5, cards: baseCards() },
-  { id: "bm-mineral-veil", brand: "bareMinerals", category: "MAKEUP", categoryId: "makeup", title: "Mineral Veil Finishing Powder", image: u("1522712999-00429afb845d"), completed: 0, total: 5, cards: baseCards() },
-  { id: "bm-complexion-rescue", brand: "bareMinerals", category: "SKIN CARE", categoryId: "skin-care", title: "Complexion Rescue Tinted Moisturizer", image: u("1556228578-8c89e6adf883"), completed: 2, total: 5, cards: baseCards() },
-  { id: "bm-eye-gel", brand: "bareMinerals", category: "SKIN CARE", categoryId: "skin-care", title: "Skinlongevity Vital Power Eye Gel", image: u("1620916297397-a4a5402a3c6c"), completed: 0, total: 5, cards: baseCards() },
-  { id: "bm-ageless-cream", brand: "bareMinerals", category: "SKIN CARE", categoryId: "skin-care", title: "Ageless Phyto-Retinol Face Cream", image: u("1620916566398-39f1143ab7be"), completed: 1, total: 5, cards: baseCards() },
-  { id: "bm-purifying-mask", brand: "bareMinerals", category: "WELLNESS", categoryId: "wellness", title: "Purifying Face Mask", image: u("1570194065650-d99fb4bedf0a"), completed: 0, total: 5, cards: baseCards() },
+  { id: "bm-original-foundation", brand: "bareMinerals", category: "MAKEUP", categoryId: "makeup", title: "Original Loose Powder Foundation", image: u("1679623100266-db82be84f5f3"), completed: 5, total: 5, cards: baseCards() },
+  { id: "bm-barepro-foundation", brand: "bareMinerals", category: "MAKEUP", categoryId: "makeup", title: "BarePro Performance Wear Foundation", image: u("1583209814683-c023dd293cc6"), completed: 0, total: 5, cards: baseCards() },
+  { id: "bm-gen-nude-lipstick", brand: "bareMinerals", category: "MAKEUP", categoryId: "makeup", title: "Gen Nude Butter Lipstick", image: u("1586495777744-4413f21062fa"), completed: 3, total: 5, cards: baseCards() },
+  { id: "bm-mineral-veil", brand: "bareMinerals", category: "MAKEUP", categoryId: "makeup", title: "Mineral Veil Finishing Powder", image: u("1619352520578-8fefbfa2f904"), completed: 0, total: 5, cards: baseCards() },
+  { id: "bm-complexion-rescue", brand: "bareMinerals", category: "SKIN CARE", categoryId: "skin-care", title: "Complexion Rescue Tinted Moisturizer", image: u("1557205465-f3762edea6d3"), completed: 2, total: 5, cards: baseCards() },
+  { id: "bm-eye-gel", brand: "bareMinerals", category: "SKIN CARE", categoryId: "skin-care", title: "Skinlongevity Vital Power Eye Gel", image: u("1631214524020-7e18db9a8f92"), completed: 0, total: 5, cards: baseCards() },
+  { id: "bm-ageless-cream", brand: "bareMinerals", category: "SKIN CARE", categoryId: "skin-care", title: "Ageless Phyto-Retinol Face Cream", image: u("1631214524049-0ebbbe6d81aa"), completed: 1, total: 5, cards: baseCards() },
+  { id: "bm-purifying-mask", brand: "bareMinerals", category: "WELLNESS", categoryId: "wellness", title: "Purifying Face Mask", image: u("1723150512429-bfa92988d845"), completed: 0, total: 5, cards: baseCards() },
 ];
 
 // ── Rimmel ────────────────────────────────────────────────────────────────────
 const rimmelModules: Module[] = [
-  { id: "rm-stay-matte", brand: "Rimmel", category: "MAKEUP", categoryId: "makeup", title: "Stay Matte Pressed Powder", image: u("1607637668-2f7a0f77e6d1"), completed: 5, total: 5, cards: baseCards() },
-  { id: "rm-lasting-finish-lip", brand: "Rimmel", category: "MAKEUP", categoryId: "makeup", title: "Lasting Finish Lipstick", image: u("1512207736890-6ffed8a84e8d"), completed: 0, total: 5, cards: baseCards() },
-  { id: "rm-scandalEyes", brand: "Rimmel", category: "MAKEUP", categoryId: "makeup", title: "ScandalEyes Mascara", image: u("1576091160399-112ba8d25d1d"), completed: 2, total: 5, cards: baseCards() },
-  { id: "rm-brow-mascara", brand: "Rimmel", category: "MAKEUP", categoryId: "makeup", title: "Wonder'full Eyebrow Mascara", image: u("1588776813700-fd5e3ee68e1d"), completed: 0, total: 5, cards: baseCards() },
-  { id: "rm-kind-free", brand: "Rimmel", category: "MAKEUP", categoryId: "makeup", title: "Kind & Free Foundation", image: u("1631214499191-2e9cba17fc60"), completed: 1, total: 5, cards: baseCards() },
-  { id: "rm-lasting-finish-fdn", brand: "Rimmel", category: "MAKEUP", categoryId: "makeup", title: "Lasting Finish Foundation", image: u("1541710430735-5d52f7c01f90"), completed: 0, total: 5, cards: baseCards() },
-  { id: "rm-fix-go-brow", brand: "Rimmel", category: "MAKEUP", categoryId: "makeup", title: "Fix & Go Brow Gel", image: u("1503236823255-94d40b9c81a0"), completed: 3, total: 5, cards: baseCards() },
-  { id: "rm-moisture-renew", brand: "Rimmel", category: "MAKEUP", categoryId: "makeup", title: "Moisture Renew Lip Colour", image: u("1625093523429-ac0be7b3a18c"), completed: 0, total: 5, cards: baseCards() },
+  { id: "rm-stay-matte", brand: "Rimmel", category: "MAKEUP", categoryId: "makeup", title: "Stay Matte Pressed Powder", image: u("1620464003286-a5b0d79f32c2"), completed: 5, total: 5, cards: baseCards() },
+  { id: "rm-lasting-finish-lip", brand: "Rimmel", category: "MAKEUP", categoryId: "makeup", title: "Lasting Finish Lipstick", image: u("1626895872564-b691b6877b83"), completed: 0, total: 5, cards: baseCards() },
+  { id: "rm-scandalEyes", brand: "Rimmel", category: "MAKEUP", categoryId: "makeup", title: "ScandalEyes Mascara", image: u("1583241475880-083f84372725"), completed: 2, total: 5, cards: baseCards() },
+  { id: "rm-brow-mascara", brand: "Rimmel", category: "MAKEUP", categoryId: "makeup", title: "Wonder'full Eyebrow Mascara", image: u("1631214540553-ff044a3ff1d4"), completed: 0, total: 5, cards: baseCards() },
+  { id: "rm-kind-free", brand: "Rimmel", category: "MAKEUP", categoryId: "makeup", title: "Kind & Free Foundation", image: u("1512496015851-a90fb38ba796"), completed: 1, total: 5, cards: baseCards() },
+  { id: "rm-lasting-finish-fdn", brand: "Rimmel", category: "MAKEUP", categoryId: "makeup", title: "Lasting Finish Foundation", image: u("1542452255191-c85a98f2c5d1"), completed: 0, total: 5, cards: baseCards() },
+  { id: "rm-fix-go-brow", brand: "Rimmel", category: "MAKEUP", categoryId: "makeup", title: "Fix & Go Brow Gel", image: u("1596462502278-27bfdc403348"), completed: 3, total: 5, cards: baseCards() },
+  { id: "rm-moisture-renew", brand: "Rimmel", category: "MAKEUP", categoryId: "makeup", title: "Moisture Renew Lip Colour", image: u("1617422275558-e5f616302690"), completed: 0, total: 5, cards: baseCards() },
 ];
 
 // ── Sisley ────────────────────────────────────────────────────────────────────
 const sisleyModules: Module[] = [
-  { id: "sy-black-rose-mask", brand: "Sisley", category: "SKIN CARE", categoryId: "skin-care", title: "Black Rose Cream Mask", image: u("1598452963314-b09f397a5c48"), completed: 5, total: 5, cards: baseCards() },
-  { id: "sy-hydra-global", brand: "Sisley", category: "SKIN CARE", categoryId: "skin-care", title: "Hydra-Global Intense Anti-Aging", image: u("1611080626919-7cf5a9dbab12"), completed: 0, total: 5, cards: baseCards() },
-  { id: "sy-eye-integral", brand: "Sisley", category: "SKIN CARE", categoryId: "skin-care", title: "L'Intégral Anti-Âge Eye", image: u("1583241800698-e8ab01c57b97"), completed: 3, total: 5, cards: baseCards() },
-  { id: "sy-phyto-blanc", brand: "Sisley", category: "SKIN CARE", categoryId: "skin-care", title: "Phyto-Blanc Lightening Essence", image: u("1620916566398-39f1143ab7be"), completed: 0, total: 5, cards: baseCards() },
-  { id: "sy-sislya-integral", brand: "Sisley", category: "SKIN CARE", categoryId: "skin-care", title: "Sisleÿa L'Intégral Anti-Âge", image: u("1556228578-8c89e6adf883"), completed: 2, total: 5, cards: baseCards() },
-  { id: "sy-hair-serum", brand: "Sisley", category: "HAIR CARE", categoryId: "hair-care", title: "Hair Rituel Revitalizing Serum", image: u("1522337360788-8b13dee7a37e"), completed: 0, total: 5, cards: baseCards() },
-  { id: "sy-hair-shampoo", brand: "Sisley", category: "HAIR CARE", categoryId: "hair-care", title: "Hair Rituel Fortifying Shampoo", image: u("1535585209827-a15fcdbc4c2d"), completed: 4, total: 5, cards: baseCards() },
-  { id: "sy-body-scrub", brand: "Sisley", category: "BODY CARE", categoryId: "body-care", title: "Energizing Body Scrub", image: u("1570172619644-dfd03ed5d881"), completed: 0, total: 5, cards: baseCards() },
-  { id: "sy-body-milk", brand: "Sisley", category: "BODY CARE", categoryId: "body-care", title: "Confort Extreme Body Milk", image: u("1610705267928-b59cd5b6c4cf"), completed: 1, total: 5, cards: baseCards() },
-  { id: "sy-relaxing-serum", brand: "Sisley", category: "WELLNESS", categoryId: "wellness", title: "Phyto-Aromatic Relaxing Serum", image: u("1638438849928-ae14e63c58c8"), completed: 0, total: 5, cards: baseCards() },
+  { id: "sy-black-rose-mask", brand: "Sisley", category: "SKIN CARE", categoryId: "skin-care", title: "Black Rose Cream Mask", image: u("1608979048467-6194dabc6a3d"), completed: 5, total: 5, cards: baseCards() },
+  { id: "sy-hydra-global", brand: "Sisley", category: "SKIN CARE", categoryId: "skin-care", title: "Hydra-Global Intense Anti-Aging", image: u("1679623100266-db82be84f5f3"), completed: 0, total: 5, cards: baseCards() },
+  { id: "sy-eye-integral", brand: "Sisley", category: "SKIN CARE", categoryId: "skin-care", title: "L'Intégral Anti-Âge Eye", image: u("1631214499500-2e34edcaccfe"), completed: 3, total: 5, cards: baseCards() },
+  { id: "sy-phyto-blanc", brand: "Sisley", category: "SKIN CARE", categoryId: "skin-care", title: "Phyto-Blanc Lightening Essence", image: u("1557205465-f3762edea6d3"), completed: 0, total: 5, cards: baseCards() },
+  { id: "sy-sislya-integral", brand: "Sisley", category: "SKIN CARE", categoryId: "skin-care", title: "Sisleÿa L'Intégral Anti-Âge", image: u("1723150512429-bfa92988d845"), completed: 2, total: 5, cards: baseCards() },
+  { id: "sy-hair-serum", brand: "Sisley", category: "HAIR CARE", categoryId: "hair-care", title: "Hair Rituel Revitalizing Serum", image: u("1583209814683-c023dd293cc6"), completed: 0, total: 5, cards: baseCards() },
+  { id: "sy-hair-shampoo", brand: "Sisley", category: "HAIR CARE", categoryId: "hair-care", title: "Hair Rituel Fortifying Shampoo", image: u("1625093525885-282384697917"), completed: 4, total: 5, cards: baseCards() },
+  { id: "sy-body-scrub", brand: "Sisley", category: "BODY CARE", categoryId: "body-care", title: "Energizing Body Scrub", image: u("1631214524020-7e18db9a8f92"), completed: 0, total: 5, cards: baseCards() },
+  { id: "sy-body-milk", brand: "Sisley", category: "BODY CARE", categoryId: "body-care", title: "Confort Extreme Body Milk", image: u("1620464003286-a5b0d79f32c2"), completed: 1, total: 5, cards: baseCards() },
+  { id: "sy-relaxing-serum", brand: "Sisley", category: "WELLNESS", categoryId: "wellness", title: "Phyto-Aromatic Relaxing Serum", image: u("1631214540553-ff044a3ff1d4"), completed: 0, total: 5, cards: baseCards() },
 ];
 
 export const modules: Module[] = [
@@ -195,19 +186,19 @@ export const modules: Module[] = [
 ];
 
 export const brands = [
-  { id: "dolce", name: "Dolce & Gabbana", count: dolceModules.length, image: u("1523293182086-7651a899d37f"), logo: brandDolce.url },
-  { id: "baremin", name: "bareMinerals", count: bareModules.length, image: u("1607604276583-eef5d076aa5f"), logo: brandBareminerals.url },
-  { id: "rimmel", name: "Rimmel", count: rimmelModules.length, image: u("1522712999-00429afb845d"), logo: brandRimmel.url },
-  { id: "sisley", name: "Sisley", count: sisleyModules.length, image: u("1598452963314-b09f397a5c48"), logo: brandSisley.url },
+  { id: "dolce", name: "Dolce & Gabbana", count: dolceModules.length, image: u("1542452255191-c85a98f2c5d1"), logo: brandDolce.url },
+  { id: "baremin", name: "bareMinerals", count: bareModules.length, image: u("1679623100266-db82be84f5f3"), logo: brandBareminerals.url },
+  { id: "rimmel", name: "Rimmel", count: rimmelModules.length, image: u("1625093742435-6fa192b6fb10"), logo: brandRimmel.url },
+  { id: "sisley", name: "Sisley", count: sisleyModules.length, image: u("1608979048467-6194dabc6a3d"), logo: brandSisley.url },
 ];
 
 export const categories = [
-  { id: "skin-care", name: "Skin Care", count: modules.filter(m => m.categoryId === "skin-care").length, image: u("1620916566398-39f1143ab7be") },
+  { id: "skin-care", name: "Skin Care", count: modules.filter(m => m.categoryId === "skin-care").length, image: u("1557205465-f3762edea6d3") },
   { id: "makeup", name: "Makeup", count: modules.filter(m => m.categoryId === "makeup").length, image: u("1596462502278-27bfdc403348") },
-  { id: "fragrance", name: "Fragrance", count: modules.filter(m => m.categoryId === "fragrance").length, image: u("1615529328331-f8917597711f") },
-  { id: "wellness", name: "Wellness", count: modules.filter(m => m.categoryId === "wellness").length, image: u("1638438849928-ae14e63c58c8") },
-  { id: "hair-care", name: "Hair Care", count: modules.filter(m => m.categoryId === "hair-care").length, image: u("1522337360788-8b13dee7a37e") },
-  { id: "body-care", name: "Body Care", count: modules.filter(m => m.categoryId === "body-care").length, image: u("1570172619644-dfd03ed5d881") },
+  { id: "fragrance", name: "Fragrance", count: modules.filter(m => m.categoryId === "fragrance").length, image: u("1617422275558-e5f616302690") },
+  { id: "wellness", name: "Wellness", count: modules.filter(m => m.categoryId === "wellness").length, image: u("1723150512429-bfa92988d845") },
+  { id: "hair-care", name: "Hair Care", count: modules.filter(m => m.categoryId === "hair-care").length, image: u("1631214524049-0ebbbe6d81aa") },
+  { id: "body-care", name: "Body Care", count: modules.filter(m => m.categoryId === "body-care").length, image: u("1631214524020-7e18db9a8f92") },
 ];
 
 export const getModule = (id: string) => modules.find((m) => m.id === id);
