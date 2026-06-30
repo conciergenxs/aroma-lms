@@ -111,25 +111,25 @@ function KnowledgeDetail() {
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 24 }}
               onClick={(e) => e.stopPropagation()}
-              className="mx-6 rounded-2xl bg-[#6b0f1a] text-white px-8 py-10 flex flex-col items-center text-center shadow-2xl"
+              className="mx-6 rounded-2xl bg-white text-ink px-8 py-10 flex flex-col items-center text-center shadow-2xl"
             >
-              <div className="h-[72px] w-[72px] rounded-full bg-white/20 flex items-center justify-center mb-5">
-                <Check className="h-10 w-10 text-white" strokeWidth={3} />
+              <div className="h-[72px] w-[72px] rounded-full bg-[#c9a455]/15 flex items-center justify-center mb-5">
+                <Check className="h-10 w-10 text-[#c9a455]" strokeWidth={3} />
               </div>
-              <div className="font-serif text-[28px] font-bold leading-tight">Congratulations!</div>
-              <div className="mt-2 text-[15px] text-white/85 leading-relaxed">
+              <div className="font-serif text-[28px] font-bold leading-tight text-ink">Congratulations!</div>
+              <div className="mt-2 text-[15px] text-ink/60 leading-relaxed">
                 You've completed all knowledge cards in this module.
               </div>
               <div className="mt-8 flex flex-col gap-3 w-full">
                 <button
                   onClick={() => setShowModal(false)}
-                  className="w-full px-8 py-3 rounded-full bg-white text-[#6b0f1a] font-semibold text-[15px] hover:brightness-95 transition-all"
+                  className="w-full px-8 py-3 rounded-full bg-[#6b0f1a] text-white font-semibold text-[15px] hover:brightness-110 transition-all"
                 >
                   Finish
                 </button>
                 <button
                   onClick={() => { setShowModal(false); navigate({ to: "/modules" }); }}
-                  className="w-full px-8 py-3 rounded-full border-2 border-white text-white font-semibold text-[15px] hover:bg-white/10 transition-all"
+                  className="w-full px-8 py-3 rounded-full border-2 border-[#6b0f1a] text-[#6b0f1a] font-semibold text-[15px] hover:bg-[#6b0f1a]/5 transition-all"
                 >
                   Explore Other Module
                 </button>
