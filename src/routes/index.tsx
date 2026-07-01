@@ -35,11 +35,12 @@ function LoginPage() {
 
       <form onSubmit={onSubmit} className="mt-[34px] w-full">
         <label className="block">
-          <span className="text-[12px] font-bold tracking-[0.18em] text-foreground">USERNAME</span>
+          <span className="text-[12px] font-bold tracking-[0.18em] text-foreground">WHATSAPP NUMBER</span>
           <input
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            placeholder="Type your username here.."
+            placeholder="Type your WhatsApp number.."
+            inputMode="tel"
             className="mt-3 w-full bg-card rounded-full border border-border px-5 py-[15px] text-[15px] shadow-sm placeholder:text-foreground/35 focus:outline-none focus:ring-2 focus:ring-brand/20"
           />
         </label>
