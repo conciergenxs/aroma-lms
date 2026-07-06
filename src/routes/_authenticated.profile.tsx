@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { SiteFooter } from "@/components/layout/SiteFooter";
-import { User, Lock, HelpCircle, LogOut, Camera, Mail, Check, ChevronRight } from "lucide-react";
+import { User, Lock, HelpCircle, LogOut, Camera, Mail, Check, RefreshCw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import avatarBella from "@/assets/avatar-bella.jpg";
@@ -139,10 +139,7 @@ function ProfilePage() {
           <div className="text-left">
             <p className="text-[15px] font-semibold text-brand font-sans">{activeBrand}</p>
           </div>
-          <div className="flex items-center gap-1 text-[12px] text-foreground/50 font-sans">
-            <span>{t("switchBrand")}</span>
-            <ChevronRight className="h-4 w-4" />
-          </div>
+          <RefreshCw className="h-[18px] w-[18px] text-foreground/50" />
         </motion.button>
 
         <h2 className="mt-8 font-serif text-[22px] font-medium">{t("accountSettings")}</h2>
