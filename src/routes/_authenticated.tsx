@@ -1,4 +1,5 @@
 import { createFileRoute, Outlet, useRouterState } from "@tanstack/react-router";
+import { BrandProvider } from "@/lib/brand-context";
 import { useEffect, useRef } from "react";
 import { TopHeader } from "@/components/layout/TopHeader";
 import { BottomNav } from "@/components/layout/BottomNav";
@@ -25,6 +26,7 @@ function AuthLayout() {
   }, [pathname, setPrevious]);
 
   return (
+    <BrandProvider>
     <div className="min-h-screen bg-cream">
       {!isChat && <TopHeader />}
       <main className="mobile-shell">
@@ -33,5 +35,6 @@ function AuthLayout() {
       {!isChat && <FloatingAI />}
       {!isChat && <BottomNav />}
     </div>
+    </BrandProvider>
   );
 }
