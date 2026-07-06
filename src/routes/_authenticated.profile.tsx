@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { SiteFooter } from "@/components/layout/SiteFooter";
-import { User, Lock, HelpCircle, LogOut, Camera, Mail, ChevronRight, Check } from "lucide-react";
+import { User, Lock, HelpCircle, LogOut, Camera, Mail, Check, ArrowLeftRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import avatarBella from "@/assets/avatar-bella.jpg";
@@ -20,7 +20,7 @@ function LangToggle() {
   return (
     <button
       onClick={() => setLang(lang === "id" ? "en" : "id")}
-      className="flex items-center gap-1 text-[12px] font-bold tracking-wide text-foreground/60 hover:text-foreground transition-colors border border-border rounded-full px-3 py-1"
+      className="flex items-center gap-1 text-[12px] font-bold tracking-wide text-foreground/60 hover:text-foreground transition-colors border border-border rounded-full px-3 py-1 font-sans"
     >
       <span className={lang === "id" ? "text-brand font-extrabold" : ""}>ID</span>
       <span className="text-foreground/30">|</span>
@@ -32,7 +32,6 @@ function LangToggle() {
 function BrandSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { activeBrand, setActiveBrand } = useBrand();
   const { t } = useI18n();
-
   const select = (b: BrandName) => { setActiveBrand(b); onClose(); };
 
   return (
@@ -47,15 +46,15 @@ function BrandSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
           <motion.div
             initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 32 }}
-            className="fixed bottom-0 left-0 right-0 z-50 bg-card rounded-t-2xl pb-10 shadow-2xl"
+            className="fixed bottom-0 left-0 right-0 z-50 bg-card rounded-t-2xl pb-10 shadow-2xl font-sans"
           >
             <div className="w-10 h-1 bg-border rounded-full mx-auto mt-3 mb-4" />
-            <p className="px-6 text-[13px] font-bold tracking-widest text-foreground/50 mb-2">{t("selectBrand")}</p>
+            <p className="px-6 text-[13px] font-bold tracking-widest text-foreground/50 mb-2 font-sans">{t("selectBrand")}</p>
             {ALL_BRANDS.map((b) => (
               <button
                 key={b}
                 onClick={() => select(b)}
-                className="w-full flex items-center justify-between px-6 py-4 text-[15px] hover:bg-cream transition-colors border-t border-border first:border-t-0"
+                className="w-full flex items-center justify-between px-6 py-4 text-[15px] hover:bg-cream transition-colors border-t border-border first:border-t-0 font-sans"
               >
                 <span className={b === activeBrand ? "font-semibold text-brand" : "text-foreground"}>{b}</span>
                 {b === activeBrand && <Check className="h-4 w-4 text-brand" />}
@@ -108,27 +107,23 @@ function ProfilePage() {
               <Camera className="h-4 w-4" />
             </button>
           </motion.div>
+
+          {/* Name + brand row */}
           <h1 className="mt-4 font-serif text-[28px] font-medium leading-none">Bella Victoria</h1>
-          <div className="mt-2 flex items-center gap-1.5 text-sm text-foreground/65">
+          <div className="mt-1.5 flex items-center gap-2">
+            <span className="text-[13px] font-semibold text-brand font-sans">{activeBrand}</span>
+            <button
+              onClick={() => setBrandSheetOpen(true)}
+              aria-label="Switch brand"
+              className="h-6 w-6 rounded-full bg-brand/10 flex items-center justify-center hover:bg-brand/20 transition-colors"
+            >
+              <ArrowLeftRight className="h-3 w-3 text-brand" />
+            </button>
+          </div>
+          <div className="mt-1.5 flex items-center gap-1.5 text-sm text-foreground/65 font-sans">
             <Mail className="h-4 w-4" /> bella.thompson@aroma.id
           </div>
         </div>
-
-        {/* Current Brand */}
-        <motion.button
-          whileTap={{ scale: 0.98 }}
-          onClick={() => setBrandSheetOpen(true)}
-          className="mt-6 w-full flex items-center justify-between bg-card rounded-xl border border-border px-4 py-3.5"
-        >
-          <div className="text-left">
-            <p className="text-[11px] font-bold tracking-widest text-foreground/45 uppercase">{t("currentBrand")}</p>
-            <p className="text-[15px] font-semibold text-brand mt-0.5">{activeBrand}</p>
-          </div>
-          <div className="flex items-center gap-1 text-[12px] text-foreground/50">
-            <span>{t("switchBrand")}</span>
-            <ChevronRight className="h-4 w-4" />
-          </div>
-        </motion.button>
 
         <h2 className="mt-8 font-serif text-[22px] font-medium">{t("accountSettings")}</h2>
         <div className="mt-3 space-y-2.5">
@@ -136,7 +131,7 @@ function ProfilePage() {
             <motion.div key={label} whileTap={{ scale: 0.98 }}>
               <button
                 onClick={() => navigate({ to })}
-                className="w-full flex items-center gap-3 bg-card rounded-xl border border-border px-4 py-3.5 text-[15px] hover:border-brand/40 transition-colors"
+                className="w-full flex items-center gap-3 bg-card rounded-xl border border-border px-4 py-3.5 text-[15px] hover:border-brand/40 transition-colors font-sans"
               >
                 <Icon className="h-5 w-5 text-foreground/70" />
                 <span>{label}</span>
@@ -146,7 +141,7 @@ function ProfilePage() {
           <motion.button
             whileTap={{ scale: 0.98 }}
             onClick={() => setLogoutOpen(true)}
-            className="w-full flex items-center gap-3 bg-card rounded-xl border border-brand/40 px-4 py-3.5 text-[15px] text-brand font-medium hover:bg-brand/5 transition-colors"
+            className="w-full flex items-center gap-3 bg-card rounded-xl border border-brand/40 px-4 py-3.5 text-[15px] text-brand font-medium hover:bg-brand/5 transition-colors font-sans"
           >
             <LogOut className="h-5 w-5" />
             <span>{t("logout")}</span>
@@ -155,16 +150,16 @@ function ProfilePage() {
       </div>
 
       <AlertDialog open={logoutOpen} onOpenChange={setLogoutOpen}>
-        <AlertDialogContent>
+        <AlertDialogContent className="font-sans">
           <AlertDialogHeader>
-            <AlertDialogTitle>{t("logoutTitle")}</AlertDialogTitle>
-            <AlertDialogDescription>{t("logoutDesc")}</AlertDialogDescription>
+            <AlertDialogTitle className="font-sans">{t("logoutTitle")}</AlertDialogTitle>
+            <AlertDialogDescription className="font-sans">{t("logoutDesc")}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
+            <AlertDialogCancel className="font-sans">{t("cancel")}</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => navigate({ to: "/" })}
-              className="bg-brand text-brand-foreground hover:brightness-110"
+              className="bg-brand text-brand-foreground hover:brightness-110 font-sans"
             >
               {t("logout")}
             </AlertDialogAction>
