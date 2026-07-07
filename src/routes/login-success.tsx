@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useI18n } from "@/lib/i18n";
 import { Check } from "lucide-react";
 import { useEffect } from "react";
 import { useNavigate } from "@tanstack/react-router";
@@ -9,6 +10,7 @@ export const Route = createFileRoute("/login-success")({
 });
 
 function LoginSuccess() {
+  const { t } = useI18n();
   const navigate = useNavigate();
   useEffect(() => {
     const t = setTimeout(() => navigate({ to: "/home" }), 1400);

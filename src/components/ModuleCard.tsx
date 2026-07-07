@@ -1,8 +1,10 @@
 import { Link } from "@tanstack/react-router";
+import { useI18n } from "@/lib/i18n";
 import { motion } from "framer-motion";
 import type { Module } from "@/data/modules";
 
 export function ModuleCard({ module: m }: { module: Module }) {
+  const { t } = useI18n();
   const pct = Math.round((m.completed / m.total) * 1000) / 10;
   return (
     <motion.div
@@ -17,7 +19,7 @@ export function ModuleCard({ module: m }: { module: Module }) {
       >
         <div className="px-2.5 pt-3">
           <div className="flex items-center justify-between text-[11px] mb-1.5">
-            <span className="text-brand font-normal">{m.completed}/{m.total} cards completed</span>
+            <span className="text-brand font-normal">{m.completed}/{m.total} {t("cardsCompleted")}</span>
             <span className="font-semibold text-brand">{pct}%</span>
           </div>
           <div className="h-1.5 rounded-full bg-rose-line overflow-hidden">

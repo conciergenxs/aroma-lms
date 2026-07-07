@@ -14,7 +14,7 @@ function CategoryPage() {
     <>
       <div className="px-[34px] pt-[28px]">
         <h1 className="font-serif text-[31px] font-medium leading-none">{t("pageCategory")}</h1>
-        <p className="text-[15px] text-foreground/75 mt-4">Browse modules based on product categories</p>
+        <p className="text-[15px] text-foreground/75 mt-4">{t("categorySubtitle")}</p>
         <div className="mt-[34px] grid grid-cols-2 gap-x-4 gap-y-4">
           {categories.map((c, i) => (
             <motion.div
@@ -34,7 +34,7 @@ function CategoryPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-3 text-white">
                   <div className="font-serif text-[22px] font-medium leading-none">{c.name}</div>
-                  <div className="text-[13px] opacity-90 mt-2">{c.count} Modules</div>
+                  <div className="text-[13px] opacity-90 mt-2">{c.count} {t("countModules")}</div>
                 </div>
               </Link>
             </motion.div>

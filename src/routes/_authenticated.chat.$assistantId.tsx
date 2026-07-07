@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate, notFound } from "@tanstack/react-router";
 import { ChevronLeft, History, MoreVertical, X, Mic } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { useI18n } from "@/lib/i18n";
 import { chatSessions, getSession, type ChatMessage, type ChatSession } from "@/data/chat";
 import { getModule } from "@/data/modules";
 import { useNavHistory } from "@/lib/nav-history";
@@ -63,6 +64,7 @@ function currentTime() {
 }
 
 function ChatRoom() {
+  const { t } = useI18n();
   const { session } = Route.useLoaderData();
   const navigate = useNavigate();
   const { previousPath, previousLabel } = useNavHistory();
@@ -125,7 +127,7 @@ function ChatRoom() {
           onClick={() => navigate({ to: previousPath as never })}
           className="inline-flex items-center gap-1.5 text-foreground font-serif text-[17px] font-bold"
         >
-          <ChevronLeft className="h-5 w-5" /> <span>Back to {previousLabel}</span>
+          <ChevronLeft className="h-5 w-5" /> <span>{t("backTo")} {previousLabel}</span>
         </button>
         <Sheet open={historyOpen} onOpenChange={setHistoryOpen}>
           <SheetTrigger asChild>
@@ -135,7 +137,7 @@ function ChatRoom() {
           </SheetTrigger>
           <SheetContent side="right" className="bg-card max-w-[320px]">
             <SheetHeader>
-              <SheetTitle className="font-serif text-2xl">Chat History</SheetTitle>
+              <SheetTitle className="font-serif text-2xl">{t("chatHistory")}</SheetTitle>
             </SheetHeader>
             <div className="mt-4 space-y-2">
               {chatSessions.map((s) => (
@@ -194,7 +196,7 @@ function ChatRoom() {
                       : "bg-[#f5f5f5] text-foreground rounded-bl-[14px] shadow-[0_1px_1px_rgba(0,0,0,0.15)]"
                   }`}
                 >
-                  {text ? <MessageResponse>{text}</MessageResponse> : <Shimmer>Thinking...</Shimmer>}
+                  {text ? <MessageResponse>{text}</MessageResponse> : <Shimmer>{t("thinking")}</Shimmer>}
                   <div className="text-[11px] text-foreground/18 text-right mt-1.5">
                     {m.time || session.messages[index]?.time || currentTime()}
                   </div>
@@ -211,7 +213,7 @@ function ChatRoom() {
           onSubmit={({ text }) => void sendAiMessage(text)}
           className="gap-2"
         >
-          <PromptInputTextarea placeholder="Type your message here.." className="min-h-[46px] rounded-full border border-black/10 bg-card shadow-sm text-[15px]" />
+          <PromptInputTextarea placeholder={t("chatPlaceholder")} className="min-h-[46px] rounded-full border border-black/10 bg-card shadow-sm text-[15px]" />
           <button
             type="submit"
             aria-label={busy ? "Stop response" : "Voice message"}

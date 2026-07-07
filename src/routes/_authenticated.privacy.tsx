@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useI18n } from "@/lib/i18n";
 import { ChevronLeft } from "lucide-react";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 
@@ -7,14 +8,15 @@ export const Route = createFileRoute("/_authenticated/privacy")({
 });
 
 function PrivacyPage() {
+  const { t, lang } = useI18n();
   return (
     <>
       <div className="px-[24px] pt-[28px]">
         <Link to="/profile" className="inline-flex items-center text-sm text-brand font-semibold mb-4">
-          <ChevronLeft className="h-4 w-4" /> Back
+          <ChevronLeft className="h-4 w-4" /> {t("back")}
         </Link>
-        <h1 className="font-serif text-[31px] font-medium leading-none">Privacy Policy</h1>
-        <p className="text-[12px] text-foreground/55 mt-2">Effective: 1 January 2026</p>
+        <h1 className="font-serif text-[31px] font-medium leading-none">{t("privacyTitle")}</h1>
+        <p className="text-[12px] text-foreground/55 mt-2">{t("privacyEffective")}</p>
 
         <div className="mt-6 space-y-5 text-[14px] leading-relaxed text-foreground/80">
           <section>

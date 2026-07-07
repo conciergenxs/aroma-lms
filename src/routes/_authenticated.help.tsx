@@ -11,7 +11,7 @@ export const Route = createFileRoute("/_authenticated/help")({
 const WA_NUMBER = "6281200000000";
 const WA_MESSAGE = encodeURIComponent(
   "Halo Aroma AI, saya butuh bantuan untuk akun saya.",
-);
+) // keep static to avoid hook in module scope;
 
 function HelpPage() {
   const { t } = useI18n();
@@ -22,12 +22,10 @@ function HelpPage() {
           <ChevronLeft className="h-4 w-4" /> {t("backToProfile")}
         </Link>
         <h1 className="font-serif text-[28px] font-medium leading-tight">
-          Kami Siap Membantu
+          {t("helpTitle")}
         </h1>
         <p className="text-[14px] text-foreground/75 mt-4 leading-relaxed">
-          Apakah kamu punya pertanyaan tentang modul, butuh bantuan akun,
-          atau ingin panduan produk dari beauty advisor kami — tim support kami
-          siap membantu. Hubungi kapan saja dan kami akan segera merespons.
+          {t("helpSubtitle")}
         </p>
 
         <motion.div
@@ -35,10 +33,9 @@ function HelpPage() {
           animate={{ opacity: 1, y: 0 }}
           className="mt-8 rounded-xl bg-card border border-border p-5"
         >
-          <h2 className="font-serif text-[20px] font-medium">Hubungi Support</h2>
+          <h2 className="font-serif text-[20px] font-medium">{t("contactSupport")}</h2>
           <p className="text-[13px] text-foreground/70 mt-2 leading-relaxed">
-            Chat dengan asisten AI kami langsung di WhatsApp untuk jawaban cepat
-            tentang produk, modul pelatihan, atau bantuan akun. Tersedia 24 jam.
+            {t("contactSupportDesc")}
           </p>
 
           <motion.a
@@ -55,7 +52,7 @@ function HelpPage() {
         </motion.div>
 
         <div className="mt-6 text-center text-[12px] text-foreground/60">
-          Atau email kami di <span className="text-brand font-semibold">support@aroma.id</span>
+          {t("orEmailUs")} <span className="text-brand font-semibold">support@aroma.id</span>
         </div>
       </div>
       <SiteFooter />

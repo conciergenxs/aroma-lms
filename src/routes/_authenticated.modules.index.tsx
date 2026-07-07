@@ -40,13 +40,13 @@ function AllModulesPage() {
           <ChevronLeft className="h-4 w-4" /> {t("backToHome")}
         </Link>
         <h1 className="font-serif text-[31px] font-medium leading-none">
-          {brand ? brand : "Semua Modul"}
+          {brand ? brand : t("allModules")}
         </h1>
         {total === 0 ? (
-          <p className="text-[15px] text-foreground/75 mt-3">Belum ada modul untuk brand ini.</p>
+          <p className="text-[15px] text-foreground/75 mt-3">{t("noModulesForBrand")}</p>
         ) : (
           <p className="text-[15px] text-foreground/75 mt-3">
-            Menampilkan {start + 1}–{Math.min(start + PAGE_SIZE, total)} dari {total} modul
+            {t("showing")} {start + 1}–{Math.min(start + PAGE_SIZE, total)} {t("of")} {total} {t("countModules").toLowerCase()}
           </p>
         )}
 
@@ -99,7 +99,7 @@ function AllModulesPage() {
               </button>
             </div>
             <p className="mt-4 text-center text-xs text-foreground/60">
-              Halaman {page} dari {pages} · {total} modul
+              {t("page")} {page} {t("of")} {pages} · {total} {t("countModules").toLowerCase()} {t("total")}
             </p>
           </>
         )}

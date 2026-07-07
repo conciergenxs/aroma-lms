@@ -24,15 +24,16 @@ const statusStyle: Record<ModuleStatus, string> = {
   "in-progress": "bg-tan/30 text-tan",
   "completed": "bg-brand/15 text-brand",
 };
-const statusLabel: Record<ModuleStatus, string> = {
-  "not-started": "NOT STARTED",
-  "in-progress": "IN PROGRESS",
-  "completed": "COMPLETED",
-};
+
 
 function ModuleDetail() {
   const { module: m } = Route.useLoaderData();
   const { t } = useI18n();
+  const statusLabel: Record<ModuleStatus, string> = {
+    "not-started": t("statusNotStarted"),
+    "in-progress": t("statusInProgress"),
+    "completed": t("statusCompleted"),
+  };
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isKnowledgeCardRoute = pathname.includes(`/modules/${m.id}/cards/`);
   const pct = Math.round((m.completed / m.total) * 1000) / 10;
@@ -55,7 +56,7 @@ function ModuleDetail() {
           <div className="flex-1 min-w-0">
             <div className="text-[10px] tracking-wider text-tan font-semibold">{m.category}</div>
             <div className="font-serif text-xl leading-tight mt-1">{m.title}</div>
-            <div className="text-xs text-brand font-semibold mt-2">{m.completed}/{m.total} Cards completed</div>
+            <div className="text-xs text-brand font-semibold mt-2">{m.completed}/{m.total} {t("cardsCompleted")}</div>
             <div className="mt-1.5 flex items-center gap-2">
               <div className="flex-1 h-1.5 bg-rose-line rounded-full overflow-hidden">
                 <div className="h-full bg-brand" style={{ width: `${pct}%` }} />
@@ -107,7 +108,7 @@ function ModuleDetail() {
       </div>
 
       <div className="mt-8 flex items-center justify-between">
-        <h2 className="font-serif text-xl">Other Modules</h2>
+        <h2 className="font-serif text-xl">{t("otherModules")}</h2>
         <div className="flex gap-2">
           <button onClick={() => scroll(-1)} aria-label="Previous" className="h-8 w-8 rounded-full border border-brand/30 text-brand flex items-center justify-center">
             <ChevronLeft className="h-4 w-4" />

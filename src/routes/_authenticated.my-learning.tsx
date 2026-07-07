@@ -15,7 +15,7 @@ function MyLearningPage() {
     <>
       <div className="px-[14px] pt-[28px]">
         <h1 className="font-serif text-[31px] font-medium leading-none">{t("pageMyLearning")}</h1>
-        <p className="text-[15px] text-foreground/75 mt-4">Semua modul yang sudah kamu mulai atau selesaikan.</p>
+        <p className="text-[15px] text-foreground/75 mt-4">{t("myLearningSubtitle")}</p>
         <div className="mt-6 grid grid-cols-2 gap-3">
           {modules.slice(0, 6).map((m, i) => (
             <motion.div

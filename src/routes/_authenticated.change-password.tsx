@@ -20,14 +20,14 @@ function ChangePassword() {
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!curr || !next || !confirm) {
-      toast.error("Mohon isi semua kolom");
+      toast.error(t("fillAllFields"));
       return;
     }
     if (next !== confirm) {
-      toast.error("Kata sandi tidak cocok");
+      toast.error(t("passwordsNoMatch"));
       return;
     }
-    toast.success("Kata sandi berhasil diubah");
+    toast.success(t("passwordUpdated"));
     navigate({ to: "/profile" });
   };
 
@@ -37,9 +37,9 @@ function ChangePassword() {
         <Link to="/profile" className="inline-flex items-center text-sm text-brand font-semibold mb-4">
           <ChevronLeft className="h-4 w-4" /> {t("backToProfile")}
         </Link>
-        <h1 className="font-serif text-[28px] font-medium leading-none">Ubah Kata Sandi</h1>
+        <h1 className="font-serif text-[28px] font-medium leading-none">{t("changePasswordPage")}</h1>
         <p className="text-[14px] text-foreground/70 mt-3">
-          Gunakan minimal 8 karakter. Kombinasikan huruf, angka, dan simbol untuk kata sandi yang lebih kuat.
+          {t("changePasswordSubtitle")}
         </p>
 
         <motion.form
@@ -49,9 +49,9 @@ function ChangePassword() {
           className="mt-6 space-y-4"
         >
           {[
-            { label: "Kata Sandi Saat Ini", value: curr, set: setCurr, placeholder: "Ketik kata sandi lama kamu.." },
-            { label: "Kata Sandi Baru", value: next, set: setNext, placeholder: "Ketik kata sandi baru kamu.." },
-            { label: "Konfirmasi Kata Sandi Baru", value: confirm, set: setConfirm, placeholder: "Konfirmasi kata sandi barumu.." },
+            { label: t("currentPasswordLabel"), value: curr, set: setCurr, placeholder: t("currentPasswordPlaceholder") },
+            { label: t("newPasswordLabel"), value: next, set: setNext, placeholder: t("newPasswordPlaceholder") },
+            { label: t("confirmPasswordLabel"), value: confirm, set: setConfirm, placeholder: t("confirmPasswordPlaceholder") },
           ].map((f) => (
             <div key={f.label}>
               <label className="block text-[13px] font-medium mb-1.5">{f.label}</label>
