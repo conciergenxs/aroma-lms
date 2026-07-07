@@ -94,7 +94,7 @@ function LoginPage() {
         <button
           type="submit"
           disabled={!canSubmit}
-          className={`mt-8 w-full rounded-full py-[17px] font-semibold tracking-[0.18em] text-sm transition-colors ${
+          className={`mt-8 w-full rounded-full h-12 font-semibold tracking-[0.18em] text-[16px] transition-colors ${
             canSubmit ? "bg-brand text-white" : "bg-tan/40 text-foreground/40 cursor-not-allowed"
           }`}
         >

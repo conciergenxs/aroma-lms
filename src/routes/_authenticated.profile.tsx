@@ -57,8 +57,7 @@ function ProfilePage() {
   const { activeBrand, setActiveBrand } = useBrand();
 
   const menuItems = [
-    { icon: User, label: t("changeUsername"), to: "/change-username" as const },
-    { icon: Lock, label: t("changePassword"), to: "/change-password" as const },
+{ icon: Lock, label: t("changePassword"), to: "/change-password" as const },
     { icon: HelpCircle, label: t("help"), to: "/help" as const },
   ];
 
@@ -87,13 +86,13 @@ function ProfilePage() {
           <div className="mt-6 flex flex-col gap-3">
             <button
               onClick={() => { setLogoutOpen(false); navigate({ to: "/" }); }}
-              className="w-full py-[15px] rounded-full bg-brand text-white font-semibold text-[15px] font-sans hover:brightness-110 transition-all"
+              className="w-full h-12 rounded-full bg-brand text-white font-semibold text-[16px] font-sans hover:brightness-110 transition-all"
             >
               {t("logout")}
             </button>
             <button
               onClick={() => setLogoutOpen(false)}
-              className="w-full py-[15px] rounded-full border-2 border-border text-foreground font-semibold text-[15px] font-sans hover:bg-black/5 transition-all"
+              className="w-full h-12 rounded-full border-2 border-border text-foreground font-semibold text-[16px] font-sans hover:bg-black/5 transition-all"
             >
               {t("cancel")}
             </button>

@@ -66,7 +66,7 @@ function ChangePassword() {
           ))}
           <button
             type="submit"
-            className="w-full bg-brand text-brand-foreground font-semibold tracking-wider py-3.5 rounded-full hover:brightness-110 transition-all"
+            className="w-full bg-brand text-brand-foreground font-semibold tracking-wider h-12 text-[16px] rounded-full hover:brightness-110 transition-all"
           >
             UPDATE PASSWORD
           </button>
