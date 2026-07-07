@@ -249,18 +249,21 @@ const I18nContext = createContext<I18nCtx | null>(null);
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>(() => {
     if (typeof window === "undefined") return "id";
-    // Always default to Indonesian; only honour if user explicitly toggled
+    // v2: force-reset anyone who had old "en" default; only keep if user explicitly chose after v2
+    const VER = "v2";
+    if (localStorage.getItem("aroma:lang:ver") !== VER) {
+      localStorage.setItem("aroma:lang", "id");
+      localStorage.setItem("aroma:lang:ver", VER);
+      localStorage.removeItem("aroma:lang:chosen");
+      return "id";
+    }
     const saved = localStorage.getItem("aroma:lang") as Lang | null;
-    const userChose = localStorage.getItem("aroma:lang:chosen") === "1";
-    if (userChose && (saved === "en" || saved === "id")) return saved;
-    localStorage.setItem("aroma:lang", "id");
-    return "id";
+    return saved === "en" || saved === "id" ? saved : "id";
   });
   const setLang = (l: Lang) => {
     setLangState(l);
     if (typeof window !== "undefined") {
       localStorage.setItem("aroma:lang", l);
-      localStorage.setItem("aroma:lang:chosen", "1");
     }
   };
   const t = (k: TKey): string => T[lang][k];
