@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ChevronLeft } from "lucide-react";
 import { useState } from "react";
@@ -10,6 +11,7 @@ export const Route = createFileRoute("/_authenticated/change-password")({
 });
 
 function ChangePassword() {
+  const { t } = useI18n();
   const [curr, setCurr] = useState("");
   const [next, setNext] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -33,7 +35,7 @@ function ChangePassword() {
     <>
       <div className="px-[24px] pt-[28px]">
         <Link to="/profile" className="inline-flex items-center text-sm text-brand font-semibold mb-4">
-          <ChevronLeft className="h-4 w-4" /> Back to Profile
+          <ChevronLeft className="h-4 w-4" /> {t("backToProfile")}
         </Link>
         <h1 className="font-serif text-[28px] font-medium leading-none">Change Password</h1>
         <p className="text-[14px] text-foreground/70 mt-3">

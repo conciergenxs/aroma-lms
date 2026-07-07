@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { categories } from "@/data/modules";
 import { SiteFooter } from "@/components/layout/SiteFooter";
@@ -8,10 +9,11 @@ export const Route = createFileRoute("/_authenticated/category/")({
 });
 
 function CategoryPage() {
+  const { t } = useI18n();
   return (
     <>
       <div className="px-[34px] pt-[28px]">
-        <h1 className="font-serif text-[31px] font-medium leading-none">Category</h1>
+        <h1 className="font-serif text-[31px] font-medium leading-none">{t("pageCategory")}</h1>
         <p className="text-[15px] text-foreground/75 mt-4">Browse modules based on product categories</p>
         <div className="mt-[34px] grid grid-cols-2 gap-x-4 gap-y-4">
           {categories.map((c, i) => (

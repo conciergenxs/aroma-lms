@@ -2,6 +2,7 @@ import React from "react";
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, Check } from "lucide-react";
 import { getModule } from "@/data/modules";
+import { useI18n } from "@/lib/i18n";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, type PanInfo } from "framer-motion";
 import { SiteFooter } from "@/components/layout/SiteFooter";
@@ -36,6 +37,7 @@ function KnowledgeDetail() {
   const [showModal, setShowModal] = useState(false);
   const [direction, setDirection] = useState<1 | -1>(1);
 
+  const { t } = useI18n();
   const isLastCard = cardIndex === m.cards.length - 1;
   const prevCard = cardIndex > 0 ? m.cards[cardIndex - 1] : null;
   const nextCard = !isLastCard ? m.cards[cardIndex + 1] : null;
@@ -117,22 +119,22 @@ function KnowledgeDetail() {
               <div className="h-[72px] w-[72px] rounded-full bg-[#c9a455]/15 flex items-center justify-center mb-5">
                 <Check className="h-10 w-10 text-[#c9a455]" strokeWidth={3} />
               </div>
-              <div className="font-serif text-[28px] font-bold leading-tight text-ink">Congratulations!</div>
+              <div className="font-serif text-[28px] font-bold leading-tight text-ink">{t("congratsTitle")}</div>
               <div className="mt-2 text-[15px] text-ink/60 leading-relaxed">
-                You've completed all knowledge cards in this module.
+                {t("congratsDesc")}
               </div>
               <div className="mt-8 flex flex-col gap-3 w-full">
                 <button
                   onClick={() => setShowModal(false)}
                   className="w-full px-8 py-3 rounded-full bg-[#6b0f1a] text-white font-semibold text-[15px] hover:brightness-110 transition-all"
                 >
-                  Finish
+                  {t("finish")}
                 </button>
                 <button
                   onClick={() => { setShowModal(false); navigate({ to: "/modules" }); }}
                   className="w-full px-8 py-3 rounded-full border-2 border-[#6b0f1a] text-[#6b0f1a] font-semibold text-[15px] hover:bg-[#6b0f1a]/5 transition-all"
                 >
-                  Explore Other Module
+                  {t("exploreOtherModule")}
                 </button>
               </div>
             </motion.div>
@@ -147,7 +149,7 @@ function KnowledgeDetail() {
           params={{ moduleId: m.id }}
           className="absolute top-[31px] left-[14px] inline-flex items-center gap-1 text-white drop-shadow text-[15px] font-semibold"
         >
-          <ChevronLeft className="h-4 w-4" /> Back to Modules
+          <ChevronLeft className="h-4 w-4" /> {t("backToModules")}
         </Link>
       </div>
 
@@ -167,7 +169,7 @@ function KnowledgeDetail() {
             className="bg-card rounded-xl border border-border p-[15px] pb-[18px] cursor-grab active:cursor-grabbing select-none shadow-sm min-h-[408px]"
           >
             <span className="inline-block text-[12px] uppercase bg-card border border-[#dfc9b8] px-2.5 py-1 rounded-md text-tan leading-none">
-              KNOWLEDGE CARD {card.index}
+              {t("knowledgeCardLabel")} {card.index}
             </span>
             <h1 className="font-serif text-[27px] font-medium mt-4 leading-[1.17]">{card.title}</h1>
             <div className="my-4 h-px bg-border" />
@@ -206,7 +208,7 @@ function KnowledgeDetail() {
               onClick={() => goTo(prevCard.id, -1)}
               className="bg-card text-brand font-semibold text-[13px] px-2.5 py-2 rounded-md inline-flex items-center gap-1 shadow-sm"
             >
-              <ChevronLeft className="h-4 w-4" /> Knowledge Card {prevCard.index}
+              <ChevronLeft className="h-4 w-4" /> {t("knowledgeCard")} {prevCard.index}
             </button>
           ) : <span />}
           {nextCard ? (
@@ -214,7 +216,7 @@ function KnowledgeDetail() {
               onClick={() => goTo(nextCard.id, 1)}
               className="bg-card text-brand font-semibold text-[13px] px-2.5 py-2 rounded-md inline-flex items-center gap-1 shadow-sm"
             >
-              Knowledge Card {nextCard.index} <ChevronRight className="h-4 w-4" />
+              {t("knowledgeCard")} {nextCard.index} <ChevronRight className="h-4 w-4" />
             </button>
           ) : <span />}
         </div>

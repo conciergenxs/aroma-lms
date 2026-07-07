@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link, Outlet, notFound, useRouterState } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
@@ -31,6 +32,7 @@ const statusLabel: Record<ModuleStatus, string> = {
 
 function ModuleDetail() {
   const { module: m } = Route.useLoaderData();
+  const { t } = useI18n();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isKnowledgeCardRoute = pathname.includes(`/modules/${m.id}/cards/`);
   const pct = Math.round((m.completed / m.total) * 1000) / 10;
@@ -44,7 +46,7 @@ function ModuleDetail() {
     <>
       <div className="px-[14px] pt-5">
       <Link to="/home" className="inline-flex items-center text-sm text-brand font-semibold">
-        <ChevronLeft className="h-4 w-4" /> Back to Home
+        <ChevronLeft className="h-4 w-4" /> {t("backToHome")}
       </Link>
 
       <div className="mt-4 bg-card rounded-lg border border-border shadow-sm overflow-hidden">
@@ -80,7 +82,7 @@ function ModuleDetail() {
               <div className="p-3">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-bold tracking-widest bg-card px-2.5 py-1 rounded-md text-tan border border-[#dfc9b8]">
-                    KNOWLEDGE CARD {c.index}
+                    {t("knowledgeCardLabel")} {c.index}
                   </span>
                   <span className={`text-[10px] font-bold tracking-widest px-2.5 py-1 rounded-md ${statusStyle[c.status]}`}>
                     {statusLabel[c.status]}

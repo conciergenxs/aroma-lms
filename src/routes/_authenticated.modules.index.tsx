@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronLeft } from "lucide-react";
 import { useState } from "react";
@@ -19,6 +20,7 @@ export const Route = createFileRoute("/_authenticated/modules/")({
 const PAGE_SIZE = 10;
 
 function AllModulesPage() {
+  const { t } = useI18n();
   const { brand } = Route.useSearch();
   const [page, setPage] = useState(1);
 
@@ -35,7 +37,7 @@ function AllModulesPage() {
     <>
       <div className="px-[14px] pt-[28px]">
         <Link to="/home" className="inline-flex items-center text-sm text-brand font-semibold mb-4">
-          <ChevronLeft className="h-4 w-4" /> Back to Home
+          <ChevronLeft className="h-4 w-4" /> {t("backToHome")}
         </Link>
         <h1 className="font-serif text-[31px] font-medium leading-none">
           {brand ? brand : "All Modules"}

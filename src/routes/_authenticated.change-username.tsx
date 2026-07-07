@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ChevronLeft } from "lucide-react";
 import { useState } from "react";
@@ -10,6 +11,7 @@ export const Route = createFileRoute("/_authenticated/change-username")({
 });
 
 function ChangeUsername() {
+  const { t } = useI18n();
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
 
@@ -24,7 +26,7 @@ function ChangeUsername() {
     <>
       <div className="px-[24px] pt-[28px]">
         <Link to="/profile" className="inline-flex items-center text-sm text-brand font-semibold mb-4">
-          <ChevronLeft className="h-4 w-4" /> Back to Profile
+          <ChevronLeft className="h-4 w-4" /> {t("backToProfile")}
         </Link>
         <h1 className="font-serif text-[28px] font-medium leading-none">Change Username</h1>
         <p className="text-[14px] text-foreground/70 mt-3">

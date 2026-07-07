@@ -4,6 +4,7 @@ export type Lang = "id" | "en";
 
 const T = {
   en: {
+    // Login
     welcomeBack: "Welcome Back",
     loginSubtitle: "Login to continue your learning journey",
     whatsappNumber: "WHATSAPP NUMBER",
@@ -12,6 +13,7 @@ const T = {
     passwordPlaceholder: "Type your password..",
     forgotPassword: "Forgot Password?",
     loginBtn: "LOGIN",
+    // Profile
     accountSettings: "Account Settings",
     changeUsername: "Change Username",
     changePassword: "Change Password",
@@ -24,8 +26,29 @@ const T = {
     switchBrand: "Switch Brand",
     selectBrand: "Select Brand",
     language: "Language",
+    // Navigation
+    navHome: "Home",
+    navCategory: "Category",
+    navMyLearning: "My Learning",
+    navProfile: "Profile",
+    // Back links
+    backToHome: "Back to Home",
+    backToProfile: "Back to Profile",
+    backToCategory: "Back to Category",
+    backToModules: "Back to Modules",
+    // Knowledge card
+    knowledgeCard: "Knowledge Card",
+    knowledgeCardLabel: "KNOWLEDGE CARD",
+    congratsTitle: "Congratulations!",
+    congratsDesc: "You've completed all knowledge cards in this module.",
+    finish: "Finish",
+    exploreOtherModule: "Explore Other Module",
+    // Pages
+    pageCategory: "Category",
+    pageMyLearning: "My Learning",
   },
   id: {
+    // Login
     welcomeBack: "Selamat Datang",
     loginSubtitle: "Login untuk melanjutkan perjalanan belajarmu",
     whatsappNumber: "NOMOR WHATSAPP",
@@ -34,6 +57,7 @@ const T = {
     passwordPlaceholder: "Masukkan kata sandi..",
     forgotPassword: "Lupa Kata Sandi?",
     loginBtn: "MASUK",
+    // Profile
     accountSettings: "Pengaturan Akun",
     changeUsername: "Ubah Username",
     changePassword: "Ubah Kata Sandi",
@@ -46,6 +70,26 @@ const T = {
     switchBrand: "Ganti Brand",
     selectBrand: "Pilih Brand",
     language: "Bahasa",
+    // Navigation
+    navHome: "Beranda",
+    navCategory: "Kategori",
+    navMyLearning: "Belajarku",
+    navProfile: "Profil",
+    // Back links
+    backToHome: "Kembali ke Beranda",
+    backToProfile: "Kembali ke Profil",
+    backToCategory: "Kembali ke Kategori",
+    backToModules: "Kembali ke Modul",
+    // Knowledge card
+    knowledgeCard: "Kartu Pengetahuan",
+    knowledgeCardLabel: "KARTU PENGETAHUAN",
+    congratsTitle: "Selamat!",
+    congratsDesc: "Kamu telah menyelesaikan semua kartu pengetahuan di modul ini.",
+    finish: "Selesai",
+    exploreOtherModule: "Jelajahi Modul Lain",
+    // Pages
+    pageCategory: "Kategori",
+    pageMyLearning: "Belajarku",
   },
 } as const;
 

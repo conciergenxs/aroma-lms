@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronLeft, MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
@@ -13,11 +14,12 @@ const WA_MESSAGE = encodeURIComponent(
 );
 
 function HelpPage() {
+  const { t } = useI18n();
   return (
     <>
       <div className="px-[24px] pt-[28px]">
         <Link to="/profile" className="inline-flex items-center text-sm text-brand font-semibold mb-4">
-          <ChevronLeft className="h-4 w-4" /> Back to Profile
+          <ChevronLeft className="h-4 w-4" /> {t("backToProfile")}
         </Link>
         <h1 className="font-serif text-[28px] font-medium leading-tight">
           We're here to help

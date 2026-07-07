@@ -1,16 +1,18 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Home, LayoutGrid, History, User } from "lucide-react";
 import { motion } from "framer-motion";
-
-const items = [
-  { to: "/home", label: "Home", icon: Home },
-  { to: "/category", label: "Category", icon: LayoutGrid },
-  { to: "/my-learning", label: "My Learning", icon: History },
-  { to: "/profile", label: "Profile", icon: User },
-] as const;
+import { useI18n } from "@/lib/i18n";
 
 export function BottomNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { t } = useI18n();
+
+  const items = [
+    { to: "/home", label: t("navHome"), icon: Home },
+    { to: "/category", label: t("navCategory"), icon: LayoutGrid },
+    { to: "/my-learning", label: t("navMyLearning"), icon: History },
+    { to: "/profile", label: t("navProfile"), icon: User },
+  ] as const;
 
   return (
     <nav

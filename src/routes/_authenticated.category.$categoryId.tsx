@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ChevronLeft } from "lucide-react";
 import { motion } from "framer-motion";
@@ -17,12 +18,13 @@ export const Route = createFileRoute("/_authenticated/category/$categoryId")({
 });
 
 function CategoryDetailPage() {
+  const { t } = useI18n();
   const { category, items } = Route.useLoaderData();
   return (
     <>
       <div className="px-[14px] pt-[28px]">
         <Link to="/category" className="inline-flex items-center text-sm text-brand font-semibold mb-4">
-          <ChevronLeft className="h-4 w-4" /> Back to Category
+          <ChevronLeft className="h-4 w-4" /> {t("backToCategory")}
         </Link>
         <h1 className="font-serif text-[31px] font-medium leading-none">{category.name}</h1>
         <p className="text-[15px] text-foreground/75 mt-3">
