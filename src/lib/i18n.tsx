@@ -31,7 +31,7 @@ const T = {
     // Navigation
     navHome: "Home",
     navCategory: "Category",
-    navMyLearning: "My Learning",
+    navMyLearning: "Progress",
     navProfile: "Profile",
     // Back links
     backToHome: "Back to Home",
@@ -56,7 +56,7 @@ const T = {
     allModules: "All Modules",
     // Pages
     pageCategory: "Category",
-    pageMyLearning: "My Learning",
+    pageMyLearning: "Progress",
     categorySubtitle: "Browse modules based on product categories",
     myLearningSubtitle: "All modules you've started or completed.",
     countModules: "Modules",
@@ -147,7 +147,7 @@ const T = {
     // Navigation
     navHome: "Beranda",
     navCategory: "Kategori",
-    navMyLearning: "Belajarku",
+    navMyLearning: "Progres",
     navProfile: "Profil",
     // Back links
     backToHome: "Kembali ke Beranda",
@@ -172,7 +172,7 @@ const T = {
     allModules: "Semua Modul",
     // Pages
     pageCategory: "Kategori",
-    pageMyLearning: "Belajarku",
+    pageMyLearning: "Progres",
     categorySubtitle: "Telusuri modul berdasarkan kategori produk",
     myLearningSubtitle: "Semua modul yang sudah kamu mulai atau selesaikan.",
     countModules: "Modul",
@@ -245,12 +245,20 @@ const I18nContext = createContext<I18nCtx | null>(null);
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>(() => {
     if (typeof window === "undefined") return "id";
+    // Always default to Indonesian; only honour if user explicitly toggled
     const saved = localStorage.getItem("aroma:lang") as Lang | null;
-    if (saved === "en" || saved === "id") return saved;
+    const userChose = localStorage.getItem("aroma:lang:chosen") === "1";
+    if (userChose && (saved === "en" || saved === "id")) return saved;
     localStorage.setItem("aroma:lang", "id");
     return "id";
   });
-  const setLang = (l: Lang) => { setLangState(l); if (typeof window !== "undefined") localStorage.setItem("aroma:lang", l); };
+  const setLang = (l: Lang) => {
+    setLangState(l);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("aroma:lang", l);
+      localStorage.setItem("aroma:lang:chosen", "1");
+    }
+  };
   const t = (k: TKey): string => T[lang][k];
   return <I18nContext.Provider value={{ lang, setLang, t }}>{children}</I18nContext.Provider>;
 }
