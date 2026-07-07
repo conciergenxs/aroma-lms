@@ -16,8 +16,8 @@ export const Route = createFileRoute("/_authenticated/modules/$moduleId/cards/$c
     return { module: m, cardIndex: idx };
   },
   component: KnowledgeDetail,
-  notFoundComponent: () => <div className="p-8 text-center">Card not found</div>,
-  errorComponent: () => <div className="p-8 text-center">Something went wrong</div>,
+  notFoundComponent: () => <div className="p-8 text-center">Kartu tidak ditemukan</div>,
+  errorComponent: () => <div className="p-8 text-center">Terjadi kesalahan</div>,
 });
 
 function completionKey(moduleId: string, cardId: string) {
@@ -178,7 +178,7 @@ function KnowledgeDetail() {
             </ul>
             {card.keyIngredients.length > 0 && (
               <>
-                <div className="mt-6 font-bold text-[15px]">Key Ingredients:</div>
+                <div className="mt-6 font-bold text-[15px]">{t("keyIngredients")}:</div>
                 <ul className="list-disc pl-5 mt-1.5 space-y-1.5 text-[15px] leading-[1.6] text-foreground/90">
                   {card.keyIngredients.map((k: { name: string; description: string }, i: number) => (
                     <li key={i}><span className="font-bold">{k.name}</span> → {k.description}</li>

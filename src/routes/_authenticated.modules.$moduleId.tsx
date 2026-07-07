@@ -15,8 +15,8 @@ export const Route = createFileRoute("/_authenticated/modules/$moduleId")({
     return { module: m };
   },
   component: ModuleDetail,
-  notFoundComponent: () => <div className="p-8 text-center">Module not found</div>,
-  errorComponent: () => <div className="p-8 text-center">Something went wrong</div>,
+  notFoundComponent: () => <div className="p-8 text-center">Modul tidak ditemukan</div>,
+  errorComponent: () => <div className="p-8 text-center">Terjadi kesalahan</div>,
 });
 
 const statusStyle: Record<ModuleStatus, string> = {

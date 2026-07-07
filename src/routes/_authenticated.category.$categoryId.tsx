@@ -13,8 +13,8 @@ export const Route = createFileRoute("/_authenticated/category/$categoryId")({
     return { category: cat, items: getModulesByCategory(cat.id) };
   },
   component: CategoryDetailPage,
-  notFoundComponent: () => <div className="p-8 text-center">Category not found</div>,
-  errorComponent: () => <div className="p-8 text-center">Something went wrong</div>,
+  notFoundComponent: () => <div className="p-8 text-center">Kategori tidak ditemukan</div>,
+  errorComponent: () => <div className="p-8 text-center">Terjadi kesalahan</div>,
 });
 
 function CategoryDetailPage() {

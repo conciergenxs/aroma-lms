@@ -46,6 +46,7 @@ const T = {
     congratsDesc: "You've completed all knowledge cards in this module.",
     finish: "Finish",
     exploreOtherModule: "Explore Other Module",
+    keyIngredients: "Key Ingredients",
     // Module
     cardsCompleted: "cards completed",
     otherModules: "Other Modules",
@@ -163,6 +164,7 @@ const T = {
     congratsDesc: "Kamu telah menyelesaikan semua kartu pengetahuan di modul ini.",
     finish: "Selesai",
     exploreOtherModule: "Jelajahi Modul Lain",
+    keyIngredients: "Bahan Utama",
     // Module
     cardsCompleted: "kartu selesai",
     otherModules: "Modul Lainnya",

@@ -37,8 +37,8 @@ export const Route = createFileRoute("/_authenticated/chat/$assistantId")({
     return { session: s };
   },
   component: ChatRoom,
-  notFoundComponent: () => <div className="p-8 text-center">Chat not found</div>,
-  errorComponent: () => <div className="p-8 text-center">Something went wrong</div>,
+  notFoundComponent: () => <div className="p-8 text-center">Chat tidak ditemukan</div>,
+  errorComponent: () => <div className="p-8 text-center">Terjadi kesalahan</div>,
 });
 
 type UiChatMessage = {
@@ -164,7 +164,7 @@ function ChatRoom() {
         </div>
         <div className="flex-1 min-w-0">
           <div className="font-medium text-[15px] leading-tight">Aroma Abadi BA-Helper</div>
-          <div className="text-xs text-foreground/40 mt-0.5">online</div>
+          <div className="text-xs text-foreground/40 mt-0.5">aktif</div>
         </div>
         <button aria-label="More" className="text-tan"><MoreVertical className="h-5 w-5" /></button>
       </div>
