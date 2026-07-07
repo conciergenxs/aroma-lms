@@ -42,7 +42,7 @@ function HomePage() {
         <div className="mt-8 flex items-center justify-between">
           <h2 className="font-serif text-[20px] font-medium">{t("learningModules")}</h2>
           <Link to="/modules" className="text-xs font-bold tracking-widest text-brand underline-offset-4 underline">
-            SEE ALL
+            {t("seeAll")}
           </Link>
         </div>
 
@@ -57,7 +57,7 @@ function HomePage() {
             to="/modules"
             className="mt-7 block text-center bg-brand text-brand-foreground font-semibold tracking-[0.2em] text-sm py-[17px] rounded-full hover:brightness-110 transition-all"
           >
-            SEE ALL MODULES
+            {t("seeAllModules")}
           </Link>
         </motion.div>
 
