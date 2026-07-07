@@ -99,9 +99,14 @@ interface I18nCtx { lang: Lang; setLang: (l: Lang) => void; t: (k: TKey) => stri
 const I18nContext = createContext<I18nCtx | null>(null);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>(() =>
-    typeof window !== "undefined" ? ((localStorage.getItem("aroma:lang") as Lang) ?? "id") : "id"
-  );
+  const [lang, setLangState] = useState<Lang>(() => {
+    if (typeof window === "undefined") return "id";
+    const saved = localStorage.getItem("aroma:lang") as Lang | null;
+    // Only honour explicitly saved preference; default is always Indonesian
+    if (saved === "en" || saved === "id") return saved;
+    localStorage.setItem("aroma:lang", "id");
+    return "id";
+  });
   const setLang = (l: Lang) => { setLangState(l); if (typeof window !== "undefined") localStorage.setItem("aroma:lang", l); };
   const t = (k: TKey): string => T[lang][k];
   return <I18nContext.Provider value={{ lang, setLang, t }}>{children}</I18nContext.Provider>;
