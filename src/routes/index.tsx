@@ -43,7 +43,7 @@ function LoginPage() {
   };
 
   return (
-    <div className="mobile-shell min-h-screen bg-cream flex flex-col items-center px-6 pt-[118px] relative overflow-hidden">
+    <div className="mobile-shell min-h-screen bg-cream flex flex-col items-center px-6 pt-[118px] pb-[120px] relative overflow-hidden">
       {/* Language toggle — top right */}
       <div className="absolute top-5 right-6">
         <LangToggle />
