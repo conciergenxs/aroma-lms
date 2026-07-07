@@ -20,14 +20,14 @@ function ChangePassword() {
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!curr || !next || !confirm) {
-      toast.error("Please fill in all fields");
+      toast.error("Mohon isi semua kolom");
       return;
     }
     if (next !== confirm) {
-      toast.error("Passwords do not match");
+      toast.error("Kata sandi tidak cocok");
       return;
     }
-    toast.success("Password updated");
+    toast.success("Kata sandi berhasil diubah");
     navigate({ to: "/profile" });
   };
 
@@ -37,9 +37,9 @@ function ChangePassword() {
         <Link to="/profile" className="inline-flex items-center text-sm text-brand font-semibold mb-4">
           <ChevronLeft className="h-4 w-4" /> {t("backToProfile")}
         </Link>
-        <h1 className="font-serif text-[28px] font-medium leading-none">Change Password</h1>
+        <h1 className="font-serif text-[28px] font-medium leading-none">Ubah Kata Sandi</h1>
         <p className="text-[14px] text-foreground/70 mt-3">
-          Use at least 8 characters. Mix letters, numbers and symbols for a stronger password.
+          Gunakan minimal 8 karakter. Kombinasikan huruf, angka, dan simbol untuk kata sandi yang lebih kuat.
         </p>
 
         <motion.form
@@ -49,9 +49,9 @@ function ChangePassword() {
           className="mt-6 space-y-4"
         >
           {[
-            { label: "Current Password", value: curr, set: setCurr, placeholder: "Type your old password here.." },
-            { label: "New Password", value: next, set: setNext, placeholder: "Type your new password here.." },
-            { label: "Confirm New Password", value: confirm, set: setConfirm, placeholder: "Confirm your new password.." },
+            { label: "Kata Sandi Saat Ini", value: curr, set: setCurr, placeholder: "Ketik kata sandi lama kamu.." },
+            { label: "Kata Sandi Baru", value: next, set: setNext, placeholder: "Ketik kata sandi baru kamu.." },
+            { label: "Konfirmasi Kata Sandi Baru", value: confirm, set: setConfirm, placeholder: "Konfirmasi kata sandi barumu.." },
           ].map((f) => (
             <div key={f.label}>
               <label className="block text-[13px] font-medium mb-1.5">{f.label}</label>

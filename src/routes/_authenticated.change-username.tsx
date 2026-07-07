@@ -18,7 +18,7 @@ function ChangeUsername() {
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!username.trim()) return;
-    toast.success("Username updated");
+    toast.success("Username berhasil diubah");
     navigate({ to: "/profile" });
   };
 
@@ -28,9 +28,9 @@ function ChangeUsername() {
         <Link to="/profile" className="inline-flex items-center text-sm text-brand font-semibold mb-4">
           <ChevronLeft className="h-4 w-4" /> {t("backToProfile")}
         </Link>
-        <h1 className="font-serif text-[28px] font-medium leading-none">Change Username</h1>
+        <h1 className="font-serif text-[28px] font-medium leading-none">Ubah Username</h1>
         <p className="text-[14px] text-foreground/70 mt-3">
-          Your username appears across your profile and learning history.
+          Username kamu tampil di profil dan riwayat belajarmu.
         </p>
 
         <motion.form
@@ -40,7 +40,7 @@ function ChangeUsername() {
           className="mt-6 space-y-4"
         >
           <div>
-            <label className="block text-[13px] font-medium mb-1.5">Current Username</label>
+            <label className="block text-[13px] font-medium mb-1.5">Username Saat Ini</label>
             <input
               disabled
               value="bella.victoria"
@@ -48,11 +48,11 @@ function ChangeUsername() {
             />
           </div>
           <div>
-            <label className="block text-[13px] font-medium mb-1.5">New Username</label>
+            <label className="block text-[13px] font-medium mb-1.5">Username Baru</label>
             <input
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="Type your new username here.."
+              placeholder="Ketik username baru kamu.."
               className="w-full bg-card border border-border rounded-lg px-4 py-3 text-[14px] placeholder:text-foreground/35 focus:outline-none focus:ring-2 focus:ring-brand/30"
             />
           </div>

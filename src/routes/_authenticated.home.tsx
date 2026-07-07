@@ -24,21 +24,21 @@ function HomePage() {
           transition={{ duration: 0.4 }}
           className="font-serif text-[27px] font-medium leading-tight text-foreground"
         >
-          Good Morning, Bella!
+          Selamat Pagi, Bella!
         </motion.h1>
-        <p className="text-[15px] text-foreground/75 mt-2">Continue your beauty learning journey.</p>
+        <p className="text-[15px] text-foreground/75 mt-2">Lanjutkan perjalanan belajar kecantikanmu.</p>
 
         <div className="mt-5 relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-tan" />
           <input
             type="search"
-            placeholder="Search module name to learn..."
+            placeholder="Cari nama modul..."
             className="w-full bg-card rounded-lg border border-[#dcc9bd] pl-11 pr-4 py-3 text-[12px] shadow-sm placeholder:text-tan/70 focus:outline-none focus:ring-2 focus:ring-brand/20"
           />
         </div>
 
         <div className="mt-8 flex items-center justify-between">
-          <h2 className="font-serif text-[20px] font-medium">Learning Modules</h2>
+          <h2 className="font-serif text-[20px] font-medium">Modul Belajar</h2>
           <Link to="/modules" className="text-xs font-bold tracking-widest text-brand underline-offset-4 underline">
             SEE ALL
           </Link>
@@ -60,7 +60,7 @@ function HomePage() {
         </motion.div>
 
         <div className="mt-[60px] flex items-center justify-between">
-          <h2 className="font-serif text-[20px] font-medium">Other Brands</h2>
+          <h2 className="font-serif text-[20px] font-medium">Brand Lainnya</h2>
           <div className="flex gap-2">
             <button onClick={() => scroll(-1)} aria-label="Previous" className="h-8 w-8 rounded-full border border-brand/35 text-brand flex items-center justify-center bg-card hover:bg-brand hover:text-white transition-colors">
               <ChevronLeft className="h-4 w-4" />
@@ -88,7 +88,7 @@ function HomePage() {
                 <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/55 to-black/80" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center px-6">
                   <img src={b.logo} alt={b.name} className="max-h-[44px] w-auto max-w-[80%] object-contain" />
-                  <div className="text-xs mt-3 text-tan tracking-wide">{b.count} Modules</div>
+                  <div className="text-xs mt-3 text-tan tracking-wide">{b.count} Modul</div>
                 </div>
               </motion.div>
             </Link>

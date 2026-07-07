@@ -10,28 +10,28 @@ export const Route = createFileRoute("/_authenticated/faq")({
 
 const faqs = [
   {
-    q: "What is Aroma BA-Helper?",
-    a: "Aroma BA-Helper is an in-house learning platform for PT Aroma Abadi brand ambassadors. It hosts product training, brand storytelling, and on-the-floor selling tips across our portfolio — including Laura Mercier, Dolce & Gabbana, bareMinerals, and more.",
+    q: "Apa itu Aroma BA-Helper?",
+    a: "Aroma BA-Helper adalah platform belajar internal untuk brand ambassador PT Aroma Abadi. Platform ini menyediakan pelatihan produk, cerita brand, dan tips penjualan di counter — mencakup Laura Mercier, Dolce & Gabbana, bareMinerals, dan lainnya.",
   },
   {
-    q: "How do I complete a learning module?",
-    a: "Open a module from the Home or My Learning page, then swipe through every knowledge card. A module is marked completed once you reach the last card and tap 'Complete Read'.",
+    q: "Bagaimana cara menyelesaikan modul belajar?",
+    a: "Buka modul dari halaman Beranda atau Belajarku, lalu geser setiap kartu pengetahuan hingga selesai. Modul dinyatakan selesai setelah kamu membaca semua kartu pengetahuan.",
   },
   {
-    q: "Can I chat with an AI about a specific product?",
-    a: "Yes. Inside any module, tap the floating circular assistant. The chat opens with that product already attached so you can ask about ingredients, finish, shade matching, and selling points.",
+    q: "Bisakah saya chat dengan AI tentang produk tertentu?",
+    a: "Bisa. Di dalam modul, ketuk ikon asisten melayang. Chat akan terbuka dengan produk tersebut sebagai konteks, sehingga kamu bisa bertanya tentang bahan, hasil akhir, cocok shade, dan poin penjualan.",
   },
   {
-    q: "Are my reading statistics shared with my manager?",
-    a: "Aggregated learning stats (modules read, streaks) are visible to your counter supervisor to support coaching. Chat conversations remain private to you.",
+    q: "Apakah statistik belajar saya dibagikan ke atasan?",
+    a: "Statistik belajar umum (modul yang sudah dibaca, streak) dapat dilihat oleh supervisor counter untuk mendukung coaching. Percakapan chat tetap bersifat privat.",
   },
   {
-    q: "Which brands are available today?",
-    a: "Laura Mercier is our flagship catalog. Dolce & Gabbana Beauty, bareMinerals, Tom Ford, and YSL Beauty are being progressively rolled out across counters in Indonesia.",
+    q: "Brand apa saja yang tersedia saat ini?",
+    a: "Laura Mercier adalah katalog utama kami. Dolce & Gabbana Beauty, bareMinerals, Rimmel, dan Sisley sedang diperluas secara bertahap ke counter-counter di Indonesia.",
   },
   {
-    q: "How do I report a bug or request a new module?",
-    a: "Use the Help option under Profile → Account Settings, or email support@aroma.id. Our beauty enablement team triages requests weekly.",
+    q: "Bagaimana cara melaporkan bug atau meminta modul baru?",
+    a: "Gunakan opsi Bantuan di Profil → Pengaturan Akun, atau email ke support@aroma.id. Tim beauty enablement kami menangani permintaan setiap minggu.",
   },
 ];
 
@@ -42,11 +42,11 @@ function FaqPage() {
     <>
       <div className="px-[24px] pt-[28px]">
         <Link to="/profile" className="inline-flex items-center text-sm text-brand font-semibold mb-4">
-          <ChevronLeft className="h-4 w-4" /> Back
+          <ChevronLeft className="h-4 w-4" /> Kembali
         </Link>
         <h1 className="font-serif text-[31px] font-medium leading-none">FAQ</h1>
         <p className="text-[14px] text-foreground/70 mt-3">
-          Everything you need to know about using Aroma BA-Helper on the counter floor.
+          Semua yang perlu kamu ketahui tentang penggunaan Aroma BA-Helper di counter.
         </p>
 
         <div className="mt-6 space-y-2">
