@@ -47,7 +47,7 @@ function HelpPage() {
             className="mt-5 flex items-center justify-center gap-2 bg-[#25D366] text-white font-semibold py-3.5 rounded-full hover:brightness-110 transition-all"
           >
             <MessageCircle className="h-5 w-5" />
-            Chat on WhatsApp
+            {t("chatOnWhatsApp")}
           </motion.a>
         </motion.div>
 
