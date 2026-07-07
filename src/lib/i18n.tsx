@@ -158,8 +158,8 @@ const T = {
     backToModules: "Kembali ke Modul",
     back: "Kembali",
     // Knowledge card
-    knowledgeCard: "Kartu Pengetahuan",
-    knowledgeCardLabel: "KARTU PENGETAHUAN",
+    knowledgeCard: "Knowledge Card",
+    knowledgeCardLabel: "KNOWLEDGE CARD",
     congratsTitle: "Selamat!",
     congratsDesc: "Kamu telah menyelesaikan semua kartu pengetahuan di modul ini.",
     finish: "Selesai",
