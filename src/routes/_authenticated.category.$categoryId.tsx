@@ -33,7 +33,7 @@ function CategoryDetailPage() {
 
         {items.length === 0 ? (
           <div className="mt-10 text-center text-foreground/60 text-sm">
-            No modules available yet in this category.
+            {t("noModulesInCategory")}
           </div>
         ) : (
           <div className="mt-6 grid grid-cols-2 gap-3">

@@ -53,6 +53,7 @@ const T = {
     statusInProgress: "IN PROGRESS",
     statusCompleted: "COMPLETED",
     noModulesForBrand: "No modules available for this brand yet.",
+    noModulesInCategory: "No modules available yet in this category.",
     allModules: "All Modules",
     // Pages
     pageCategory: "Category",
@@ -169,6 +170,7 @@ const T = {
     statusInProgress: "SEDANG BELAJAR",
     statusCompleted: "SELESAI",
     noModulesForBrand: "Belum ada modul untuk brand ini.",
+    noModulesInCategory: "Belum ada modul di kategori ini.",
     allModules: "Semua Modul",
     // Pages
     pageCategory: "Kategori",
