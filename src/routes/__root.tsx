@@ -10,6 +10,8 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import { motion, AnimatePresence } from "framer-motion";
+import { useRouterState } from "@tanstack/react-router";
 import { I18nProvider } from "../lib/i18n";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
@@ -118,14 +120,30 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+function RootTransition() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={pathname}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.18 }}
+      >
+        <Outlet />
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <I18nProvider>
       <QueryClientProvider client={queryClient}>
-        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-        <Outlet />
+        <RootTransition />
       </QueryClientProvider>
     </I18nProvider>
   );
