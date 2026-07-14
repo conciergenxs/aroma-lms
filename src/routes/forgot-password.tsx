@@ -9,9 +9,6 @@ export const Route = createFileRoute("/forgot-password")({
   component: ForgotPasswordPage,
 });
 
-// Support WA number — ganti dengan nomor Aroma support
-const SUPPORT_WA = "6281200000000";
-
 function ForgotPasswordPage() {
   const { t, lang } = useI18n();
   const [waNumber, setWaNumber] = useState("");
@@ -23,12 +20,6 @@ function ForgotPasswordPage() {
     e.preventDefault();
     if (!canSubmit) return;
 
-    const cleaned = waNumber.replace(/\D/g, "");
-    const msg = lang === "id"
-      ? `Halo, saya lupa kata sandi untuk akun Aroma BA-Helper saya. Nomor WhatsApp terdaftar: ${cleaned}`
-      : `Hello, I forgot my password for my Aroma BA-Helper account. Registered WhatsApp number: ${cleaned}`;
-
-    window.open(`https://wa.me/${SUPPORT_WA}?text=${encodeURIComponent(msg)}`, "_blank");
     setSent(true);
   };
 
@@ -103,8 +94,8 @@ function ForgotPasswordPage() {
             </h2>
             <p className="text-[14px] text-foreground/65 mt-3 leading-relaxed max-w-[280px]">
               {lang === "id"
-                ? "Tim support kami akan mengirimkan link reset kata sandi ke WhatsApp kamu segera."
-                : "Our support team will send a password reset link to your WhatsApp shortly."}
+                ? "Permintaan kamu sudah kami terima. Cek WhatsApp kamu — link reset kata sandi akan segera dikirimkan."
+                : "Your request has been received. Check your WhatsApp — a password reset link will be sent shortly."}
             </p>
             <Link
               to="/"
