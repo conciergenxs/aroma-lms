@@ -2,7 +2,6 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { ChevronLeft, MessageCircle, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import logoAroma from "@/assets/logo-aroma-upload.svg.asset.json";
 import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/forgot-password")({
@@ -33,7 +32,6 @@ function ForgotPasswordPage() {
         {lang === "id" ? "Kembali" : "Back"}
       </Link>
 
-      <img src={logoAroma.url} alt="Aroma" className="h-[44px] w-auto" />
 
       <AnimatePresence mode="wait">
         {!sent ? (
