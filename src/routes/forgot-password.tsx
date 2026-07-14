@@ -22,22 +22,24 @@ function ForgotPasswordPage() {
   };
 
   return (
-    <div className="mobile-shell min-h-screen bg-cream flex flex-col px-6 pt-[118px] pb-[120px] relative overflow-hidden">
+    <div className={`mobile-shell min-h-screen bg-cream flex flex-col px-6 relative overflow-hidden ${sent ? "items-center justify-center" : "pt-[118px] pb-[120px]"}`}>
       {/* Back button */}
-      <motion.div
-        initial={{ opacity: 0, x: -10 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.3 }}
-        className="absolute top-5 left-6"
-      >
-        <Link
-          to="/"
-          className="inline-flex items-center gap-1 text-sm text-brand font-semibold"
+      {!sent && (
+        <motion.div
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3 }}
+          className="absolute top-5 left-6"
         >
-          <ChevronLeft className="h-4 w-4" />
-          {lang === "id" ? "Kembali" : "Back"}
-        </Link>
-      </motion.div>
+          <Link
+            to="/"
+            className="inline-flex items-center gap-1 text-sm text-brand font-semibold"
+          >
+            <ChevronLeft className="h-4 w-4" />
+            {lang === "id" ? "Kembali" : "Back"}
+          </Link>
+        </motion.div>
+      )}
 
       <AnimatePresence mode="wait">
         {!sent ? (
