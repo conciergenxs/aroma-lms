@@ -135,13 +135,21 @@ function ForgotPasswordPage() {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="mt-8 w-full"
+              className="mt-8 w-full space-y-3"
             >
               <Link
                 to="/"
                 className="w-full h-12 rounded-full bg-brand text-white font-semibold text-[16px] flex items-center justify-center hover:brightness-110 transition-all"
               >
                 {lang === "id" ? "Kembali ke Login" : "Back to Login"}
+              </Link>
+
+              {/* Demo only — di produksi, link ini datang dari pesan WhatsApp */}
+              <Link
+                to="/reset-password"
+                className="w-full h-12 rounded-full border-2 border-border text-foreground/70 font-medium text-[13px] flex items-center justify-center gap-1.5 hover:border-brand/40 hover:text-brand transition-all"
+              >
+                {lang === "id" ? "(Demo) Buka Link Reset dari WhatsApp" : "(Demo) Open Reset Link from WhatsApp"}
               </Link>
             </motion.div>
           </motion.div>
