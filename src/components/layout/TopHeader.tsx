@@ -3,6 +3,7 @@ import { User, ChevronDown, Check } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import navLogo from "@/assets/navbar-logo.svg.asset.json";
+import dolceLogo from "@/assets/brands/dolce-gabbana.svg";
 import { useBrand, ALL_BRANDS, type BrandName } from "@/lib/brand-context";
 
 function BrandSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
@@ -44,6 +45,8 @@ function BrandSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
 
 export function TopHeader() {
   const [sheetOpen, setSheetOpen] = useState(false);
+  const { activeBrand } = useBrand();
+  const headerLogo = activeBrand === "Dolce & Gabbana" ? dolceLogo : navLogo.url;
 
   return (
     <>
@@ -52,7 +55,7 @@ export function TopHeader() {
         <div className="w-full px-6 h-[70px] flex items-center justify-between">
           <div className="flex items-center">
             <Link to="/home" className="shrink-0">
-              <img src={navLogo.url} alt="Aroma · Laura Mercier" className="h-[31px] w-auto" />
+              <img src={headerLogo} alt={`Aroma · ${activeBrand}`} className="h-[31px] w-auto" />
             </Link>
             <button
               onClick={() => setSheetOpen(true)}

@@ -47,6 +47,8 @@ const T = {
     finish: "Finish",
     exploreOtherModule: "Explore Other Module",
     keyIngredients: "Key Ingredients",
+    baScript: "BA Script",
+    customerQA: "Customer Q&A",
     // Module
     cardsCompleted: "cards completed",
     otherModules: "Other Modules",
@@ -165,6 +167,8 @@ const T = {
     finish: "Selesai",
     exploreOtherModule: "Jelajahi Modul Lain",
     keyIngredients: "Bahan Utama",
+    baScript: "BA Script",
+    customerQA: "Customer Q&A",
     // Module
     cardsCompleted: "kartu selesai",
     otherModules: "Modul Lainnya",

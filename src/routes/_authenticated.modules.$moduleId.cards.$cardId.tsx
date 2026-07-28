@@ -24,6 +24,15 @@ function completionKey(moduleId: string, cardId: string) {
   return `aroma:completed:${moduleId}:${cardId}`;
 }
 
+// Renders "**bold**" spans within otherwise plain text, without pulling in a full markdown parser.
+function renderInline(text: string) {
+  return text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+    part.startsWith("**") && part.endsWith("**")
+      ? <strong key={i}>{part.slice(2, -2)}</strong>
+      : <React.Fragment key={i}>{part}</React.Fragment>
+  );
+}
+
 function allCardsCompleted(moduleId: string, cards: { id: string }[]) {
   return cards.every((c) => window.localStorage.getItem(completionKey(moduleId, c.id)) === "1");
 }
@@ -172,18 +181,47 @@ function KnowledgeDetail() {
               {t("knowledgeCardLabel")} {card.index}
             </span>
             <h1 className="font-serif text-[27px] font-medium mt-4 leading-[1.17]">{card.title}</h1>
+            {card.learningFocus && (
+              <p className="mt-1.5 text-[13px] italic text-foreground/60">{card.learningFocus}</p>
+            )}
             <div className="my-4 h-px bg-border" />
+            {card.contentImage && (
+              <div className="mb-4 h-[170px] rounded-lg overflow-hidden bg-cream/60">
+                <img src={card.contentImage} alt="" className="w-full h-full object-cover" loading="lazy" width={1024} height={768} />
+              </div>
+            )}
             <ul className="list-disc pl-5 space-y-1.5 text-[15px] leading-[1.6] text-foreground/90">
-              {card.bullets.map((b: string, i: number) => <li key={i}>{b}</li>)}
+              {card.bullets.map((b: string, i: number) => <li key={i}>{renderInline(b)}</li>)}
             </ul>
             {card.keyIngredients.length > 0 && (
               <>
-                <div className="mt-6 font-bold text-[15px]">{t("keyIngredients")}:</div>
+                <div className="mt-6 font-bold text-[15px]">{card.keyIngredientsLabel ?? t("keyIngredients")}:</div>
                 <ul className="list-disc pl-5 mt-1.5 space-y-1.5 text-[15px] leading-[1.6] text-foreground/90">
                   {card.keyIngredients.map((k: { name: string; description: string }, i: number) => (
-                    <li key={i}><span className="font-bold">{k.name}</span> → {k.description}</li>
+                    <li key={i}><span className="font-bold">{k.name}</span> → {renderInline(k.description)}</li>
                   ))}
                 </ul>
+              </>
+            )}
+            {card.baScript && (
+              <>
+                <div className="mt-6 font-bold text-[15px]">{t("baScript")}:</div>
+                <p className="mt-1.5 text-[15px] leading-[1.6] text-foreground/90 italic border-l-2 border-brand/40 pl-3">
+                  “{card.baScript}”
+                </p>
+              </>
+            )}
+            {card.qa && card.qa.length > 0 && (
+              <>
+                <div className="mt-6 font-bold text-[15px]">{t("customerQA")}:</div>
+                <div className="mt-1.5 space-y-3">
+                  {card.qa.map((item: { q: string; a: string }, i: number) => (
+                    <div key={i} className="text-[15px] leading-[1.6]">
+                      <div className="font-bold text-brand">Q: {item.q}</div>
+                      <div className="text-foreground/90">{renderInline(item.a)}</div>
+                    </div>
+                  ))}
+                </div>
               </>
             )}
           </motion.div>

@@ -1,22 +1,37 @@
 import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { categories } from "@/data/modules";
+import { categories, dolceFragranceImage, modules } from "@/data/modules";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { motion } from "framer-motion";
+import { useBrand } from "@/lib/brand-context";
 
 export const Route = createFileRoute("/_authenticated/category/")({
   component: CategoryPage,
 });
 
+const DOLCE_CATEGORY_IDS = ["makeup", "skin-care", "fragrance"];
+
 function CategoryPage() {
   const { t } = useI18n();
+  const { activeBrand } = useBrand();
+  // Dolce & Gabbana's category cards show the module count for their own brand,
+  // read from the actual module data, rather than the global cross-brand count.
+  const visibleCategories = activeBrand === "Dolce & Gabbana"
+    ? categories
+        .filter((c) => DOLCE_CATEGORY_IDS.includes(c.id))
+        .map((c) => ({
+          ...c,
+          image: c.id === "fragrance" ? dolceFragranceImage : c.image,
+          count: modules.filter((m) => m.categoryId === c.id && m.brand === "Dolce & Gabbana").length,
+        }))
+    : categories;
   return (
     <>
       <div className="px-[34px] pt-[28px]">
         <h1 className="font-serif text-[31px] font-medium leading-none">{t("pageCategory")}</h1>
         <p className="text-[15px] text-foreground/75 mt-4">{t("categorySubtitle")}</p>
         <div className="mt-[34px] grid grid-cols-2 gap-x-4 gap-y-4">
-          {categories.map((c, i) => (
+          {visibleCategories.map((c, i) => (
             <motion.div
               key={c.id}
               initial={{ opacity: 0, y: 12 }}

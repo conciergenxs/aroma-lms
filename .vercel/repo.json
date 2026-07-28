@@ -1,0 +1,11 @@
+{
+  "remoteName": "origin",
+  "projects": [
+    {
+      "id": "prj_QhFyJqigJi5s4PuSrAbX7wLyfmVX",
+      "name": "aroma-lms",
+      "directory": ".",
+      "orgId": "team_lH24RLcMGfB9xafDppcRbDHg"
+    }
+  ]
+}
