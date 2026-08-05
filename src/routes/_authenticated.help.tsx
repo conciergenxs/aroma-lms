@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronLeft, MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
@@ -9,24 +10,22 @@ export const Route = createFileRoute("/_authenticated/help")({
 
 const WA_NUMBER = "6281200000000";
 const WA_MESSAGE = encodeURIComponent(
-  "Hi Aroma AI, I need help with my account.",
-);
+  "Halo Aroma AI, saya butuh bantuan untuk akun saya.",
+) // keep static to avoid hook in module scope;
 
 function HelpPage() {
+  const { t } = useI18n();
   return (
     <>
       <div className="px-[24px] pt-[28px]">
         <Link to="/profile" className="inline-flex items-center text-sm text-brand font-semibold mb-4">
-          <ChevronLeft className="h-4 w-4" /> Back to Profile
+          <ChevronLeft className="h-4 w-4" /> {t("backToProfile")}
         </Link>
         <h1 className="font-serif text-[28px] font-medium leading-tight">
-          We're here to help
+          {t("helpTitle")}
         </h1>
         <p className="text-[14px] text-foreground/75 mt-4 leading-relaxed">
-          Whether you have a question about a module, need help with your account,
-          or want product guidance from our beauty advisors — our support team is
-          ready to assist. Reach out anytime and we'll get back to you as soon as
-          possible.
+          {t("helpSubtitle")}
         </p>
 
         <motion.div
@@ -34,10 +33,9 @@ function HelpPage() {
           animate={{ opacity: 1, y: 0 }}
           className="mt-8 rounded-xl bg-card border border-border p-5"
         >
-          <h2 className="font-serif text-[20px] font-medium">Contact Support</h2>
+          <h2 className="font-serif text-[20px] font-medium">{t("contactSupport")}</h2>
           <p className="text-[13px] text-foreground/70 mt-2 leading-relaxed">
-            Chat with our AI assistant directly on WhatsApp for instant answers
-            about products, training modules, or account help. Available 24/7.
+            {t("contactSupportDesc")}
           </p>
 
           <motion.a
@@ -49,12 +47,12 @@ function HelpPage() {
             className="mt-5 flex items-center justify-center gap-2 bg-[#25D366] text-white font-semibold py-3.5 rounded-full hover:brightness-110 transition-all"
           >
             <MessageCircle className="h-5 w-5" />
-            Chat on WhatsApp
+            {t("chatOnWhatsApp")}
           </motion.a>
         </motion.div>
 
         <div className="mt-6 text-center text-[12px] text-foreground/60">
-          Or email us at <span className="text-brand font-semibold">support@aroma.id</span>
+          {t("orEmailUs")} <span className="text-brand font-semibold">support@aroma.id</span>
         </div>
       </div>
       <SiteFooter />

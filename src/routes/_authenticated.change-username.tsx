@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ChevronLeft } from "lucide-react";
 import { useState } from "react";
@@ -10,13 +11,14 @@ export const Route = createFileRoute("/_authenticated/change-username")({
 });
 
 function ChangeUsername() {
+  const { t } = useI18n();
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!username.trim()) return;
-    toast.success("Username updated");
+    toast.success(t("usernameUpdated"));
     navigate({ to: "/profile" });
   };
 
@@ -24,11 +26,11 @@ function ChangeUsername() {
     <>
       <div className="px-[24px] pt-[28px]">
         <Link to="/profile" className="inline-flex items-center text-sm text-brand font-semibold mb-4">
-          <ChevronLeft className="h-4 w-4" /> Back to Profile
+          <ChevronLeft className="h-4 w-4" /> {t("backToProfile")}
         </Link>
-        <h1 className="font-serif text-[28px] font-medium leading-none">Change Username</h1>
+        <h1 className="font-serif text-[28px] font-medium leading-none">{t("changeUsernamePage")}</h1>
         <p className="text-[14px] text-foreground/70 mt-3">
-          Your username appears across your profile and learning history.
+          {t("changeUsernameSubtitle")}
         </p>
 
         <motion.form
@@ -38,7 +40,7 @@ function ChangeUsername() {
           className="mt-6 space-y-4"
         >
           <div>
-            <label className="block text-[13px] font-medium mb-1.5">Current Username</label>
+            <label className="block text-[13px] font-medium mb-1.5">{t("currentUsernameLabel")}</label>
             <input
               disabled
               value="bella.victoria"
@@ -46,11 +48,11 @@ function ChangeUsername() {
             />
           </div>
           <div>
-            <label className="block text-[13px] font-medium mb-1.5">New Username</label>
+            <label className="block text-[13px] font-medium mb-1.5">{t("newUsernameLabel")}</label>
             <input
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="Type your new username here.."
+              placeholder={t("newUsernamePlaceholder")}
               className="w-full bg-card border border-border rounded-lg px-4 py-3 text-[14px] placeholder:text-foreground/35 focus:outline-none focus:ring-2 focus:ring-brand/30"
             />
           </div>

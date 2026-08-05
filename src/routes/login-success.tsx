@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useI18n } from "@/lib/i18n";
 import { Check } from "lucide-react";
 import { useEffect } from "react";
 import { useNavigate } from "@tanstack/react-router";
@@ -9,6 +10,7 @@ export const Route = createFileRoute("/login-success")({
 });
 
 function LoginSuccess() {
+  const { t } = useI18n();
   const navigate = useNavigate();
   useEffect(() => {
     const t = setTimeout(() => navigate({ to: "/home" }), 1400);
@@ -31,9 +33,9 @@ function LoginSuccess() {
         transition={{ delay: 0.2 }}
         className="font-serif text-[32px] leading-none mt-9"
       >
-        Login Success!
+        {t("loginSuccess")}
       </motion.h1>
-      <p className="text-[15px] text-foreground/75 mt-4">Redirecting to your learning modules...</p>
+      <p className="text-[15px] text-foreground/75 mt-4">{t("loginRedirect")}</p>
       <div className="mt-6 pt-6 border-t border-border w-[272px] text-center">
         <div className="font-bold tracking-tight text-lg leading-none">LAURA MERCIER</div>
         <div className="text-[9px] tracking-[0.28em] text-foreground/75 mt-1">PARIS · NEW YORK</div>

@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as LoginSuccessRouteImport } from './routes/login-success'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
@@ -31,6 +32,11 @@ import { Route as AuthenticatedChatAssistantIdRouteImport } from './routes/_auth
 import { Route as AuthenticatedCategoryCategoryIdRouteImport } from './routes/_authenticated.category.$categoryId'
 import { Route as AuthenticatedModulesModuleIdCardsCardIdRouteImport } from './routes/_authenticated.modules.$moduleId.cards.$cardId'
 
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginSuccessRoute = LoginSuccessRouteImport.update({
   id: '/login-success',
   path: '/login-success',
@@ -148,6 +154,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login-success': typeof LoginSuccessRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/category': typeof AuthenticatedCategoryRouteWithChildren
   '/change-password': typeof AuthenticatedChangePasswordRoute
   '/change-username': typeof AuthenticatedChangeUsernameRoute
@@ -170,6 +177,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login-success': typeof LoginSuccessRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/change-password': typeof AuthenticatedChangePasswordRoute
   '/change-username': typeof AuthenticatedChangeUsernameRoute
   '/faq': typeof AuthenticatedFaqRoute
@@ -193,6 +201,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/login-success': typeof LoginSuccessRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/category': typeof AuthenticatedCategoryRouteWithChildren
   '/_authenticated/change-password': typeof AuthenticatedChangePasswordRoute
   '/_authenticated/change-username': typeof AuthenticatedChangeUsernameRoute
@@ -217,6 +226,7 @@ export interface FileRouteTypes {
     | '/'
     | '/forgot-password'
     | '/login-success'
+    | '/reset-password'
     | '/category'
     | '/change-password'
     | '/change-username'
@@ -239,6 +249,7 @@ export interface FileRouteTypes {
     | '/'
     | '/forgot-password'
     | '/login-success'
+    | '/reset-password'
     | '/change-password'
     | '/change-username'
     | '/faq'
@@ -261,6 +272,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/forgot-password'
     | '/login-success'
+    | '/reset-password'
     | '/_authenticated/category'
     | '/_authenticated/change-password'
     | '/_authenticated/change-username'
@@ -285,11 +297,19 @@ export interface RootRouteChildren {
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginSuccessRoute: typeof LoginSuccessRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   ApiChatRoute: typeof ApiChatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login-success': {
       id: '/login-success'
       path: '/login-success'
@@ -512,6 +532,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginSuccessRoute: LoginSuccessRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport

@@ -1,9 +1,11 @@
+import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ChevronLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import { getCategory, getModulesByCategory, type Module } from "@/data/modules";
 import { ModuleCard } from "@/components/ModuleCard";
 import { SiteFooter } from "@/components/layout/SiteFooter";
+import { useBrand } from "@/lib/brand-context";
 
 export const Route = createFileRoute("/_authenticated/category/$categoryId")({
   loader: ({ params }) => {
@@ -12,17 +14,25 @@ export const Route = createFileRoute("/_authenticated/category/$categoryId")({
     return { category: cat, items: getModulesByCategory(cat.id) };
   },
   component: CategoryDetailPage,
-  notFoundComponent: () => <div className="p-8 text-center">Category not found</div>,
-  errorComponent: () => <div className="p-8 text-center">Something went wrong</div>,
+  notFoundComponent: () => <div className="p-8 text-center">Kategori tidak ditemukan</div>,
+  errorComponent: () => <div className="p-8 text-center">Terjadi kesalahan</div>,
 });
 
 function CategoryDetailPage() {
-  const { category, items } = Route.useLoaderData();
+  const { t } = useI18n();
+  const { category, items: allItems } = Route.useLoaderData();
+  const { activeBrand } = useBrand();
+  // Dolce & Gabbana's Skin Care and Makeup modules are scoped to their own brand so this
+  // new content doesn't leak into other brands' view of these categories.
+  // Every other brand/category combination keeps its existing cross-brand listing.
+  const items = activeBrand === "Dolce & Gabbana" && (category.id === "skin-care" || category.id === "makeup")
+    ? allItems.filter((m) => m.brand === "Dolce & Gabbana")
+    : allItems;
   return (
     <>
       <div className="px-[14px] pt-[28px]">
         <Link to="/category" className="inline-flex items-center text-sm text-brand font-semibold mb-4">
-          <ChevronLeft className="h-4 w-4" /> Back to Category
+          <ChevronLeft className="h-4 w-4" /> {t("backToCategory")}
         </Link>
         <h1 className="font-serif text-[31px] font-medium leading-none">{category.name}</h1>
         <p className="text-[15px] text-foreground/75 mt-3">
@@ -31,7 +41,7 @@ function CategoryDetailPage() {
 
         {items.length === 0 ? (
           <div className="mt-10 text-center text-foreground/60 text-sm">
-            No modules available yet in this category.
+            {t("noModulesInCategory")}
           </div>
         ) : (
           <div className="mt-6 grid grid-cols-2 gap-3">

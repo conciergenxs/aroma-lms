@@ -1,6 +1,8 @@
+import React from "react";
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, Check } from "lucide-react";
 import { getModule } from "@/data/modules";
+import { useI18n } from "@/lib/i18n";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, type PanInfo } from "framer-motion";
 import { SiteFooter } from "@/components/layout/SiteFooter";
@@ -14,12 +16,21 @@ export const Route = createFileRoute("/_authenticated/modules/$moduleId/cards/$c
     return { module: m, cardIndex: idx };
   },
   component: KnowledgeDetail,
-  notFoundComponent: () => <div className="p-8 text-center">Card not found</div>,
-  errorComponent: () => <div className="p-8 text-center">Something went wrong</div>,
+  notFoundComponent: () => <div className="p-8 text-center">Kartu tidak ditemukan</div>,
+  errorComponent: () => <div className="p-8 text-center">Terjadi kesalahan</div>,
 });
 
 function completionKey(moduleId: string, cardId: string) {
   return `aroma:completed:${moduleId}:${cardId}`;
+}
+
+// Renders "**bold**" spans within otherwise plain text, without pulling in a full markdown parser.
+function renderInline(text: string) {
+  return text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+    part.startsWith("**") && part.endsWith("**")
+      ? <strong key={i}>{part.slice(2, -2)}</strong>
+      : <React.Fragment key={i}>{part}</React.Fragment>
+  );
 }
 
 function allCardsCompleted(moduleId: string, cards: { id: string }[]) {
@@ -35,6 +46,7 @@ function KnowledgeDetail() {
   const [showModal, setShowModal] = useState(false);
   const [direction, setDirection] = useState<1 | -1>(1);
 
+  const { t } = useI18n();
   const isLastCard = cardIndex === m.cards.length - 1;
   const prevCard = cardIndex > 0 ? m.cards[cardIndex - 1] : null;
   const nextCard = !isLastCard ? m.cards[cardIndex + 1] : null;
@@ -94,7 +106,7 @@ function KnowledgeDetail() {
   const progress = completed ? 100 : 0;
 
   return (
-    <div className="relative bg-cream">
+    <div className="relative bg-cream" style={{ "--floating-ai-bottom": "85px" } as React.CSSProperties}>
       {/* Congratulations Modal — shown only after all cards in module are read */}
       <AnimatePresence>
         {showModal && (
@@ -111,21 +123,29 @@ function KnowledgeDetail() {
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 24 }}
               onClick={(e) => e.stopPropagation()}
-              className="mx-6 rounded-2xl bg-[#6b0f1a] text-white px-8 py-10 flex flex-col items-center text-center shadow-2xl"
+              className="mx-6 rounded-2xl bg-white text-ink px-8 py-10 flex flex-col items-center text-center shadow-2xl"
             >
-              <div className="h-[72px] w-[72px] rounded-full bg-white/20 flex items-center justify-center mb-5">
-                <Check className="h-10 w-10 text-white" strokeWidth={3} />
+              <div className="h-[72px] w-[72px] rounded-full bg-[#c9a455]/15 flex items-center justify-center mb-5">
+                <Check className="h-10 w-10 text-[#c9a455]" strokeWidth={3} />
               </div>
-              <div className="font-serif text-[28px] font-bold leading-tight">Congratulations!</div>
-              <div className="mt-2 text-[15px] text-white/85 leading-relaxed">
-                You've completed all knowledge cards in this module.
+              <div className="font-serif text-[28px] font-bold leading-tight text-ink">{t("congratsTitle")}</div>
+              <div className="mt-2 text-[15px] text-ink/60 leading-relaxed">
+                {t("congratsDesc")}
               </div>
-              <button
-                onClick={() => setShowModal(false)}
-                className="mt-8 px-8 py-3 rounded-full bg-white text-[#6b0f1a] font-semibold text-[15px] hover:brightness-95 transition-all"
-              >
-                Done
-              </button>
+              <div className="mt-8 flex flex-col gap-3 w-full">
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="w-full px-8 py-3 rounded-full bg-[#6b0f1a] text-white font-semibold text-[15px] hover:brightness-110 transition-all"
+                >
+                  {t("finish")}
+                </button>
+                <button
+                  onClick={() => { setShowModal(false); navigate({ to: "/modules" }); }}
+                  className="w-full px-8 py-3 rounded-full border-2 border-[#6b0f1a] text-[#6b0f1a] font-semibold text-[15px] hover:bg-[#6b0f1a]/5 transition-all"
+                >
+                  {t("exploreOtherModule")}
+                </button>
+              </div>
             </motion.div>
           </motion.div>
         )}
@@ -138,7 +158,7 @@ function KnowledgeDetail() {
           params={{ moduleId: m.id }}
           className="absolute top-[31px] left-[14px] inline-flex items-center gap-1 text-white drop-shadow text-[15px] font-semibold"
         >
-          <ChevronLeft className="h-4 w-4" /> Back to Modules
+          <ChevronLeft className="h-4 w-4" /> {t("backToModules")}
         </Link>
       </div>
 
@@ -158,28 +178,62 @@ function KnowledgeDetail() {
             className="bg-card rounded-xl border border-border p-[15px] pb-[18px] cursor-grab active:cursor-grabbing select-none shadow-sm min-h-[408px]"
           >
             <span className="inline-block text-[12px] uppercase bg-card border border-[#dfc9b8] px-2.5 py-1 rounded-md text-tan leading-none">
-              KNOWLEDGE CARD {card.index}
+              {t("knowledgeCardLabel")} {card.index}
             </span>
             <h1 className="font-serif text-[27px] font-medium mt-4 leading-[1.17]">{card.title}</h1>
+            {card.learningFocus && (
+              <p className="mt-1.5 text-[13px] italic text-foreground/60">{card.learningFocus}</p>
+            )}
             <div className="my-4 h-px bg-border" />
+            {card.contentImage && (
+              <div className="mb-4 h-[170px] rounded-lg overflow-hidden bg-cream/60">
+                <img src={card.contentImage} alt="" className="w-full h-full object-cover" loading="lazy" width={1024} height={768} />
+              </div>
+            )}
             <ul className="list-disc pl-5 space-y-1.5 text-[15px] leading-[1.6] text-foreground/90">
-              {card.bullets.map((b: string, i: number) => <li key={i}>{b}</li>)}
+              {card.bullets.map((b: string, i: number) => <li key={i}>{renderInline(b)}</li>)}
             </ul>
             {card.keyIngredients.length > 0 && (
               <>
-                <div className="mt-6 font-bold text-[15px]">Key Ingredients:</div>
+                <div className="mt-6 font-bold text-[15px]">{card.keyIngredientsLabel ?? t("keyIngredients")}:</div>
                 <ul className="list-disc pl-5 mt-1.5 space-y-1.5 text-[15px] leading-[1.6] text-foreground/90">
                   {card.keyIngredients.map((k: { name: string; description: string }, i: number) => (
-                    <li key={i}><span className="font-bold">{k.name}</span> → {k.description}</li>
+                    <li key={i}><span className="font-bold">{k.name}</span> → {renderInline(k.description)}</li>
                   ))}
                 </ul>
+              </>
+            )}
+            {card.baScript && (
+              <>
+                <div className="mt-6 font-bold text-[15px]">{t("baScript")}:</div>
+                <p className="mt-1.5 text-[15px] leading-[1.6] text-foreground/90 italic border-l-2 border-brand/40 pl-3">
+                  “{card.baScript}”
+                </p>
+              </>
+            )}
+            {card.qa && card.qa.length > 0 && (
+              <>
+                <div className="mt-6 font-bold text-[15px]">{t("customerQA")}:</div>
+                <div className="mt-1.5 space-y-3">
+                  {card.qa.map((item: { q: string; a: string }, i: number) => (
+                    <div key={i} className="text-[15px] leading-[1.6]">
+                      <div className="font-bold text-brand">Q: {item.q}</div>
+                      <div className="text-foreground/90">{renderInline(item.a)}</div>
+                    </div>
+                  ))}
+                </div>
               </>
             )}
           </motion.div>
         </AnimatePresence>
       </div>
 
-      <div className="mt-[104px] bg-tan px-[15px] py-[14px]">
+      {/* Spacer so content isn't hidden behind fixed nav */}
+      <div className="h-[90px]" />
+      <SiteFooter />
+
+      {/* Sticky card navigation — sits above bottom navbar */}
+      <div className="fixed bottom-[70px] left-0 right-0 z-30 bg-tan px-[15px] py-[14px] pb-[19px] shadow-[0_-4px_16px_rgba(0,0,0,0.12)]">
         <div className="flex items-center gap-2">
           <div className="flex-1 h-[5px] bg-white/35 rounded-full overflow-hidden">
             <div className="h-full bg-white transition-all duration-500" style={{ width: `${progress}%` }} />
@@ -192,7 +246,7 @@ function KnowledgeDetail() {
               onClick={() => goTo(prevCard.id, -1)}
               className="bg-card text-brand font-semibold text-[13px] px-2.5 py-2 rounded-md inline-flex items-center gap-1 shadow-sm"
             >
-              <ChevronLeft className="h-4 w-4" /> Knowledge Card {prevCard.index}
+              <ChevronLeft className="h-4 w-4" /> {t("knowledgeCard")} {prevCard.index}
             </button>
           ) : <span />}
           {nextCard ? (
@@ -200,12 +254,11 @@ function KnowledgeDetail() {
               onClick={() => goTo(nextCard.id, 1)}
               className="bg-card text-brand font-semibold text-[13px] px-2.5 py-2 rounded-md inline-flex items-center gap-1 shadow-sm"
             >
-              Knowledge Card {nextCard.index} <ChevronRight className="h-4 w-4" />
+              {t("knowledgeCard")} {nextCard.index} <ChevronRight className="h-4 w-4" />
             </button>
           ) : <span />}
         </div>
       </div>
-      <SiteFooter />
     </div>
   );
 }

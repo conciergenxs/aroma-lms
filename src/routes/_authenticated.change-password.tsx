@@ -1,3 +1,4 @@
+import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ChevronLeft } from "lucide-react";
 import { useState } from "react";
@@ -10,6 +11,7 @@ export const Route = createFileRoute("/_authenticated/change-password")({
 });
 
 function ChangePassword() {
+  const { t } = useI18n();
   const [curr, setCurr] = useState("");
   const [next, setNext] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -18,14 +20,14 @@ function ChangePassword() {
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!curr || !next || !confirm) {
-      toast.error("Please fill in all fields");
+      toast.error(t("fillAllFields"));
       return;
     }
     if (next !== confirm) {
-      toast.error("Passwords do not match");
+      toast.error(t("passwordsNoMatch"));
       return;
     }
-    toast.success("Password updated");
+    toast.success(t("passwordUpdated"));
     navigate({ to: "/profile" });
   };
 
@@ -33,11 +35,11 @@ function ChangePassword() {
     <>
       <div className="px-[24px] pt-[28px]">
         <Link to="/profile" className="inline-flex items-center text-sm text-brand font-semibold mb-4">
-          <ChevronLeft className="h-4 w-4" /> Back to Profile
+          <ChevronLeft className="h-4 w-4" /> {t("backToProfile")}
         </Link>
-        <h1 className="font-serif text-[28px] font-medium leading-none">Change Password</h1>
+        <h1 className="font-serif text-[28px] font-medium leading-none">{t("changePasswordPage")}</h1>
         <p className="text-[14px] text-foreground/70 mt-3">
-          Use at least 8 characters. Mix letters, numbers and symbols for a stronger password.
+          {t("changePasswordSubtitle")}
         </p>
 
         <motion.form
@@ -47,9 +49,9 @@ function ChangePassword() {
           className="mt-6 space-y-4"
         >
           {[
-            { label: "Current Password", value: curr, set: setCurr, placeholder: "Type your old password here.." },
-            { label: "New Password", value: next, set: setNext, placeholder: "Type your new password here.." },
-            { label: "Confirm New Password", value: confirm, set: setConfirm, placeholder: "Confirm your new password.." },
+            { label: t("currentPasswordLabel"), value: curr, set: setCurr, placeholder: t("currentPasswordPlaceholder") },
+            { label: t("newPasswordLabel"), value: next, set: setNext, placeholder: t("newPasswordPlaceholder") },
+            { label: t("confirmPasswordLabel"), value: confirm, set: setConfirm, placeholder: t("confirmPasswordPlaceholder") },
           ].map((f) => (
             <div key={f.label}>
               <label className="block text-[13px] font-medium mb-1.5">{f.label}</label>
@@ -64,7 +66,7 @@ function ChangePassword() {
           ))}
           <button
             type="submit"
-            className="w-full bg-brand text-brand-foreground font-semibold tracking-wider py-3.5 rounded-full hover:brightness-110 transition-all"
+            className="w-full bg-brand text-brand-foreground font-semibold tracking-wider h-12 text-[16px] rounded-full hover:brightness-110 transition-all"
           >
             UPDATE PASSWORD
           </button>
