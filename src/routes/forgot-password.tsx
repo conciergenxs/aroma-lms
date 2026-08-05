@@ -111,7 +111,7 @@ function ForgotPasswordPage() {
             className="w-full mt-16"
           >
             <h1 className="font-serif text-[30px] leading-tight font-bold text-foreground">
-              {lang === "id" ? "Hubungi ARCO Kamu" : "Contact Your ARCO"}
+              {lang === "id" ? "Hubungi Koordinator" : "Contact Coordinator"}
             </h1>
             <p className="text-[14px] text-foreground/75 mt-3 leading-relaxed">
               {lang === "id"
@@ -132,7 +132,7 @@ function ForgotPasswordPage() {
                 <div>
                   <div className="text-[15px] font-semibold text-foreground">{ARCO_NAME}</div>
                   <div className="text-[12px] text-foreground/60">
-                    {lang === "id" ? "Area Coordinator (ARCO) Kamu" : "Your Area Coordinator"}
+                    {lang === "id" ? "Area Coordinator (ARCO)" : "Area Coordinator"}
                   </div>
                 </div>
               </div>
