@@ -14,6 +14,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useRouterState } from "@tanstack/react-router";
 import { I18nProvider } from "../lib/i18n";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { Toaster } from "../components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -144,6 +145,7 @@ function RootComponent() {
     <I18nProvider>
       <QueryClientProvider client={queryClient}>
         <RootTransition />
+        <Toaster position="top-center" />
       </QueryClientProvider>
     </I18nProvider>
   );

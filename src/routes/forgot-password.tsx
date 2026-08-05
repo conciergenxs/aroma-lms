@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { ChevronLeft, UserRound } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/forgot-password")({
@@ -10,6 +11,7 @@ export const Route = createFileRoute("/forgot-password")({
 
 // Placeholder ARCO contact — swap for the signed-in BA's actual assigned ARCO
 // once that data is available from the aroma-abadi-scl dashboard.
+const ARCO_NAME = "Christian Wijaya";
 const ARCO_NUMBER = "6281200000000";
 const ARCO_MESSAGE_ID = encodeURIComponent(
   "Halo, saya lupa kata sandi akun Beauty Ambassador Aroma dan butuh bantuan untuk reset.",
@@ -36,6 +38,7 @@ function ForgotPasswordPage() {
     e.preventDefault();
     if (!canSubmit) return;
     setVerified(true);
+    toast.success(lang === "id" ? "Nomor berhasil diverifikasi" : "Number verified successfully");
   };
 
   return (
@@ -127,11 +130,9 @@ function ForgotPasswordPage() {
                   <UserRound className="h-5 w-5 text-brand" />
                 </div>
                 <div>
-                  <div className="text-[15px] font-semibold text-foreground">
-                    {lang === "id" ? "Area Coordinator (ARCO) Kamu" : "Your Area Coordinator"}
-                  </div>
+                  <div className="text-[15px] font-semibold text-foreground">{ARCO_NAME}</div>
                   <div className="text-[12px] text-foreground/60">
-                    {lang === "id" ? "Terhubung dengan akunmu" : "Assigned to your account"}
+                    {lang === "id" ? "Area Coordinator (ARCO) Kamu" : "Your Area Coordinator"}
                   </div>
                 </div>
               </div>
