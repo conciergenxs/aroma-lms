@@ -3,6 +3,8 @@ import { useState } from "react";
 import { ChevronLeft, UserRound } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
+import { REGEXP_ONLY_DIGITS } from "input-otp";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/forgot-password")({
@@ -20,6 +22,8 @@ const ARCO_MESSAGE_EN = encodeURIComponent(
   "Hi, I forgot my Aroma Beauty Ambassador account password and need help resetting it.",
 ) // keep static to avoid hook in module scope;
 
+const OTP_LENGTH = 6;
+
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
@@ -28,16 +32,26 @@ function WhatsAppIcon({ className }: { className?: string }) {
   );
 }
 
+type Step = "phone" | "code" | "arco";
+
 function ForgotPasswordPage() {
   const { lang } = useI18n();
   const [waNumber, setWaNumber] = useState("");
-  const [verified, setVerified] = useState(false);
-  const canSubmit = waNumber.replace(/\D/g, "").length >= 9;
+  const [code, setCode] = useState("");
+  const [step, setStep] = useState<Step>("phone");
+  const canSubmitPhone = waNumber.replace(/\D/g, "").length >= 9;
+  const canSubmitCode = code.length === OTP_LENGTH;
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmitPhone = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!canSubmit) return;
-    setVerified(true);
+    if (!canSubmitPhone) return;
+    setStep("code");
+  };
+
+  const onSubmitCode = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!canSubmitCode) return;
+    setStep("arco");
     toast.success(lang === "id" ? "Nomor berhasil diverifikasi" : "Number verified successfully");
   };
 
@@ -49,16 +63,27 @@ function ForgotPasswordPage() {
         transition={{ duration: 0.3 }}
         className="absolute top-5 left-6"
       >
-        <Link to="/" className="inline-flex items-center gap-1 text-sm text-brand font-semibold">
-          <ChevronLeft className="h-4 w-4" />
-          {lang === "id" ? "Kembali" : "Back"}
-        </Link>
+        {step === "code" ? (
+          <button
+            type="button"
+            onClick={() => setStep("phone")}
+            className="inline-flex items-center gap-1 text-sm text-brand font-semibold"
+          >
+            <ChevronLeft className="h-4 w-4" />
+            {lang === "id" ? "Kembali" : "Back"}
+          </button>
+        ) : (
+          <Link to="/" className="inline-flex items-center gap-1 text-sm text-brand font-semibold">
+            <ChevronLeft className="h-4 w-4" />
+            {lang === "id" ? "Kembali" : "Back"}
+          </Link>
+        )}
       </motion.div>
 
       <AnimatePresence mode="wait">
-        {!verified ? (
+        {step === "phone" && (
           <motion.div
-            key="form"
+            key="phone"
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -74,7 +99,7 @@ function ForgotPasswordPage() {
                 : "Enter your registered WhatsApp number to continue."}
             </p>
 
-            <form onSubmit={onSubmit} className="mt-8 w-full">
+            <form onSubmit={onSubmitPhone} className="mt-8 w-full">
               <label className="block">
                 <span className="text-[12px] font-bold tracking-[0.18em] text-foreground">
                   {lang === "id" ? "NOMOR WHATSAPP" : "WHATSAPP NUMBER"}
@@ -90,9 +115,60 @@ function ForgotPasswordPage() {
 
               <button
                 type="submit"
-                disabled={!canSubmit}
+                disabled={!canSubmitPhone}
                 className={`mt-8 w-full h-12 rounded-full font-semibold text-[16px] transition-colors ${
-                  canSubmit
+                  canSubmitPhone
+                    ? "bg-brand text-white hover:brightness-110"
+                    : "bg-tan/40 text-foreground/40 cursor-not-allowed"
+                }`}
+              >
+                {lang === "id" ? "Lanjutkan" : "Continue"}
+              </button>
+            </form>
+          </motion.div>
+        )}
+
+        {step === "code" && (
+          <motion.div
+            key="code"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ type: "spring", stiffness: 280, damping: 28 }}
+            className="w-full mt-16"
+          >
+            <h1 className="font-serif text-[30px] leading-tight font-bold text-foreground">
+              {lang === "id" ? "Masukkan Kode Verifikasi" : "Enter Verification Code"}
+            </h1>
+            <p className="text-[14px] text-foreground/75 mt-3 leading-relaxed">
+              {lang === "id"
+                ? `Kode dikirim ke WhatsApp ${waNumber}.`
+                : `Code sent to WhatsApp ${waNumber}.`}
+            </p>
+
+            <form onSubmit={onSubmitCode} className="mt-8 w-full flex flex-col items-center">
+              <InputOTP
+                maxLength={OTP_LENGTH}
+                pattern={REGEXP_ONLY_DIGITS}
+                value={code}
+                onChange={setCode}
+              >
+                <InputOTPGroup>
+                  {Array.from({ length: OTP_LENGTH }).map((_, i) => (
+                    <InputOTPSlot
+                      key={i}
+                      index={i}
+                      className="h-12 w-11 bg-card border-border text-[18px] first:rounded-l-xl last:rounded-r-xl"
+                    />
+                  ))}
+                </InputOTPGroup>
+              </InputOTP>
+
+              <button
+                type="submit"
+                disabled={!canSubmitCode}
+                className={`mt-8 w-full h-12 rounded-full font-semibold text-[16px] transition-colors ${
+                  canSubmitCode
                     ? "bg-brand text-white hover:brightness-110"
                     : "bg-tan/40 text-foreground/40 cursor-not-allowed"
                 }`}
@@ -101,7 +177,9 @@ function ForgotPasswordPage() {
               </button>
             </form>
           </motion.div>
-        ) : (
+        )}
+
+        {step === "arco" && (
           <motion.div
             key="arco"
             initial={{ opacity: 0, y: 24 }}
