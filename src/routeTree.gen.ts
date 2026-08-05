@@ -16,6 +16,7 @@ import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthenticatedTermsRouteImport } from './routes/_authenticated.terms'
+import { Route as AuthenticatedSearchRouteImport } from './routes/_authenticated.search'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated.profile'
 import { Route as AuthenticatedPrivacyRouteImport } from './routes/_authenticated.privacy'
 import { Route as AuthenticatedMyLearningRouteImport } from './routes/_authenticated.my-learning'
@@ -64,6 +65,11 @@ const ApiChatRoute = ApiChatRouteImport.update({
 const AuthenticatedTermsRoute = AuthenticatedTermsRouteImport.update({
   id: '/terms',
   path: '/terms',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedSearchRoute = AuthenticatedSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
@@ -164,6 +170,7 @@ export interface FileRoutesByFullPath {
   '/my-learning': typeof AuthenticatedMyLearningRoute
   '/privacy': typeof AuthenticatedPrivacyRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/search': typeof AuthenticatedSearchRoute
   '/terms': typeof AuthenticatedTermsRoute
   '/api/chat': typeof ApiChatRoute
   '/category/$categoryId': typeof AuthenticatedCategoryCategoryIdRoute
@@ -186,6 +193,7 @@ export interface FileRoutesByTo {
   '/my-learning': typeof AuthenticatedMyLearningRoute
   '/privacy': typeof AuthenticatedPrivacyRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/search': typeof AuthenticatedSearchRoute
   '/terms': typeof AuthenticatedTermsRoute
   '/api/chat': typeof ApiChatRoute
   '/category/$categoryId': typeof AuthenticatedCategoryCategoryIdRoute
@@ -211,6 +219,7 @@ export interface FileRoutesById {
   '/_authenticated/my-learning': typeof AuthenticatedMyLearningRoute
   '/_authenticated/privacy': typeof AuthenticatedPrivacyRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/search': typeof AuthenticatedSearchRoute
   '/_authenticated/terms': typeof AuthenticatedTermsRoute
   '/api/chat': typeof ApiChatRoute
   '/_authenticated/category/$categoryId': typeof AuthenticatedCategoryCategoryIdRoute
@@ -236,6 +245,7 @@ export interface FileRouteTypes {
     | '/my-learning'
     | '/privacy'
     | '/profile'
+    | '/search'
     | '/terms'
     | '/api/chat'
     | '/category/$categoryId'
@@ -258,6 +268,7 @@ export interface FileRouteTypes {
     | '/my-learning'
     | '/privacy'
     | '/profile'
+    | '/search'
     | '/terms'
     | '/api/chat'
     | '/category/$categoryId'
@@ -282,6 +293,7 @@ export interface FileRouteTypes {
     | '/_authenticated/my-learning'
     | '/_authenticated/privacy'
     | '/_authenticated/profile'
+    | '/_authenticated/search'
     | '/_authenticated/terms'
     | '/api/chat'
     | '/_authenticated/category/$categoryId'
@@ -350,6 +362,13 @@ declare module '@tanstack/react-router' {
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof AuthenticatedTermsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/search': {
+      id: '/_authenticated/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof AuthenticatedSearchRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/profile': {
@@ -500,6 +519,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedMyLearningRoute: typeof AuthenticatedMyLearningRoute
   AuthenticatedPrivacyRoute: typeof AuthenticatedPrivacyRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedSearchRoute: typeof AuthenticatedSearchRoute
   AuthenticatedTermsRoute: typeof AuthenticatedTermsRoute
   AuthenticatedChatAssistantIdRoute: typeof AuthenticatedChatAssistantIdRoute
   AuthenticatedModulesModuleIdRoute: typeof AuthenticatedModulesModuleIdRouteWithChildren
@@ -516,6 +536,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedMyLearningRoute: AuthenticatedMyLearningRoute,
   AuthenticatedPrivacyRoute: AuthenticatedPrivacyRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedSearchRoute: AuthenticatedSearchRoute,
   AuthenticatedTermsRoute: AuthenticatedTermsRoute,
   AuthenticatedChatAssistantIdRoute: AuthenticatedChatAssistantIdRoute,
   AuthenticatedModulesModuleIdRoute:

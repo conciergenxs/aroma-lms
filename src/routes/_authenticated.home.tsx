@@ -1,10 +1,10 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { Search, ChevronLeft, ChevronRight } from "lucide-react";
 import { modules, brands } from "@/data/modules";
 import { ModuleCard } from "@/components/ModuleCard";
 import { SiteFooter } from "@/components/layout/SiteFooter";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 export const Route = createFileRoute("/_authenticated/home")({
@@ -13,9 +13,18 @@ export const Route = createFileRoute("/_authenticated/home")({
 
 function HomePage() {
   const { t } = useI18n();
+  const navigate = useNavigate();
+  const [query, setQuery] = useState("");
   const railRef = useRef<HTMLDivElement>(null);
   const scroll = (dir: -1 | 1) =>
     railRef.current?.scrollBy({ left: dir * 280, behavior: "smooth" });
+
+  const onSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmed = query.trim();
+    if (!trimmed) return;
+    navigate({ to: "/search", search: { q: trimmed } });
+  };
 
   return (
     <>
@@ -30,14 +39,16 @@ function HomePage() {
         </motion.h1>
         <p className="text-[15px] text-foreground/75 mt-2">{t("homeSubtitle")}</p>
 
-        <div className="mt-5 relative">
+        <form onSubmit={onSearchSubmit} className="mt-5 relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-tan" />
           <input
             type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
             placeholder={t("searchPlaceholder")}
             className="w-full bg-card rounded-lg border border-[#dcc9bd] pl-11 pr-4 py-3 text-[12px] shadow-sm placeholder:text-tan/70 focus:outline-none focus:ring-2 focus:ring-brand/20"
           />
-        </div>
+        </form>
 
         <div className="mt-8 flex items-center justify-between">
           <h2 className="font-serif text-[20px] font-medium">{t("learningModules")}</h2>
