@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginSuccessRouteImport } from './routes/login-success'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
@@ -24,15 +25,20 @@ import { Route as AuthenticatedChangeUsernameRouteImport } from './routes/_authe
 import { Route as AuthenticatedChangePasswordRouteImport } from './routes/_authenticated.change-password'
 import { Route as AuthenticatedCategoryRouteImport } from './routes/_authenticated.category'
 import { Route as AuthenticatedModulesIndexRouteImport } from './routes/_authenticated.modules.index'
+import { Route as AuthenticatedCategoryIndexRouteImport } from './routes/_authenticated.category.index'
 import { Route as AuthenticatedModulesModuleIdRouteImport } from './routes/_authenticated.modules.$moduleId'
 import { Route as AuthenticatedChatAssistantIdRouteImport } from './routes/_authenticated.chat.$assistantId'
-import { Route as AuthenticatedCategoryIndexRouteImport } from './routes/_authenticated.category.index'
 import { Route as AuthenticatedCategoryCategoryIdRouteImport } from './routes/_authenticated.category.$categoryId'
 import { Route as AuthenticatedModulesModuleIdCardsCardIdRouteImport } from './routes/_authenticated.modules.$moduleId.cards.$cardId'
 
 const LoginSuccessRoute = LoginSuccessRouteImport.update({
   id: '/login-success',
   path: '/login-success',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
@@ -107,6 +113,12 @@ const AuthenticatedModulesIndexRoute =
     path: '/modules/',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedCategoryIndexRoute =
+  AuthenticatedCategoryIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedCategoryRoute,
+  } as any)
 const AuthenticatedModulesModuleIdRoute =
   AuthenticatedModulesModuleIdRouteImport.update({
     id: '/modules/$moduleId',
@@ -118,12 +130,6 @@ const AuthenticatedChatAssistantIdRoute =
     id: '/chat/$assistantId',
     path: '/chat/$assistantId',
     getParentRoute: () => AuthenticatedRoute,
-  } as any)
-const AuthenticatedCategoryIndexRoute =
-  AuthenticatedCategoryIndexRouteImport.update({
-    id: '/category/',
-    path: '/',
-    getParentRoute: () => AuthenticatedCategoryRoute,
   } as any)
 const AuthenticatedCategoryCategoryIdRoute =
   AuthenticatedCategoryCategoryIdRouteImport.update({
@@ -140,6 +146,7 @@ const AuthenticatedModulesModuleIdCardsCardIdRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login-success': typeof LoginSuccessRoute
   '/category': typeof AuthenticatedCategoryRouteWithChildren
   '/change-password': typeof AuthenticatedChangePasswordRoute
@@ -152,17 +159,17 @@ export interface FileRoutesByFullPath {
   '/profile': typeof AuthenticatedProfileRoute
   '/terms': typeof AuthenticatedTermsRoute
   '/api/chat': typeof ApiChatRoute
-  '/category/': typeof AuthenticatedCategoryIndexRoute
   '/category/$categoryId': typeof AuthenticatedCategoryCategoryIdRoute
   '/chat/$assistantId': typeof AuthenticatedChatAssistantIdRoute
   '/modules/$moduleId': typeof AuthenticatedModulesModuleIdRouteWithChildren
+  '/category/': typeof AuthenticatedCategoryIndexRoute
   '/modules/': typeof AuthenticatedModulesIndexRoute
   '/modules/$moduleId/cards/$cardId': typeof AuthenticatedModulesModuleIdCardsCardIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login-success': typeof LoginSuccessRoute
-  '/category': typeof AuthenticatedCategoryRouteWithChildren
   '/change-password': typeof AuthenticatedChangePasswordRoute
   '/change-username': typeof AuthenticatedChangeUsernameRoute
   '/faq': typeof AuthenticatedFaqRoute
@@ -176,6 +183,7 @@ export interface FileRoutesByTo {
   '/category/$categoryId': typeof AuthenticatedCategoryCategoryIdRoute
   '/chat/$assistantId': typeof AuthenticatedChatAssistantIdRoute
   '/modules/$moduleId': typeof AuthenticatedModulesModuleIdRouteWithChildren
+  '/category': typeof AuthenticatedCategoryIndexRoute
   '/modules': typeof AuthenticatedModulesIndexRoute
   '/modules/$moduleId/cards/$cardId': typeof AuthenticatedModulesModuleIdCardsCardIdRoute
 }
@@ -183,9 +191,9 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login-success': typeof LoginSuccessRoute
   '/_authenticated/category': typeof AuthenticatedCategoryRouteWithChildren
-  '/_authenticated/category/': typeof AuthenticatedCategoryIndexRoute
   '/_authenticated/change-password': typeof AuthenticatedChangePasswordRoute
   '/_authenticated/change-username': typeof AuthenticatedChangeUsernameRoute
   '/_authenticated/faq': typeof AuthenticatedFaqRoute
@@ -199,6 +207,7 @@ export interface FileRoutesById {
   '/_authenticated/category/$categoryId': typeof AuthenticatedCategoryCategoryIdRoute
   '/_authenticated/chat/$assistantId': typeof AuthenticatedChatAssistantIdRoute
   '/_authenticated/modules/$moduleId': typeof AuthenticatedModulesModuleIdRouteWithChildren
+  '/_authenticated/category/': typeof AuthenticatedCategoryIndexRoute
   '/_authenticated/modules/': typeof AuthenticatedModulesIndexRoute
   '/_authenticated/modules/$moduleId/cards/$cardId': typeof AuthenticatedModulesModuleIdCardsCardIdRoute
 }
@@ -206,9 +215,9 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/forgot-password'
     | '/login-success'
     | '/category'
-    | '/category/'
     | '/change-password'
     | '/change-username'
     | '/faq'
@@ -222,13 +231,14 @@ export interface FileRouteTypes {
     | '/category/$categoryId'
     | '/chat/$assistantId'
     | '/modules/$moduleId'
+    | '/category/'
     | '/modules/'
     | '/modules/$moduleId/cards/$cardId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/forgot-password'
     | '/login-success'
-    | '/category'
     | '/change-password'
     | '/change-username'
     | '/faq'
@@ -242,15 +252,16 @@ export interface FileRouteTypes {
     | '/category/$categoryId'
     | '/chat/$assistantId'
     | '/modules/$moduleId'
+    | '/category'
     | '/modules'
     | '/modules/$moduleId/cards/$cardId'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/forgot-password'
     | '/login-success'
     | '/_authenticated/category'
-    | '/_authenticated/category/'
     | '/_authenticated/change-password'
     | '/_authenticated/change-username'
     | '/_authenticated/faq'
@@ -264,6 +275,7 @@ export interface FileRouteTypes {
     | '/_authenticated/category/$categoryId'
     | '/_authenticated/chat/$assistantId'
     | '/_authenticated/modules/$moduleId'
+    | '/_authenticated/category/'
     | '/_authenticated/modules/'
     | '/_authenticated/modules/$moduleId/cards/$cardId'
   fileRoutesById: FileRoutesById
@@ -271,6 +283,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginSuccessRoute: typeof LoginSuccessRoute
   ApiChatRoute: typeof ApiChatRoute
 }
@@ -282,6 +295,13 @@ declare module '@tanstack/react-router' {
       path: '/login-success'
       fullPath: '/login-success'
       preLoaderRoute: typeof LoginSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -375,19 +395,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCategoryRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
-    '/_authenticated/category/': {
-      id: '/_authenticated/category/'
-      path: '/'
-      fullPath: '/category/'
-      preLoaderRoute: typeof AuthenticatedCategoryIndexRouteImport
-      parentRoute: typeof AuthenticatedCategoryRoute
-    }
     '/_authenticated/modules/': {
       id: '/_authenticated/modules/'
       path: '/modules'
       fullPath: '/modules/'
       preLoaderRoute: typeof AuthenticatedModulesIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/category/': {
+      id: '/_authenticated/category/'
+      path: '/'
+      fullPath: '/category/'
+      preLoaderRoute: typeof AuthenticatedCategoryIndexRouteImport
+      parentRoute: typeof AuthenticatedCategoryRoute
     }
     '/_authenticated/modules/$moduleId': {
       id: '/_authenticated/modules/$moduleId'
@@ -421,13 +441,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedCategoryRouteChildren {
-  AuthenticatedCategoryIndexRoute: typeof AuthenticatedCategoryIndexRoute
   AuthenticatedCategoryCategoryIdRoute: typeof AuthenticatedCategoryCategoryIdRoute
+  AuthenticatedCategoryIndexRoute: typeof AuthenticatedCategoryIndexRoute
 }
 
 const AuthenticatedCategoryRouteChildren: AuthenticatedCategoryRouteChildren = {
-  AuthenticatedCategoryIndexRoute: AuthenticatedCategoryIndexRoute,
   AuthenticatedCategoryCategoryIdRoute: AuthenticatedCategoryCategoryIdRoute,
+  AuthenticatedCategoryIndexRoute: AuthenticatedCategoryIndexRoute,
 }
 
 const AuthenticatedCategoryRouteWithChildren =
@@ -490,6 +510,7 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  ForgotPasswordRoute: ForgotPasswordRoute,
   LoginSuccessRoute: LoginSuccessRoute,
   ApiChatRoute: ApiChatRoute,
 }

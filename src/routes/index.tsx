@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import logoAroma from "@/assets/logo-aroma-upload.svg.asset.json";
@@ -66,7 +66,7 @@ function LoginPage() {
         </label>
 
         <div className="mt-4 text-right">
-          <a href="#" className="text-[13px] font-medium text-brand underline underline-offset-2">Forgot Password?</a>
+          <Link to="/forgot-password" className="text-[13px] font-medium text-brand underline underline-offset-2">Forgot Password?</Link>
         </div>
 
         <button
