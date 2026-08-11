@@ -17,10 +17,10 @@ const ARCO_NAME = "Christian Wijaya";
 const ARCO_NUMBER = "6281200000000";
 const ARCO_MESSAGE_ID = encodeURIComponent(
   "Halo, saya lupa kata sandi akun Beauty Ambassador Aroma dan butuh bantuan untuk reset.",
-) // keep static to avoid hook in module scope;
+);
 const ARCO_MESSAGE_EN = encodeURIComponent(
   "Hi, I forgot my Aroma Beauty Ambassador account password and need help resetting it.",
-) // keep static to avoid hook in module scope;
+);
 
 const OTP_LENGTH = 6;
 
@@ -45,6 +45,7 @@ function ForgotPasswordPage() {
   const onSubmitPhone = (e: React.FormEvent) => {
     e.preventDefault();
     if (!canSubmitPhone) return;
+    setCode("");
     setStep("code");
   };
 
@@ -107,7 +108,9 @@ function ForgotPasswordPage() {
                 <input
                   value={waNumber}
                   onChange={(e) => setWaNumber(e.target.value)}
-                  placeholder={lang === "id" ? "Masukkan nomor WhatsApp.." : "Enter your WhatsApp number.."}
+                  placeholder={
+                    lang === "id" ? "Masukkan nomor WhatsApp.." : "Enter your WhatsApp number.."
+                  }
                   inputMode="tel"
                   className="mt-3 w-full bg-card rounded-full border border-border px-5 py-[15px] text-[15px] shadow-sm placeholder:text-foreground/35 focus:outline-none focus:ring-2 focus:ring-brand/20"
                 />

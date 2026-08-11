@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { ChevronLeft, Search, SearchX } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { z } from "zod";
 import { modules } from "@/data/modules";
@@ -21,6 +21,12 @@ function SearchResultsPage() {
   const { t } = useI18n();
   const { q } = Route.useSearch();
   const [query, setQuery] = useState(q ?? "");
+
+  // Keep the input in sync if the URL's `q` changes without this component
+  // remounting — e.g. browser back/forward between two /search?q=... states.
+  useEffect(() => {
+    setQuery(q ?? "");
+  }, [q]);
 
   const trimmed = query.trim().toLowerCase();
   const results = trimmed
