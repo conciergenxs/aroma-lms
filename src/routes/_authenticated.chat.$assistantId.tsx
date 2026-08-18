@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate, notFound } from "@tanstack/react-router";
-import { ChevronLeft, History, MoreVertical, X, Mic } from "lucide-react";
+import { ChevronLeft, History, X, Mic } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useI18n } from "@/lib/i18n";
 import { chatSessions, getSession, type ChatMessage, type ChatSession } from "@/data/chat";
@@ -166,7 +166,6 @@ function ChatRoom() {
           <div className="font-medium text-[15px] leading-tight">Aroma Abadi BA-Helper</div>
           <div className="text-xs text-foreground/40 mt-0.5">aktif</div>
         </div>
-        <button aria-label="More" className="text-tan"><MoreVertical className="h-5 w-5" /></button>
       </div>
 
       <Conversation>
