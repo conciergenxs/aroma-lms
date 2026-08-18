@@ -243,7 +243,7 @@ function ChatRoom() {
           onSubmit={({ text }) => void sendAiMessage(text)}
           className="gap-2"
         >
-          <PromptInputTextarea placeholder={t("chatPlaceholder")} className="min-h-[46px] rounded-full border border-black/10 bg-card shadow-sm text-[15px]" />
+          <PromptInputTextarea placeholder={t("chatPlaceholder")} className="min-h-[46px] rounded-3xl border border-black/10 bg-card shadow-sm text-[15px]" />
           <button
             type="submit"
             aria-label={busy ? "Stop response" : "Voice message"}
