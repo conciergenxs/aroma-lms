@@ -18,7 +18,14 @@ function usePromptInput() {
   return value;
 }
 
-export function PromptInput({ className, onSubmit, children, ...props }: Omit<React.FormHTMLAttributes<HTMLFormElement>, "onSubmit"> & { onSubmit?: (message: PromptInputMessage) => void }) {
+export function PromptInput({
+  className,
+  onSubmit,
+  children,
+  ...props
+}: Omit<React.FormHTMLAttributes<HTMLFormElement>, "onSubmit"> & {
+  onSubmit?: (message: PromptInputMessage) => void;
+}) {
   const [value, setValue] = React.useState("");
   const submit = React.useCallback(() => {
     const text = value.trim();
@@ -43,47 +50,87 @@ export function PromptInput({ className, onSubmit, children, ...props }: Omit<Re
   );
 }
 
-export const PromptInputTextarea = React.forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttributes<HTMLTextAreaElement>>(
-  ({ className, onChange, ...props }, ref) => {
-    const { value, setValue, submit } = usePromptInput();
-    return (
-      <textarea
-        ref={ref}
-        rows={1}
-        value={value}
-        onChange={(event) => {
-          setValue(event.currentTarget.value);
-          onChange?.(event);
-        }}
-        onKeyDown={(event) => {
-          if (event.key === "Enter" && !event.shiftKey) {
-            event.preventDefault();
-            submit();
-          }
-        }}
-        className={cn("min-h-11 flex-1 resize-none rounded-full bg-card px-4 py-3 text-sm leading-5 outline-none placeholder:text-muted-foreground", className)}
-        {...props}
-      />
-    );
-  },
-);
+export const PromptInputTextarea = React.forwardRef<
+  HTMLTextAreaElement,
+  React.TextareaHTMLAttributes<HTMLTextAreaElement> & { maxRows?: number }
+>(({ className, onChange, maxRows = 5, ...props }, forwardedRef) => {
+  const { value, setValue, submit } = usePromptInput();
+  const innerRef = React.useRef<HTMLTextAreaElement>(null);
+  React.useImperativeHandle(forwardedRef, () => innerRef.current as HTMLTextAreaElement);
+
+  // Auto-grow up to `maxRows` lines (like WhatsApp's composer), then scroll
+  // internally instead of growing further.
+  React.useLayoutEffect(() => {
+    const el = innerRef.current;
+    if (!el) return;
+    const style = window.getComputedStyle(el);
+    const maxHeight =
+      parseFloat(style.lineHeight) * maxRows +
+      parseFloat(style.paddingTop) +
+      parseFloat(style.paddingBottom) +
+      parseFloat(style.borderTopWidth) +
+      parseFloat(style.borderBottomWidth);
+
+    el.style.height = "auto";
+    const next = Math.min(el.scrollHeight, maxHeight);
+    el.style.height = `${next}px`;
+    el.style.overflowY = el.scrollHeight > maxHeight ? "auto" : "hidden";
+  }, [value, maxRows]);
+
+  return (
+    <textarea
+      ref={innerRef}
+      rows={1}
+      value={value}
+      onChange={(event) => {
+        setValue(event.currentTarget.value);
+        onChange?.(event);
+      }}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" && !event.shiftKey) {
+          event.preventDefault();
+          submit();
+        }
+      }}
+      className={cn(
+        "min-h-11 flex-1 resize-none rounded-full bg-card px-4 py-3 text-sm leading-5 outline-none placeholder:text-muted-foreground",
+        className,
+      )}
+      {...props}
+    />
+  );
+});
 PromptInputTextarea.displayName = "PromptInputTextarea";
 
 export function PromptInputFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return <div className={cn("flex items-center", className)} {...props} />;
 }
 
-export function PromptInputSubmit({ className, status = "ready", disabled, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement> & { status?: "submitted" | "streaming" | "ready" | "error" }) {
+export function PromptInputSubmit({
+  className,
+  status = "ready",
+  disabled,
+  ...props
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  status?: "submitted" | "streaming" | "ready" | "error";
+}) {
   const { value } = usePromptInput();
   const busy = status === "submitted" || status === "streaming";
   return (
     <button
       type="submit"
       disabled={disabled || (!value.trim() && !busy)}
-      className={cn("flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand text-brand-foreground shadow-sm disabled:opacity-60", className)}
+      className={cn(
+        "flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand text-brand-foreground shadow-sm disabled:opacity-60",
+        className,
+      )}
       {...props}
     >
-      {busy ? <Square className="h-3.5 w-3.5" fill="currentColor" /> : <ArrowUp className="h-5 w-5" />}
+      {busy ? (
+        <Square className="h-3.5 w-3.5" fill="currentColor" />
+      ) : (
+        <ArrowUp className="h-5 w-5" />
+      )}
     </button>
   );
 }

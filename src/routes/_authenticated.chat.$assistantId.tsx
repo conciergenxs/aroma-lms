@@ -1,10 +1,11 @@
 import { createFileRoute, useNavigate, notFound } from "@tanstack/react-router";
-import { ChevronLeft, History, X, Mic } from "lucide-react";
+import { ChevronLeft, History, SquarePen, X, Mic } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useI18n } from "@/lib/i18n";
-import { chatSessions, getSession, type ChatMessage, type ChatSession } from "@/data/chat";
+import { type ChatMessage, type ChatSession } from "@/data/chat";
 import { getModule } from "@/data/modules";
 import { useNavHistory } from "@/lib/nav-history";
+import { useChatStore } from "@/lib/chat-store";
 import baHelperLogo from "@/assets/ba-helper-logo.png.asset.json";
 import aiLogo from "@/assets/ai-logo-new.svg.asset.json";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -15,7 +16,7 @@ import { Shimmer } from "@/components/ai-elements/shimmer";
 
 export const Route = createFileRoute("/_authenticated/chat/$assistantId")({
   loader: ({ params }) => {
-    let s = getSession(params.assistantId);
+    let s = useChatStore.getState().getSession(params.assistantId);
     if (!s) {
       const m = getModule(params.assistantId);
       if (!m) throw notFound();
@@ -68,6 +69,8 @@ function ChatRoom() {
   const { session } = Route.useLoaderData();
   const navigate = useNavigate();
   const { previousPath, previousLabel } = useNavHistory();
+  const sessions = useChatStore((s) => s.sessions);
+  const saveSession = useChatStore((s) => s.saveSession);
   const [showProduct, setShowProduct] = useState(!!session.product);
   const [historyOpen, setHistoryOpen] = useState(false);
   const initialMessages = useMemo(() => session.messages.map(toUiMessage), [session.id, session.messages]);
@@ -120,6 +123,31 @@ function ChatRoom() {
     }
   };
 
+  const handleNewChat = () => {
+    // Move the current conversation into history with its latest messages...
+    saveSession({
+      ...session,
+      messages: messages.map(({ id, role, text, time }) => ({ id, role, text, time })),
+      lastTime: currentTime(),
+    });
+    // ...then start a fresh session and switch to it.
+    const newSession: ChatSession = {
+      id: crypto.randomUUID(),
+      title: "Chat Baru",
+      lastTime: "Now",
+      messages: [
+        {
+          id: crypto.randomUUID(),
+          role: "assistant",
+          time: currentTime(),
+          text: "Halo! Aku **Aroma Abadi BA-Helper**. Tanyakan apa saja seputar produk, tips beauty, atau training kamu di sini ✨",
+        },
+      ],
+    };
+    saveSession(newSession);
+    navigate({ to: "/chat/$assistantId", params: { assistantId: newSession.id } });
+  };
+
   return (
     <div className="h-screen min-h-[667px] flex flex-col bg-card">
       <header className="h-[55px] shrink-0 bg-card border-b border-black/5 px-[14px] flex items-center justify-between">
@@ -140,7 +168,7 @@ function ChatRoom() {
               <SheetTitle className="font-serif text-2xl">{t("chatHistory")}</SheetTitle>
             </SheetHeader>
             <div className="mt-4 space-y-2">
-              {chatSessions.map((s) => (
+              {sessions.map((s) => (
                 <button
                   key={s.id}
                   onClick={() => {
@@ -166,6 +194,9 @@ function ChatRoom() {
           <div className="font-medium text-[15px] leading-tight">Aroma Abadi BA-Helper</div>
           <div className="text-xs text-foreground/40 mt-0.5">aktif</div>
         </div>
+        <button onClick={handleNewChat} aria-label="New chat" className="text-tan">
+          <SquarePen className="h-5 w-5" />
+        </button>
       </div>
 
       <Conversation>
