@@ -12,7 +12,7 @@ import skinScienceCard5LayeringOrder from "@/assets/skincare/card-5-layering-ord
 import skinScienceCard6TropicalClimate from "@/assets/skincare/card-6-tropical-climate.png";
 
 // Unsplash free photos — verified makeup product photos
-const u = (id: string) =>
+export const u = (id: string) =>
   `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=600&q=80`;
 
 // Knowledge card images — actual makeup product photos from Unsplash

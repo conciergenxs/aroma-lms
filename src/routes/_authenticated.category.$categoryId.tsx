@@ -1,11 +1,12 @@
 import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
-import { ChevronLeft, BookOpen } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import { z } from "zod";
 import { getCategory, getModulesByCategory, type Module } from "@/data/modules";
 import { getGeneralKnowledgeByCategory } from "@/data/general-knowledge";
 import { ModuleCard } from "@/components/ModuleCard";
+import { GeneralKnowledgeCard } from "@/components/GeneralKnowledgeCard";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { useBrand } from "@/lib/brand-context";
 
@@ -107,28 +108,15 @@ function CategoryDetailPage() {
                 {t("noKnowledgeInCategory")}
               </div>
             ) : (
-              <div className="mt-6 space-y-3">
+              <div className="mt-6 grid grid-cols-2 gap-3">
                 {knowledge.map((item, i) => (
                   <motion.div
                     key={item.id}
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.05 }}
-                    className="bg-card rounded-xl border border-border p-4"
                   >
-                    <div className="flex items-start gap-3">
-                      <div className="h-9 w-9 rounded-full bg-brand/10 flex items-center justify-center shrink-0">
-                        <BookOpen className="h-4 w-4 text-brand" />
-                      </div>
-                      <div className="min-w-0">
-                        <div className="font-serif text-[16px] font-medium leading-tight">
-                          {item.title}
-                        </div>
-                        <p className="text-[13px] text-foreground/70 mt-1.5 leading-relaxed">
-                          {item.body}
-                        </p>
-                      </div>
-                    </div>
+                    <GeneralKnowledgeCard item={item} />
                   </motion.div>
                 ))}
               </div>
