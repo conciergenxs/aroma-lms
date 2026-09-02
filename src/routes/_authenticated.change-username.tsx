@@ -60,7 +60,7 @@ function ChangeUsername() {
             type="submit"
             className="w-full bg-brand text-brand-foreground font-semibold tracking-wider py-3.5 rounded-full hover:brightness-110 transition-all"
           >
-            SAVE CHANGES
+            {t("saveChanges")}
           </button>
         </motion.form>
       </div>

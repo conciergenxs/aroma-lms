@@ -40,7 +40,9 @@ function LoginSuccess() {
         <div className="font-bold tracking-tight text-lg leading-none">LAURA MERCIER</div>
         <div className="text-[9px] tracking-[0.28em] text-foreground/75 mt-1">PARIS · NEW YORK</div>
       </div>
-      <Link to="/home" className="sr-only">Continue</Link>
+      <Link to="/home" className="sr-only">
+        {t("continueLabel")}
+      </Link>
     </div>
   );
 }
