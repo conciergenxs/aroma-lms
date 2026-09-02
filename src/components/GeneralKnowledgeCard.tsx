@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useI18n } from "@/lib/i18n";
 import type { GeneralKnowledgeItem } from "@/data/general-knowledge";
 
 export function GeneralKnowledgeCard({ item }: { item: GeneralKnowledgeItem }) {
+  const { t } = useI18n();
   const [expanded, setExpanded] = useState(false);
+  const pct = Math.round((item.completed / item.total) * 1000) / 10;
 
   return (
     <motion.div
@@ -17,7 +20,23 @@ export function GeneralKnowledgeCard({ item }: { item: GeneralKnowledgeItem }) {
         aria-expanded={expanded}
         className="block w-full text-left bg-card rounded-lg border border-border overflow-hidden shadow-sm hover:shadow-md transition-shadow"
       >
-        <div className="aspect-square m-2.5 rounded-md bg-soft overflow-hidden">
+        <div className="px-2.5 pt-3">
+          <div className="flex items-center justify-between text-[11px] mb-1.5">
+            <span className="text-brand font-normal">
+              {item.completed}/{item.total} {t("cardsCompleted")}
+            </span>
+            <span className="font-semibold text-brand">{pct}%</span>
+          </div>
+          <div className="h-1.5 rounded-full bg-rose-line overflow-hidden">
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: `${pct}%` }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="h-full bg-brand"
+            />
+          </div>
+        </div>
+        <div className="aspect-square m-2.5 mb-0 rounded-md bg-soft overflow-hidden">
           <img
             src={item.image}
             alt={item.title}

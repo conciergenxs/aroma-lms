@@ -68,8 +68,8 @@ const T = {
     skusTab: "SKU",
     generalKnowledgeTab: "General",
     modulesInCategory: "modules in this category",
-    knowledgeInCategory: "general knowledge articles in this category",
-    noKnowledgeInCategory: "No general knowledge articles yet in this category.",
+    knowledgeInCategory: "general knowledge modules in this category",
+    noKnowledgeInCategory: "No general knowledge modules yet in this category.",
     // Pages
     pageCategory: "Category",
     pageMyLearning: "Progress",
@@ -205,8 +205,8 @@ const T = {
     skusTab: "SKU",
     generalKnowledgeTab: "General",
     modulesInCategory: "modul dalam kategori ini",
-    knowledgeInCategory: "artikel pengetahuan umum di kategori ini",
-    noKnowledgeInCategory: "Belum ada artikel pengetahuan umum di kategori ini.",
+    knowledgeInCategory: "modul pengetahuan umum di kategori ini",
+    noKnowledgeInCategory: "Belum ada modul pengetahuan umum di kategori ini.",
     // Pages
     pageCategory: "Kategori",
     pageMyLearning: "Progres",
