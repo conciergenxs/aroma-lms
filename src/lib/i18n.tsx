@@ -108,7 +108,8 @@ const T = {
     saveChanges: "SAVE CHANGES",
     usernameUpdated: "Username updated",
     changePasswordPage: "Change Password",
-    changePasswordSubtitle: "Use at least 8 characters. Mix letters, numbers and symbols for a stronger password.",
+    changePasswordSubtitle:
+      "Use at least 8 characters. Mix letters, numbers and symbols for a stronger password.",
     currentPasswordLabel: "Current Password",
     currentPasswordPlaceholder: "Enter your old password..",
     newPasswordLabel: "New Password",
@@ -121,9 +122,11 @@ const T = {
     passwordUpdated: "Password updated",
     // Help
     helpTitle: "We're here to help",
-    helpSubtitle: "Whether you have a question about a module, need help with your account, or want product guidance from our beauty advisors — our support team is ready to assist. Reach out anytime and we'll get back to you as soon as possible.",
+    helpSubtitle:
+      "Whether you have a question about a module, need help with your account, or want product guidance from our beauty advisors — our support team is ready to assist. Reach out anytime and we'll get back to you as soon as possible.",
     contactSupport: "Contact Support",
-    contactSupportDesc: "Chat with our AI assistant directly on WhatsApp for instant answers about products, training modules, or account help. Available 24/7.",
+    contactSupportDesc:
+      "Chat with our AI assistant directly on WhatsApp for instant answers about products, training modules, or account help. Available 24/7.",
     chatOnWhatsApp: "Chat on WhatsApp",
     orEmailUs: "Or email us at",
     waMessage: "Hi Aroma AI, I need help with my account.",
@@ -257,7 +260,8 @@ const T = {
     saveChanges: "SIMPAN PERUBAHAN",
     usernameUpdated: "Username berhasil diubah",
     changePasswordPage: "Ubah Kata Sandi",
-    changePasswordSubtitle: "Gunakan minimal 8 karakter. Kombinasikan huruf, angka, dan simbol untuk kata sandi yang lebih kuat.",
+    changePasswordSubtitle:
+      "Gunakan minimal 8 karakter. Kombinasikan huruf, angka, dan simbol untuk kata sandi yang lebih kuat.",
     currentPasswordLabel: "Kata Sandi Saat Ini",
     currentPasswordPlaceholder: "Ketik kata sandi lama kamu..",
     newPasswordLabel: "Kata Sandi Baru",
@@ -270,9 +274,11 @@ const T = {
     passwordUpdated: "Kata sandi berhasil diubah",
     // Help
     helpTitle: "Kami Siap Membantu",
-    helpSubtitle: "Apakah kamu punya pertanyaan tentang modul, butuh bantuan akun, atau ingin panduan produk dari beauty advisor kami — tim support kami siap membantu. Hubungi kapan saja dan kami akan segera merespons.",
+    helpSubtitle:
+      "Apakah kamu punya pertanyaan tentang modul, butuh bantuan akun, atau ingin panduan produk dari beauty advisor kami — tim support kami siap membantu. Hubungi kapan saja dan kami akan segera merespons.",
     contactSupport: "Hubungi Support",
-    contactSupportDesc: "Chat dengan asisten AI kami langsung di WhatsApp untuk jawaban cepat tentang produk, modul pelatihan, atau bantuan akun. Tersedia 24 jam.",
+    contactSupportDesc:
+      "Chat dengan asisten AI kami langsung di WhatsApp untuk jawaban cepat tentang produk, modul pelatihan, atau bantuan akun. Tersedia 24 jam.",
     chatOnWhatsApp: "Chat di WhatsApp",
     orEmailUs: "Atau email kami di",
     waMessage: "Halo Aroma AI, saya butuh bantuan untuk akun saya.",
@@ -305,7 +311,11 @@ const T = {
 
 type TKey = keyof typeof T.en;
 
-interface I18nCtx { lang: Lang; setLang: (l: Lang) => void; t: (k: TKey) => string; }
+interface I18nCtx {
+  lang: Lang;
+  setLang: (l: Lang) => void;
+  t: (k: TKey) => string;
+}
 const I18nContext = createContext<I18nCtx | null>(null);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
