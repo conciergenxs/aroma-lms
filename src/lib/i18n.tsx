@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
 export type Lang = "id" | "en";
 
@@ -289,19 +289,25 @@ interface I18nCtx { lang: Lang; setLang: (l: Lang) => void; t: (k: TKey) => stri
 const I18nContext = createContext<I18nCtx | null>(null);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>(() => {
-    if (typeof window === "undefined") return "id";
+  // Always start at the SSR-safe default so the client's first render matches
+  // the server-rendered HTML exactly — reading localStorage in the initializer
+  // (as this used to) causes a hydration mismatch (React error #418) for any
+  // returning visitor who had previously chosen a non-default language.
+  const [lang, setLangState] = useState<Lang>("id");
+
+  useEffect(() => {
     // v2: force-reset anyone who had old "en" default; only keep if user explicitly chose after v2
     const VER = "v2";
     if (localStorage.getItem("aroma:lang:ver") !== VER) {
       localStorage.setItem("aroma:lang", "id");
       localStorage.setItem("aroma:lang:ver", VER);
       localStorage.removeItem("aroma:lang:chosen");
-      return "id";
+      return;
     }
     const saved = localStorage.getItem("aroma:lang") as Lang | null;
-    return saved === "en" || saved === "id" ? saved : "id";
-  });
+    if (saved === "en" || saved === "id") setLangState(saved);
+  }, []);
+
   const setLang = (l: Lang) => {
     setLangState(l);
     if (typeof window !== "undefined") {
