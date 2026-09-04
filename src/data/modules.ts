@@ -2,6 +2,7 @@ import brandDolce from "@/assets/brands/dolce-gabbana.svg";
 import brandBareminerals from "@/assets/brands/bareminerals.svg.asset.json";
 import brandRimmel from "@/assets/brands/rimmel.svg.asset.json";
 import brandSisley from "@/assets/brands/sisley.svg.asset.json";
+import { levelModules } from "./level-modules";
 
 // Dolce & Gabbana — Skin Science Essentials — user-supplied Knowledge Card Content images
 import skinScienceCard1Barrier from "@/assets/skincare/card-1-skin-barrier.png";
@@ -90,6 +91,9 @@ export type Module = {
   completed: number;
   total: number;
   cards: KnowledgeCard[];
+  // Optional — absent/undefined means an implicit "sku" (all ~70 existing modules).
+  // "category" / "brand" mark the new category-wide / brand-wide overview modules.
+  level?: "brand" | "category";
 };
 
 const baseCards = (): KnowledgeCard[] => [
@@ -2273,6 +2277,7 @@ export const modules: Module[] = [
   ...bareModules,
   ...rimmelModules,
   ...sisleyModules,
+  ...levelModules,
 ];
 
 export const brands = [
@@ -2283,12 +2288,12 @@ export const brands = [
 ];
 
 export const categories = [
-  { id: "skin-care", name: "Skin Care", count: modules.filter(m => m.categoryId === "skin-care").length, image: u("1557205465-f3762edea6d3") },
-  { id: "makeup", name: "Makeup", count: modules.filter(m => m.categoryId === "makeup").length, image: u("1596462502278-27bfdc403348") },
-  { id: "fragrance", name: "Fragrance", count: modules.filter(m => m.categoryId === "fragrance").length, image: u("1617422275558-e5f616302690") },
-  { id: "wellness", name: "Wellness", count: modules.filter(m => m.categoryId === "wellness").length, image: u("1723150512429-bfa92988d845") },
-  { id: "hair-care", name: "Hair Care", count: modules.filter(m => m.categoryId === "hair-care").length, image: u("1631214524049-0ebbbe6d81aa") },
-  { id: "body-care", name: "Body Care", count: modules.filter(m => m.categoryId === "body-care").length, image: u("1631214524020-7e18db9a8f92") },
+  { id: "skin-care", name: "Skin Care", count: modules.filter(m => m.categoryId === "skin-care" && !m.level).length, image: u("1557205465-f3762edea6d3") },
+  { id: "makeup", name: "Makeup", count: modules.filter(m => m.categoryId === "makeup" && !m.level).length, image: u("1596462502278-27bfdc403348") },
+  { id: "fragrance", name: "Fragrance", count: modules.filter(m => m.categoryId === "fragrance" && !m.level).length, image: u("1617422275558-e5f616302690") },
+  { id: "wellness", name: "Wellness", count: modules.filter(m => m.categoryId === "wellness" && !m.level).length, image: u("1723150512429-bfa92988d845") },
+  { id: "hair-care", name: "Hair Care", count: modules.filter(m => m.categoryId === "hair-care" && !m.level).length, image: u("1631214524049-0ebbbe6d81aa") },
+  { id: "body-care", name: "Body Care", count: modules.filter(m => m.categoryId === "body-care" && !m.level).length, image: u("1631214524020-7e18db9a8f92") },
 ];
 
 export const getModule = (id: string) => modules.find((m) => m.id === id);

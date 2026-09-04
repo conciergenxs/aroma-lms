@@ -5,6 +5,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { modules } from "@/data/modules";
 import { ModuleCard } from "@/components/ModuleCard";
+import { LevelModuleCard } from "@/components/LevelModuleCard";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { z } from "zod";
 
@@ -28,10 +29,15 @@ function AllModulesPage() {
     ? modules.filter((m) => m.brand.toLowerCase() === brand.toLowerCase())
     : modules;
 
-  const total = filtered.length;
+  // The brand-wide overview module (if any) is pulled out into its own hero section below,
+  // rather than sitting in the paginated SKU grid.
+  const brandModule = brand ? filtered.find((m) => m.level === "brand") : undefined;
+  const gridItems = brandModule ? filtered.filter((m) => m.id !== brandModule.id) : filtered;
+
+  const total = gridItems.length;
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const start = (page - 1) * PAGE_SIZE;
-  const items = filtered.slice(start, start + PAGE_SIZE);
+  const items = gridItems.slice(start, start + PAGE_SIZE);
 
   return (
     <>
@@ -42,6 +48,19 @@ function AllModulesPage() {
         <h1 className="font-serif text-[31px] font-medium leading-none">
           {brand ? brand : t("allModules")}
         </h1>
+
+        {brandModule && (
+          <div className="mt-5">
+            <h2 className="text-[11px] font-bold tracking-widest text-tan uppercase">
+              {t("aboutThisBrand")}
+            </h2>
+            <p className="text-[13px] text-foreground/60 mt-1">{t("aboutThisBrandHint")}</p>
+            <div className="mt-2.5">
+              <LevelModuleCard module={brandModule} kind="brand" />
+            </div>
+          </div>
+        )}
+
         {total === 0 ? (
           <p className="text-[15px] text-foreground/75 mt-3">{t("noModulesForBrand")}</p>
         ) : (

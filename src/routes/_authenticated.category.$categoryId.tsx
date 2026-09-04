@@ -1,28 +1,20 @@
 import { useI18n } from "@/lib/i18n";
-import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ChevronLeft } from "lucide-react";
 import { motion } from "framer-motion";
-import { z } from "zod";
 import { getCategory, getModulesByCategory, type Module } from "@/data/modules";
-import { getGeneralKnowledgeByCategory } from "@/data/general-knowledge";
 import { ModuleCard } from "@/components/ModuleCard";
-import { GeneralKnowledgeCard } from "@/components/GeneralKnowledgeCard";
+import { LevelModuleCard } from "@/components/LevelModuleCard";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { useBrand } from "@/lib/brand-context";
 
-const searchSchema = z.object({
-  tab: z.enum(["skus", "general"]).optional(),
-});
-
 export const Route = createFileRoute("/_authenticated/category/$categoryId")({
-  validateSearch: searchSchema,
   loader: ({ params }) => {
     const cat = getCategory(params.categoryId);
     if (!cat) throw notFound();
     return {
       category: cat,
       items: getModulesByCategory(cat.id),
-      knowledge: getGeneralKnowledgeByCategory(cat.id),
     };
   },
   component: CategoryDetailPage,
@@ -32,18 +24,20 @@ export const Route = createFileRoute("/_authenticated/category/$categoryId")({
 
 function CategoryDetailPage() {
   const { t } = useI18n();
-  const { category, items: allItems, knowledge } = Route.useLoaderData();
-  const { tab } = Route.useSearch();
-  const navigate = useNavigate();
+  const { category, items: allItems } = Route.useLoaderData();
   const { activeBrand } = useBrand();
-  const activeTab = tab ?? "skus";
+  // The category-wide overview module (if any) is pulled from allItems before the D&G brand
+  // filter below, and rendered unconditionally — it's brand-neutral content that belongs to
+  // every brand's BA, even when the page is otherwise scoped to a single brand.
+  const categoryModule = allItems.find((m) => m.level === "category");
   // Dolce & Gabbana's Skin Care and Makeup modules are scoped to their own brand so this
   // new content doesn't leak into other brands' view of these categories.
   // Every other brand/category combination keeps its existing cross-brand listing.
-  const items =
+  const items = (
     activeBrand === "Dolce & Gabbana" && (category.id === "skin-care" || category.id === "makeup")
       ? allItems.filter((m) => m.brand === "Dolce & Gabbana")
-      : allItems;
+      : allItems
+  ).filter((m: Module) => m.id !== categoryModule?.id);
 
   return (
     <>
@@ -56,72 +50,39 @@ function CategoryDetailPage() {
         </Link>
         <h1 className="font-serif text-[31px] font-medium leading-none">{category.name}</h1>
 
-        <div className="mt-5 flex gap-2">
-          {(["skus", "general"] as const).map((key) => (
-            <button
-              key={key}
-              onClick={() => navigate({ to: ".", search: { tab: key } })}
-              className={`px-4 py-2 rounded-full text-[13px] font-semibold transition-colors ${
-                activeTab === key
-                  ? "bg-brand text-white"
-                  : "bg-card border border-border text-foreground/70 hover:border-brand/40"
-              }`}
-            >
-              {key === "skus" ? t("skusTab") : t("generalKnowledgeTab")}
-            </button>
-          ))}
-        </div>
+        {categoryModule && (
+          <div className="mt-5">
+            <h2 className="text-[11px] font-bold tracking-widest text-tan uppercase">
+              {t("aboutThisCategory")}
+            </h2>
+            <p className="text-[13px] text-foreground/60 mt-1">{t("aboutThisCategoryHint")}</p>
+            <div className="mt-2.5">
+              <LevelModuleCard module={categoryModule} kind="category" />
+            </div>
+          </div>
+        )}
 
-        {activeTab === "skus" ? (
-          <>
-            <p className="text-[15px] text-foreground/75 mt-4">
-              {items.length} {t("modulesInCategory")}
-            </p>
+        <p className="text-[15px] text-foreground/75 mt-6">
+          {items.length} {t("modulesInCategory")}
+        </p>
 
-            {items.length === 0 ? (
-              <div className="mt-10 text-center text-foreground/60 text-sm">
-                {t("noModulesInCategory")}
-              </div>
-            ) : (
-              <div className="mt-6 grid grid-cols-2 gap-3">
-                {items.map((m: Module, i: number) => (
-                  <motion.div
-                    key={m.id}
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                  >
-                    <ModuleCard module={m} />
-                  </motion.div>
-                ))}
-              </div>
-            )}
-          </>
+        {items.length === 0 ? (
+          <div className="mt-10 text-center text-foreground/60 text-sm">
+            {t("noModulesInCategory")}
+          </div>
         ) : (
-          <>
-            <p className="text-[15px] text-foreground/75 mt-4">
-              {knowledge.length} {t("knowledgeInCategory")}
-            </p>
-
-            {knowledge.length === 0 ? (
-              <div className="mt-10 text-center text-foreground/60 text-sm">
-                {t("noKnowledgeInCategory")}
-              </div>
-            ) : (
-              <div className="mt-6 grid grid-cols-2 gap-3">
-                {knowledge.map((item, i) => (
-                  <motion.div
-                    key={item.id}
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                  >
-                    <GeneralKnowledgeCard item={item} />
-                  </motion.div>
-                ))}
-              </div>
-            )}
-          </>
+          <div className="mt-6 grid grid-cols-2 gap-3">
+            {items.map((m: Module, i: number) => (
+              <motion.div
+                key={m.id}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+              >
+                <ModuleCard module={m} />
+              </motion.div>
+            ))}
+          </div>
         )}
       </div>
       <SiteFooter />
