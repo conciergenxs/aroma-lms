@@ -69,7 +69,7 @@ function HomePage() {
         </div>
 
         {(() => {
-          const filtered = modules.filter((m) => matchesLevel(m, level)).slice(0, 6);
+          const filtered = modules.filter((m) => matchesLevel(m, level)).slice(0, 12);
           return filtered.length === 0 ? (
             <p className="mt-4 text-sm text-foreground/60">{t("noModulesForLevel")}</p>
           ) : (

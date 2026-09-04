@@ -6,6 +6,12 @@ import { motion } from "framer-motion";
 import { z } from "zod";
 import { modules } from "@/data/modules";
 import { ModuleCard } from "@/components/ModuleCard";
+import {
+  LevelFilterChips,
+  DEFAULT_LEVEL,
+  matchesLevel,
+  type ModuleLevelFilter,
+} from "@/components/LevelFilterChips";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 
 const searchSchema = z.object({
@@ -21,6 +27,7 @@ function SearchResultsPage() {
   const { t } = useI18n();
   const { q } = Route.useSearch();
   const [query, setQuery] = useState(q ?? "");
+  const [level, setLevel] = useState<ModuleLevelFilter>(DEFAULT_LEVEL);
 
   // Keep the input in sync if the URL's `q` changes without this component
   // remounting — e.g. browser back/forward between two /search?q=... states.
@@ -32,9 +39,10 @@ function SearchResultsPage() {
   const results = trimmed
     ? modules.filter(
         (m) =>
-          m.title.toLowerCase().includes(trimmed) ||
-          m.brand.toLowerCase().includes(trimmed) ||
-          m.category.toLowerCase().includes(trimmed),
+          matchesLevel(m, level) &&
+          (m.title.toLowerCase().includes(trimmed) ||
+            m.brand.toLowerCase().includes(trimmed) ||
+            m.category.toLowerCase().includes(trimmed)),
       )
     : [];
 
@@ -59,6 +67,10 @@ function SearchResultsPage() {
             placeholder={t("searchPlaceholder")}
             className="w-full bg-card rounded-lg border border-[#dcc9bd] pl-11 pr-4 py-3 text-[12px] shadow-sm placeholder:text-tan/70 focus:outline-none focus:ring-2 focus:ring-brand/20"
           />
+        </div>
+
+        <div className="mt-5">
+          <LevelFilterChips value={level} onChange={setLevel} includeBrand />
         </div>
 
         {trimmed === "" ? (

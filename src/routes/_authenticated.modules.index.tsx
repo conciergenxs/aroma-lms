@@ -24,7 +24,7 @@ export const Route = createFileRoute("/_authenticated/modules/")({
   component: AllModulesPage,
 });
 
-const PAGE_SIZE = 4;
+const PAGE_SIZE = 10;
 
 function AllModulesPage() {
   const { t } = useI18n();
