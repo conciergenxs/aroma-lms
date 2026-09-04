@@ -45,6 +45,7 @@ const T = {
     backToProfile: "Back to Profile",
     backToCategory: "Back to Category",
     backToModules: "Back to Modules",
+    backToBrand: "Back to Brand",
     back: "Back",
     // Knowledge card
     knowledgeCard: "Knowledge Card",
@@ -72,11 +73,18 @@ const T = {
     aboutThisBrandHint: "A brand-wide module on heritage and positioning, before the individual SKUs below.",
     categoryModuleBadge: "CATEGORY MODULE",
     brandModuleBadge: "BRAND MODULE",
+    // Level filter chips
+    chipBrand: "Brand",
+    chipCategory: "Category",
+    chipProduct: "Product",
+    noModulesForLevel: "No modules match this filter yet.",
     // Pages
     pageCategory: "Category",
     pageMyLearning: "Progress",
     categorySubtitle: "Browse modules based on product categories",
     myLearningSubtitle: "All modules you've started or completed.",
+    overallProgress: "Overall Progress",
+    modulesStarted: "modules started",
     countModules: "Modules",
     // Home
     goodMorning: "Good Morning",
@@ -141,6 +149,8 @@ const T = {
     of: "of",
     page: "Page",
     total: "total",
+    prevPage: "< Previous",
+    nextPage: "Next >",
   },
   id: {
     // Errors
@@ -184,6 +194,7 @@ const T = {
     backToProfile: "Kembali ke Profil",
     backToCategory: "Kembali ke Kategori",
     backToModules: "Kembali ke Modul",
+    backToBrand: "Kembali ke Brand",
     back: "Kembali",
     // Knowledge card
     knowledgeCard: "Knowledge Card",
@@ -211,11 +222,18 @@ const T = {
     aboutThisBrandHint: "Modul level brand tentang heritage dan positioning, sebelum SKU spesifik di bawah ini.",
     categoryModuleBadge: "MODUL KATEGORI",
     brandModuleBadge: "MODUL BRAND",
+    // Level filter chips
+    chipBrand: "Brand",
+    chipCategory: "Category",
+    chipProduct: "Product",
+    noModulesForLevel: "Belum ada modul untuk filter ini.",
     // Pages
     pageCategory: "Kategori",
     pageMyLearning: "Progres",
     categorySubtitle: "Telusuri modul berdasarkan kategori produk",
     myLearningSubtitle: "Semua modul yang sudah kamu mulai atau selesaikan.",
+    overallProgress: "Progres Keseluruhan",
+    modulesStarted: "modul dimulai",
     countModules: "Modul",
     // Home
     goodMorning: "Selamat Pagi",
@@ -280,6 +298,8 @@ const T = {
     of: "dari",
     page: "Halaman",
     total: "total",
+    prevPage: "< Sebelumnya",
+    nextPage: "Selanjutnya >",
   },
 } as const;
 

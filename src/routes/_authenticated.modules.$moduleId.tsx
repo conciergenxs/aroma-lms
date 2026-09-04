@@ -2,10 +2,23 @@ import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link, Outlet, notFound, useRouterState } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
-import { getModule, modules, type ModuleStatus, type KnowledgeCard } from "@/data/modules";
+import {
+  getCategory,
+  getModule,
+  modules,
+  type ModuleStatus,
+  type KnowledgeCard,
+} from "@/data/modules";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { ModuleCard } from "@/components/ModuleCard";
-import { useRef } from "react";
+import {
+  LevelFilterChips,
+  DEFAULT_LEVEL,
+  matchesLevel,
+  type ModuleLevelFilter,
+} from "@/components/LevelFilterChips";
+import { PrevNextPagination } from "@/components/PrevNextPagination";
+import { useEffect, useRef, useState } from "react";
 
 
 export const Route = createFileRoute("/_authenticated/modules/$moduleId")({
@@ -39,16 +52,50 @@ function ModuleDetail() {
   const pct = Math.round((m.completed / m.total) * 1000) / 10;
   const railRef = useRef<HTMLDivElement>(null);
   const scroll = (dir: -1 | 1) => railRef.current?.scrollBy({ left: dir * 200, behavior: "smooth" });
-  const others = modules.filter((x) => x.id !== m.id);
+
+  const isBrandLevelModule = m.categoryId === "brand-overview";
+  const backCategory = !isBrandLevelModule ? getCategory(m.categoryId) : undefined;
+
+  const CARD_PAGE_SIZE = 10;
+  const [cardPage, setCardPage] = useState(1);
+  useEffect(() => setCardPage(1), [m.id]);
+
+  const cardTotal = m.cards.length;
+  const cardPages = Math.max(1, Math.ceil(cardTotal / CARD_PAGE_SIZE));
+  const cardStart = (cardPage - 1) * CARD_PAGE_SIZE;
+  const visibleCards = m.cards.slice(cardStart, cardStart + CARD_PAGE_SIZE);
+
+  const [suggestedLevel, setSuggestedLevel] = useState<ModuleLevelFilter>(DEFAULT_LEVEL);
+  useEffect(() => setSuggestedLevel(DEFAULT_LEVEL), [m.id]);
+
+  const others = modules.filter((x) => x.id !== m.id && matchesLevel(x, suggestedLevel));
 
   if (isKnowledgeCardRoute) return <Outlet />;
 
   return (
     <>
       <div className="px-[14px] pt-5">
-      <Link to="/home" className="inline-flex items-center text-sm text-brand font-semibold">
-        <ChevronLeft className="h-4 w-4" /> {t("backToHome")}
-      </Link>
+      {isBrandLevelModule ? (
+        <Link
+          to="/modules"
+          search={{ brand: m.brand }}
+          className="inline-flex items-center text-sm text-brand font-semibold"
+        >
+          <ChevronLeft className="h-4 w-4" /> {t("backToBrand")}
+        </Link>
+      ) : backCategory ? (
+        <Link
+          to="/category/$categoryId"
+          params={{ categoryId: m.categoryId }}
+          className="inline-flex items-center text-sm text-brand font-semibold"
+        >
+          <ChevronLeft className="h-4 w-4" /> {t("backToCategory")}
+        </Link>
+      ) : (
+        <Link to="/home" className="inline-flex items-center text-sm text-brand font-semibold">
+          <ChevronLeft className="h-4 w-4" /> {t("backToHome")}
+        </Link>
+      )}
 
       <div className="mt-4 bg-card rounded-lg border border-border shadow-sm overflow-hidden">
         <div className="flex items-center gap-3 p-3">
@@ -68,7 +115,7 @@ function ModuleDetail() {
       </div>
 
       <div className="mt-4 space-y-3">
-        {m.cards.map((c: KnowledgeCard, i: number) => (
+        {visibleCards.map((c: KnowledgeCard, i: number) => (
           <motion.div
             key={c.id}
             initial={{ opacity: 0, y: 10 }}
@@ -107,6 +154,13 @@ function ModuleDetail() {
         ))}
       </div>
 
+      <PrevNextPagination
+        page={cardPage}
+        totalPages={cardPages}
+        onPrev={() => setCardPage((p) => Math.max(1, p - 1))}
+        onNext={() => setCardPage((p) => Math.min(cardPages, p + 1))}
+      />
+
       <div className="mt-8 flex items-center justify-between">
         <h2 className="font-serif text-xl">{t("otherModules")}</h2>
         <div className="flex gap-2">
@@ -118,13 +172,22 @@ function ModuleDetail() {
           </button>
         </div>
       </div>
-      <div ref={railRef} className="mt-3 flex gap-3 overflow-x-auto scrollbar-none snap-x">
-        {others.map((o) => (
-          <div key={o.id} className="shrink-0 w-[48%] snap-start">
-            <ModuleCard module={o} />
-          </div>
-        ))}
+
+      <div className="mt-3">
+        <LevelFilterChips value={suggestedLevel} onChange={setSuggestedLevel} includeBrand />
       </div>
+
+      {others.length === 0 ? (
+        <p className="mt-4 text-sm text-foreground/60">{t("noModulesForLevel")}</p>
+      ) : (
+        <div ref={railRef} className="mt-3 flex gap-3 overflow-x-auto scrollbar-none snap-x">
+          {others.map((o) => (
+            <div key={o.id} className="shrink-0 w-[48%] snap-start">
+              <ModuleCard module={o} />
+            </div>
+          ))}
+        </div>
+      )}
 
       </div>
       <SiteFooter />

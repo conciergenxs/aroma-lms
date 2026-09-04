@@ -3,6 +3,12 @@ import { useI18n } from "@/lib/i18n";
 import { Search, ChevronLeft, ChevronRight } from "lucide-react";
 import { modules, brands } from "@/data/modules";
 import { ModuleCard } from "@/components/ModuleCard";
+import {
+  LevelFilterChips,
+  DEFAULT_LEVEL,
+  matchesLevel,
+  type ModuleLevelFilter,
+} from "@/components/LevelFilterChips";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
@@ -15,6 +21,7 @@ function HomePage() {
   const { t } = useI18n();
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
+  const [level, setLevel] = useState<ModuleLevelFilter>(DEFAULT_LEVEL);
   const railRef = useRef<HTMLDivElement>(null);
   const scroll = (dir: -1 | 1) =>
     railRef.current?.scrollBy({ left: dir * 280, behavior: "smooth" });
@@ -57,11 +64,22 @@ function HomePage() {
           </Link>
         </div>
 
-        <div className="mt-4 grid grid-cols-2 gap-3">
-          {modules.slice(0, 6).map((m) => (
-            <ModuleCard key={m.id} module={m} />
-          ))}
+        <div className="mt-3">
+          <LevelFilterChips value={level} onChange={setLevel} includeBrand />
         </div>
+
+        {(() => {
+          const filtered = modules.filter((m) => matchesLevel(m, level)).slice(0, 6);
+          return filtered.length === 0 ? (
+            <p className="mt-4 text-sm text-foreground/60">{t("noModulesForLevel")}</p>
+          ) : (
+            <div className="mt-4 grid grid-cols-2 gap-3">
+              {filtered.map((m) => (
+                <ModuleCard key={m.id} module={m} />
+              ))}
+            </div>
+          );
+        })()}
 
         <motion.div whileTap={{ scale: 0.98 }}>
           <Link

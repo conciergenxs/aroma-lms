@@ -2,9 +2,14 @@ import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ChevronLeft } from "lucide-react";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { getCategory, getModulesByCategory, type Module } from "@/data/modules";
 import { ModuleCard } from "@/components/ModuleCard";
-import { LevelModuleCard } from "@/components/LevelModuleCard";
+import {
+  LevelFilterChips,
+  DEFAULT_LEVEL,
+  type ModuleLevelFilter,
+} from "@/components/LevelFilterChips";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { useBrand } from "@/lib/brand-context";
 
@@ -26,6 +31,8 @@ function CategoryDetailPage() {
   const { t } = useI18n();
   const { category, items: allItems } = Route.useLoaderData();
   const { activeBrand } = useBrand();
+  const [chip, setChip] = useState<ModuleLevelFilter>(DEFAULT_LEVEL);
+  useEffect(() => setChip(DEFAULT_LEVEL), [category.id]);
   // The category-wide overview module (if any) is pulled from allItems before the D&G brand
   // filter below, and rendered unconditionally — it's brand-neutral content that belongs to
   // every brand's BA, even when the page is otherwise scoped to a single brand.
@@ -50,39 +57,45 @@ function CategoryDetailPage() {
         </Link>
         <h1 className="font-serif text-[31px] font-medium leading-none">{category.name}</h1>
 
-        {categoryModule && (
-          <div className="mt-5">
-            <h2 className="text-[11px] font-bold tracking-widest text-tan uppercase">
-              {t("aboutThisCategory")}
-            </h2>
-            <p className="text-[13px] text-foreground/60 mt-1">{t("aboutThisCategoryHint")}</p>
-            <div className="mt-2.5">
-              <LevelModuleCard module={categoryModule} kind="category" />
+        <div className="mt-5">
+          <LevelFilterChips value={chip} onChange={setChip} includeBrand={false} />
+        </div>
+
+        {chip === "category" ? (
+          categoryModule ? (
+            <div className="mt-6 grid grid-cols-2 gap-3">
+              <ModuleCard module={categoryModule} />
             </div>
-          </div>
-        )}
-
-        <p className="text-[15px] text-foreground/75 mt-6">
-          {items.length} {t("modulesInCategory")}
-        </p>
-
-        {items.length === 0 ? (
-          <div className="mt-10 text-center text-foreground/60 text-sm">
-            {t("noModulesInCategory")}
-          </div>
+          ) : (
+            <div className="mt-10 text-center text-foreground/60 text-sm">
+              {t("noModulesForLevel")}
+            </div>
+          )
         ) : (
-          <div className="mt-6 grid grid-cols-2 gap-3">
-            {items.map((m: Module, i: number) => (
-              <motion.div
-                key={m.id}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.05 }}
-              >
-                <ModuleCard module={m} />
-              </motion.div>
-            ))}
-          </div>
+          <>
+            <p className="text-[15px] text-foreground/75 mt-6">
+              {items.length} {t("modulesInCategory")}
+            </p>
+
+            {items.length === 0 ? (
+              <div className="mt-10 text-center text-foreground/60 text-sm">
+                {t("noModulesInCategory")}
+              </div>
+            ) : (
+              <div className="mt-6 grid grid-cols-2 gap-3">
+                {items.map((m: Module, i: number) => (
+                  <motion.div
+                    key={m.id}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.05 }}
+                  >
+                    <ModuleCard module={m} />
+                  </motion.div>
+                ))}
+              </div>
+            )}
+          </>
         )}
       </div>
       <SiteFooter />

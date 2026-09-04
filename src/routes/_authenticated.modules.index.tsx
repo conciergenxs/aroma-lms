@@ -1,11 +1,17 @@
 import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronLeft } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { modules } from "@/data/modules";
 import { ModuleCard } from "@/components/ModuleCard";
-import { LevelModuleCard } from "@/components/LevelModuleCard";
+import {
+  LevelFilterChips,
+  DEFAULT_LEVEL,
+  matchesLevel,
+  type ModuleLevelFilter,
+} from "@/components/LevelFilterChips";
+import { PrevNextPagination } from "@/components/PrevNextPagination";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { z } from "zod";
 
@@ -18,21 +24,31 @@ export const Route = createFileRoute("/_authenticated/modules/")({
   component: AllModulesPage,
 });
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 4;
 
 function AllModulesPage() {
   const { t } = useI18n();
   const { brand } = Route.useSearch();
+  const [level, setLevel] = useState<ModuleLevelFilter>(DEFAULT_LEVEL);
   const [page, setPage] = useState(1);
 
-  const filtered = brand
-    ? modules.filter((m) => m.brand.toLowerCase() === brand.toLowerCase())
-    : modules;
+  // Reset to page 1 whenever the active filter changes — otherwise switching
+  // chips (or navigating to a different ?brand=) can strand the user on a page
+  // number that's out of range for the new, smaller result set.
+  useEffect(() => setPage(1), [level, brand]);
 
-  // The brand-wide overview module (if any) is pulled out into its own hero section below,
-  // rather than sitting in the paginated SKU grid.
-  const brandModule = brand ? filtered.find((m) => m.level === "brand") : undefined;
-  const gridItems = brandModule ? filtered.filter((m) => m.id !== brandModule.id) : filtered;
+  // Brand scope composes with the level filter for Product and Brand chips
+  // (each brand's own SKUs / its own single brand-level module). Category-level
+  // modules are brand-agnostic by design, so a ?brand= scope is deliberately
+  // ignored for the Category chip — every category-level module's brand field
+  // is "PT Aroma Abadi", which never equals a real brand name, and the Category
+  // chip would otherwise show a permanent, incorrect empty state on any
+  // brand-scoped URL.
+  const gridItems = modules.filter((m) => {
+    if (!matchesLevel(m, level)) return false;
+    if (!brand || level === "category") return true;
+    return m.brand.toLowerCase() === brand.toLowerCase();
+  });
 
   const total = gridItems.length;
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
@@ -49,20 +65,12 @@ function AllModulesPage() {
           {brand ? brand : t("allModules")}
         </h1>
 
-        {brandModule && (
-          <div className="mt-5">
-            <h2 className="text-[11px] font-bold tracking-widest text-tan uppercase">
-              {t("aboutThisBrand")}
-            </h2>
-            <p className="text-[13px] text-foreground/60 mt-1">{t("aboutThisBrandHint")}</p>
-            <div className="mt-2.5">
-              <LevelModuleCard module={brandModule} kind="brand" />
-            </div>
-          </div>
-        )}
+        <div className="mt-5">
+          <LevelFilterChips value={level} onChange={setLevel} includeBrand />
+        </div>
 
         {total === 0 ? (
-          <p className="text-[15px] text-foreground/75 mt-3">{t("noModulesForBrand")}</p>
+          <p className="text-[15px] text-foreground/75 mt-3">{t("noModulesForLevel")}</p>
         ) : (
           <p className="text-[15px] text-foreground/75 mt-3">
             {t("showing")} {start + 1}–{Math.min(start + PAGE_SIZE, total)} {t("of")} {total} {t("countModules").toLowerCase()}
@@ -82,46 +90,12 @@ function AllModulesPage() {
           ))}
         </div>
 
-        {pages > 1 && (
-          <>
-            <div className="mt-8 flex items-center justify-center gap-2">
-              <button
-                onClick={() => setPage((p) => Math.max(1, p - 1))}
-                disabled={page === 1}
-                className="h-9 w-9 rounded-full border border-brand/40 text-brand flex items-center justify-center disabled:opacity-30 hover:bg-brand hover:text-white transition-colors"
-                aria-label="Previous page"
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </button>
-              {Array.from({ length: pages }).map((_, i) => {
-                const p = i + 1;
-                const active = p === page;
-                return (
-                  <button
-                    key={p}
-                    onClick={() => setPage(p)}
-                    className={`h-9 w-9 rounded-full text-sm font-semibold transition-colors ${
-                      active ? "bg-brand text-white" : "border border-brand/30 text-brand hover:bg-brand/10"
-                    }`}
-                  >
-                    {p}
-                  </button>
-                );
-              })}
-              <button
-                onClick={() => setPage((p) => Math.min(pages, p + 1))}
-                disabled={page === pages}
-                className="h-9 w-9 rounded-full border border-brand/40 text-brand flex items-center justify-center rotate-180 disabled:opacity-30 hover:bg-brand hover:text-white transition-colors"
-                aria-label="Next page"
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </button>
-            </div>
-            <p className="mt-4 text-center text-xs text-foreground/60">
-              {t("page")} {page} {t("of")} {pages} · {total} {t("countModules").toLowerCase()} {t("total")}
-            </p>
-          </>
-        )}
+        <PrevNextPagination
+          page={page}
+          totalPages={pages}
+          onPrev={() => setPage((p) => Math.max(1, p - 1))}
+          onNext={() => setPage((p) => Math.min(pages, p + 1))}
+        />
       </div>
       <SiteFooter />
     </>
