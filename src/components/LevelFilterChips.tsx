@@ -31,8 +31,13 @@ export function LevelFilterChips({
     { value: "category" as const, label: t("chipCategory") },
     { value: "product" as const, label: t("chipProduct") },
   ];
+  // A single continuous track (one "switch"), not separate floating pills —
+  // the active segment gets a solid fill, inactive segments sit flush beside
+  // it inside the same rounded, padded container.
   return (
-    <div className={`grid ${includeBrand ? "grid-cols-3" : "grid-cols-2"} gap-2`}>
+    <div
+      className={`grid ${includeBrand ? "grid-cols-3" : "grid-cols-2"} gap-1 bg-tan/15 rounded-full p-1`}
+    >
       {options.map((opt) => {
         const active = value === opt.value;
         return (
@@ -40,10 +45,8 @@ export function LevelFilterChips({
             key={opt.value}
             type="button"
             onClick={() => onChange(opt.value)}
-            className={`w-full h-10 rounded-full text-[13px] font-semibold tracking-wide transition-colors ${
-              active
-                ? "bg-brand text-white shadow-sm"
-                : "bg-card border border-brand/30 text-brand hover:bg-brand/10"
+            className={`w-full h-9 rounded-full text-[13px] font-semibold tracking-wide transition-colors ${
+              active ? "bg-brand text-white shadow-sm" : "text-brand hover:bg-brand/10"
             }`}
           >
             {opt.label}
