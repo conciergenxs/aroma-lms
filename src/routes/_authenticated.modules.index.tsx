@@ -54,6 +54,12 @@ function AllModulesPage() {
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const start = (page - 1) * PAGE_SIZE;
   const items = gridItems.slice(start, start + PAGE_SIZE);
+  const countLabelKey =
+    level === "brand"
+      ? "countModulesBrand"
+      : level === "category"
+        ? "countModulesCategory"
+        : "countModulesProduct";
 
   return (
     <>
@@ -73,7 +79,8 @@ function AllModulesPage() {
           <p className="text-[15px] text-foreground/75 mt-3">{t("noModulesForLevel")}</p>
         ) : (
           <p className="text-[15px] text-foreground/75 mt-3">
-            {t("showing")} {start + 1}–{Math.min(start + PAGE_SIZE, total)} {t("of")} {total} {t("countModules").toLowerCase()}
+            {t("showing")} {start + 1}–{Math.min(start + PAGE_SIZE, total)} {t("of")} {total}{" "}
+            {t(countLabelKey)}
           </p>
         )}
 

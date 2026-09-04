@@ -1,6 +1,6 @@
 import React from "react";
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
-import { ChevronLeft, ChevronRight, Check } from "lucide-react";
+import { ChevronLeft, ChevronRight, Check, X } from "lucide-react";
 import { getModule } from "@/data/modules";
 import { useI18n } from "@/lib/i18n";
 import { useEffect, useRef, useState } from "react";
@@ -44,7 +44,10 @@ function KnowledgeDetail() {
   const cardBodyRef = useRef<HTMLDivElement>(null);
   const [completed, setCompleted] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [showCardBanner, setShowCardBanner] = useState(false);
   const [direction, setDirection] = useState<1 | -1>(1);
+  const stickyBarRef = useRef<HTMLDivElement>(null);
+  const [bannerBottom, setBannerBottom] = useState(160); // pre-measurement fallback; irrelevant in practice since the banner is only ever visible well after mount
 
   const { t } = useI18n();
   const isLastCard = cardIndex === m.cards.length - 1;
@@ -54,6 +57,7 @@ function KnowledgeDetail() {
   // Complete-read detection
   useEffect(() => {
     if (typeof window === "undefined") return;
+    setShowCardBanner(false); // fresh per card — clears any leftover banner from the previous card
     const stored = window.localStorage.getItem(completionKey(m.id, card.id));
     if (stored === "1") {
       setCompleted(true);
@@ -62,9 +66,12 @@ function KnowledgeDetail() {
     const markComplete = () => {
       window.localStorage.setItem(completionKey(m.id, card.id), "1");
       setCompleted(true);
-      // Show modal only on last card and only when all cards are now done
+      // Last card AND the whole module is now done → the existing full-screen modal wins
+      // (mutually exclusive with the per-card banner — see banner effect below for reasoning).
       if (isLastCard && allCardsCompleted(m.id, m.cards)) {
         setShowModal(true);
+      } else {
+        setShowCardBanner(true);
       }
     };
 
@@ -91,6 +98,25 @@ function KnowledgeDetail() {
       window.removeEventListener("touchend", checkCompletion);
     };
   }, [m.id, card.id, isLastCard, m.cards]);
+
+  // Auto-fade the per-card completion banner.
+  useEffect(() => {
+    if (!showCardBanner) return;
+    const timer = window.setTimeout(() => setShowCardBanner(false), 3000);
+    return () => window.clearTimeout(timer);
+  }, [showCardBanner]);
+
+  // Measure the sticky bar's actual height so the banner always sits just above it,
+  // regardless of future content changes to either.
+  useEffect(() => {
+    const el = stickyBarRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const update = () => setBannerBottom(70 + el.offsetHeight + 10); // 70 = sticky bar's own `bottom-[70px]`, +10 = gap above it
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   const goTo = (cardId: string, dir: 1 | -1) => {
     setDirection(dir);
@@ -147,6 +173,46 @@ function KnowledgeDetail() {
                 </button>
               </div>
             </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Per-card completion banner — fires the first time THIS card reaches 100%, separate from
+          and lighter-weight than the whole-module modal above. Mutually exclusive with it: the
+          modal is already the bigger celebration on the module-finishing card, so layering this
+          smaller banner underneath/alongside it at that exact instant would either be invisible
+          (modal's opaque overlay covers it) or read as a jarring double-fire of the same beat. */}
+      <AnimatePresence>
+        {showCardBanner && (
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 8 }}
+            transition={{ duration: 0.25 }}
+            style={{ bottom: bannerBottom }}
+            className="fixed left-0 right-0 z-[45] px-[15px]"
+          >
+            <div className="mx-auto max-w-[402px] rounded-xl bg-white text-ink px-4 py-3 shadow-lg border border-[#c9a455]/30 flex items-center gap-3">
+              <div className="h-9 w-9 shrink-0 rounded-full bg-[#c9a455]/15 flex items-center justify-center">
+                <Check className="h-5 w-5 text-[#c9a455]" strokeWidth={3} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="text-[13px] font-bold text-ink leading-tight">
+                  {t("cardCompleteBannerTitle")}
+                </div>
+                <div className="text-[12px] text-ink/60 leading-snug">
+                  {t("cardCompleteBannerDesc")}
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowCardBanner(false)}
+                aria-label={t("cancel")}
+                className="shrink-0 h-6 w-6 rounded-full flex items-center justify-center text-ink/40 hover:text-ink/70 hover:bg-black/5 transition-colors"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -233,7 +299,10 @@ function KnowledgeDetail() {
       <SiteFooter />
 
       {/* Sticky card navigation — sits above bottom navbar */}
-      <div className="fixed bottom-[70px] left-0 right-0 z-30 bg-tan px-[15px] py-[14px] pb-[19px] shadow-[0_-4px_16px_rgba(0,0,0,0.12)]">
+      <div
+        ref={stickyBarRef}
+        className="fixed bottom-[70px] left-0 right-0 z-30 bg-tan px-[15px] py-[14px] pb-[19px] shadow-[0_-4px_16px_rgba(0,0,0,0.12)]"
+      >
         <div className="flex items-center gap-2">
           <div className="flex-1 h-[5px] bg-white/35 rounded-full overflow-hidden">
             <div className="h-full bg-white transition-all duration-500" style={{ width: `${progress}%` }} />
