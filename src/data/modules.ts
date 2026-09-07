@@ -2296,6 +2296,22 @@ export const categories = [
   { id: "body-care", name: "Body Care", count: modules.filter(m => m.categoryId === "body-care" && !m.level).length, image: u("1631214524020-7e18db9a8f92") },
 ];
 
+const DOLCE_CATEGORY_IDS = ["makeup", "skin-care", "fragrance"];
+
+// Dolce & Gabbana's category cards show the module count for their own brand,
+// read from the actual module data, rather than the global cross-brand count.
+// Shared by the Category listing page and Home's Category tab so both stay in sync.
+export const getVisibleCategories = (activeBrand: string) =>
+  activeBrand === "Dolce & Gabbana"
+    ? categories
+        .filter((c) => DOLCE_CATEGORY_IDS.includes(c.id))
+        .map((c) => ({
+          ...c,
+          image: c.id === "fragrance" ? dolceFragranceImage : c.image,
+          count: modules.filter((m) => m.categoryId === c.id && m.brand === "Dolce & Gabbana").length,
+        }))
+    : categories;
+
 export const getModule = (id: string) => modules.find((m) => m.id === id);
 export const getCategory = (id: string) => categories.find((c) => c.id === id);
 export const getModulesByCategory = (id: string) => modules.filter((m) => m.categoryId === id);
