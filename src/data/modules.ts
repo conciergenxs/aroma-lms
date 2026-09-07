@@ -2313,6 +2313,10 @@ export const getVisibleCategories = (activeBrand: string) =>
     : categories;
 
 export const getModule = (id: string) => modules.find((m) => m.id === id);
+// Every brand has exactly one brand-level overview module — used to link a brand
+// tile straight to that module instead of a filtered list.
+export const getBrandLevelModule = (brandName: string) =>
+  modules.find((m) => m.level === "brand" && m.brand === brandName);
 export const getCategory = (id: string) => categories.find((c) => c.id === id);
 export const getModulesByCategory = (id: string) => modules.filter((m) => m.categoryId === id);
 export const getModulesByBrand = (brand: string) => modules.filter((m) => m.brand.toLowerCase() === brand.toLowerCase());

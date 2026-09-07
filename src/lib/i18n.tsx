@@ -45,7 +45,6 @@ const T = {
     backToProfile: "Back to Profile",
     backToCategory: "Back to Category",
     backToModules: "Back to Modules",
-    backToBrand: "Back to Brand",
     back: "Back",
     // Knowledge card
     knowledgeCard: "Knowledge Card",
@@ -197,7 +196,6 @@ const T = {
     backToProfile: "Kembali ke Profil",
     backToCategory: "Kembali ke Kategori",
     backToModules: "Kembali ke Modul",
-    backToBrand: "Kembali ke Brand",
     back: "Kembali",
     // Knowledge card
     knowledgeCard: "Knowledge Card",

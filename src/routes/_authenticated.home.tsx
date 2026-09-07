@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { Search, ChevronLeft, ChevronRight } from "lucide-react";
-import { modules, brands, getVisibleCategories } from "@/data/modules";
+import { modules, brands, getVisibleCategories, getBrandLevelModule } from "@/data/modules";
 import { ModuleCard } from "@/components/ModuleCard";
 import { CategoryCard } from "@/components/CategoryCard";
 import {
@@ -115,27 +115,33 @@ function HomePage() {
         </div>
 
         <div ref={railRef} className="mt-3 flex gap-3 overflow-x-auto scrollbar-none snap-x pb-2">
-          {brands.map((b) => (
-            <Link
-              key={b.id}
-              to="/modules"
-              search={{ brand: b.name }}
-              className="relative shrink-0 w-[235px] h-[206px] rounded-lg overflow-hidden snap-start"
-            >
-              <motion.div
-                whileHover={{ y: -4 }}
-                whileTap={{ scale: 0.97 }}
-                className="relative w-full h-full"
+          {brands.map((b) => {
+            // Each brand has exactly one brand-level overview module — the tile
+            // opens that directly rather than a filtered module list.
+            const brandModule = getBrandLevelModule(b.name);
+            if (!brandModule) return null;
+            return (
+              <Link
+                key={b.id}
+                to="/modules/$moduleId"
+                params={{ moduleId: brandModule.id }}
+                className="relative shrink-0 w-[235px] h-[206px] rounded-lg overflow-hidden snap-start"
               >
-                <img src={b.image} alt="" className="absolute inset-0 w-full h-full object-cover" loading="lazy" width={1024} height={640} />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/55 to-black/80" />
-                <div className="absolute inset-0 flex flex-col items-center justify-center px-6">
-                  <img src={b.logo} alt={b.name} className="max-h-[44px] w-auto max-w-[80%] object-contain" />
-                  <div className="text-xs mt-3 text-tan tracking-wide">{b.count} {t("countModules")}</div>
-                </div>
-              </motion.div>
-            </Link>
-          ))}
+                <motion.div
+                  whileHover={{ y: -4 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="relative w-full h-full"
+                >
+                  <img src={b.image} alt="" className="absolute inset-0 w-full h-full object-cover" loading="lazy" width={1024} height={640} />
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/55 to-black/80" />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center px-6">
+                    <img src={b.logo} alt={b.name} className="max-h-[44px] w-auto max-w-[80%] object-contain" />
+                    <div className="text-xs mt-3 text-tan tracking-wide">{b.count} {t("countModules")}</div>
+                  </div>
+                </motion.div>
+              </Link>
+            );
+          })}
         </div>
       </div>
 

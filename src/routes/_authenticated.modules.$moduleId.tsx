@@ -75,15 +75,7 @@ function ModuleDetail() {
   return (
     <>
       <div className="px-[14px] pt-5">
-      {isBrandLevelModule ? (
-        <Link
-          to="/modules"
-          search={{ brand: m.brand }}
-          className="inline-flex items-center text-sm text-brand font-semibold"
-        >
-          <ChevronLeft className="h-4 w-4" /> {t("backToBrand")}
-        </Link>
-      ) : backCategory ? (
+      {backCategory ? (
         <Link
           to="/category/$categoryId"
           params={{ categoryId: m.categoryId }}
