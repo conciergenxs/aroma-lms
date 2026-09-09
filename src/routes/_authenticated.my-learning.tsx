@@ -90,27 +90,27 @@ function MyLearningPage() {
                 style={{ width: `${overallPct}%` }}
               />
             </div>
-            <span className="text-[20px] font-bold text-brand shrink-0">{overallPct}%</span>
+            <span className="text-[16px] font-bold text-brand shrink-0">{overallPct}%</span>
           </div>
-        </div>
 
-        <div className="mt-3 grid grid-cols-3 gap-2">
-          {LEVELS.map((lvl) => {
-            const items = modules.filter((m) => matchesLevel(m, lvl));
-            const completedCount = items.filter(
-              (m) => m.total > 0 && m.completed === m.total,
-            ).length;
-            return (
-              <div key={lvl} className="bg-card rounded-lg border border-border shadow-sm p-3">
-                <div className="text-[10px] tracking-wider text-tan font-semibold uppercase">
-                  {levelLabel(lvl)}
+          <div className="mt-4 grid grid-cols-3 gap-2">
+            {LEVELS.map((lvl, i) => {
+              const items = modules.filter((m) => matchesLevel(m, lvl));
+              const completedCount = items.filter(
+                (m) => m.total > 0 && m.completed === m.total,
+              ).length;
+              return (
+                <div key={lvl} className={i > 0 ? "pl-2 border-l border-border" : ""}>
+                  <div className="text-[10px] tracking-wider text-tan font-semibold uppercase">
+                    {levelLabel(lvl)}
+                  </div>
+                  <div className="mt-2 text-[11px] text-foreground/60">
+                    {completedCount}/{items.length} {t("modulesCompleted")}
+                  </div>
                 </div>
-                <div className="mt-2 text-[11px] text-foreground/60">
-                  {completedCount}/{items.length} {t("modulesCompleted")}
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
         <div className="mt-7 border-t border-border" />
