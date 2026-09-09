@@ -80,7 +80,7 @@ const T = {
     overallProgressInfoLabel: "About this percentage",
     overallProgressTooltip:
       "This percentage is the combined total across Brand, Category, and Product modules.",
-    modulesCompleted: "modules completed",
+    modulesCompleted: "completed",
     countModules: "Modules",
     countModulesBrand: "Brand modules",
     countModulesCategory: "Category modules",
@@ -231,7 +231,7 @@ const T = {
     overallProgressInfoLabel: "Tentang persentase ini",
     overallProgressTooltip:
       "Persentase ini adalah gabungan (kumulatif) dari modul Brand, Kategori, dan Produk.",
-    modulesCompleted: "modul selesai",
+    modulesCompleted: "selesai",
     countModules: "Modul",
     countModulesBrand: "modul Brand",
     countModulesCategory: "modul Kategori",
