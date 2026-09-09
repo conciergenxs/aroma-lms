@@ -12,22 +12,23 @@ import {
 import { PrevNextPagination } from "@/components/PrevNextPagination";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { motion } from "framer-motion";
-import { Info } from "lucide-react";
+import { Info, Search, SearchX } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/my-learning")({
   component: MyLearningPage,
 });
 
-const PAGE_SIZE = 4;
+const PAGE_SIZE = 10;
 const LEVELS = ["brand", "category", "product"] as const;
 
 function MyLearningPage() {
   const { t } = useI18n();
   const [level, setLevel] = useState<ModuleLevelFilter>(DEFAULT_LEVEL);
+  const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [showProgressInfo, setShowProgressInfo] = useState(false);
 
-  useEffect(() => setPage(1), [level]);
+  useEffect(() => setPage(1), [level, search]);
 
   const totalCardsAll = modules.reduce((s, m) => s + m.total, 0);
   const completedCardsAll = modules.reduce((s, m) => s + m.completed, 0);
@@ -39,7 +40,9 @@ function MyLearningPage() {
   // modules; a fresh module always has completed === 0.
   const started = modules.filter((m) => m.completed > 0);
 
-  const filtered = started.filter((m) => matchesLevel(m, level));
+  const baseItems = started.filter((m) => matchesLevel(m, level));
+  const q = search.trim().toLowerCase();
+  const filtered = q ? baseItems.filter((m) => m.title.toLowerCase().includes(q)) : baseItems;
   const total = filtered.length;
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const start = (page - 1) * PAGE_SIZE;
@@ -119,8 +122,33 @@ function MyLearningPage() {
           <LevelFilterChips value={level} onChange={setLevel} includeBrand />
         </div>
 
-        {total === 0 ? (
+        <form onSubmit={(e) => e.preventDefault()} className="mt-4 relative">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-tan" />
+          <input
+            type="search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder={t("searchPlaceholder")}
+            className="w-full bg-card rounded-lg border border-[#dcc9bd] pl-11 pr-4 py-3 text-[12px] shadow-sm placeholder:text-tan/70 focus:outline-none focus:ring-2 focus:ring-brand/20"
+          />
+        </form>
+
+        {baseItems.length === 0 ? (
           <p className="text-[15px] text-foreground/75 mt-4">{t("noModulesForLevel")}</p>
+        ) : total === 0 ? (
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-10 flex flex-col items-center text-center"
+          >
+            <div className="h-14 w-14 rounded-full bg-tan/15 flex items-center justify-center">
+              <SearchX className="h-6 w-6 text-tan" />
+            </div>
+            <p className="text-[15px] text-foreground/80 font-medium mt-4">
+              {t("noSearchResults")} "{search.trim()}"
+            </p>
+            <p className="text-[13px] text-foreground/55 mt-1.5">{t("noSearchResultsHint")}</p>
+          </motion.div>
         ) : (
           <>
             <p className="text-[13px] text-foreground/60 mt-3">
