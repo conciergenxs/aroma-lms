@@ -107,7 +107,7 @@ function MyLearningPage() {
                   <div className="text-[10px] tracking-wider text-tan font-semibold uppercase">
                     {levelLabel(lvl)}
                   </div>
-                  <div className="mt-2 text-[11px] text-foreground/60">
+                  <div className="mt-2 text-[13px] font-medium text-foreground/70">
                     {completedCount}/{items.length} {t("modulesCompleted")}
                   </div>
                 </div>
