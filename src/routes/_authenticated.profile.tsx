@@ -2,8 +2,8 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { User, Lock, HelpCircle, LogOut, Camera, Mail, Check, ArrowLeftRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
-import avatarBella from "@/assets/avatar-bella.jpg";
+import { useEffect, useRef, useState } from "react";
+import { useAvatarStore, fileToAvatarDataUrl } from "@/lib/avatar-store";
 import { useI18n } from "@/lib/i18n";
 import { useBrand, ALL_BRANDS, type BrandName } from "@/lib/brand-context";
 
@@ -55,6 +55,23 @@ function ProfilePage() {
   const navigate = useNavigate();
   const { t } = useI18n();
   const { activeBrand, setActiveBrand } = useBrand();
+  const fileRef = useRef<HTMLInputElement>(null);
+  const avatar = useAvatarStore((s) => s.avatar);
+  const setAvatar = useAvatarStore((s) => s.setAvatar);
+  const hydrateAvatar = useAvatarStore((s) => s.hydrate);
+
+  useEffect(() => hydrateAvatar(), [hydrateAvatar]);
+
+  const onPickPhoto = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = ""; // so picking the same file again still fires onChange
+    if (!file) return;
+    try {
+      setAvatar(await fileToAvatarDataUrl(file));
+    } catch {
+      // Unreadable image — keep the current photo.
+    }
+  };
 
   const menuItems = [
 { icon: Lock, label: t("changePassword"), to: "/change-password" as const },
@@ -113,10 +130,22 @@ function ProfilePage() {
             transition={{ type: "spring", stiffness: 220, damping: 18 }}
             className="relative"
           >
-            <div className="h-[120px] w-[120px] rounded-full overflow-hidden ring-4 ring-card shadow-md">
-              <img src={avatarBella} alt="Bella Victoria" className="h-full w-full object-cover" width={320} height={320} />
+            <div className="h-[120px] w-[120px] rounded-full overflow-hidden ring-4 ring-card shadow-md bg-card border border-brand/35 flex items-center justify-center text-brand">
+              {avatar ? (
+                <img src={avatar} alt="" className="h-full w-full object-cover" width={320} height={320} />
+              ) : (
+                <User className="h-12 w-12" />
+              )}
             </div>
+            <input
+              ref={fileRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={onPickPhoto}
+            />
             <button
+              onClick={() => fileRef.current?.click()}
               aria-label="Change photo"
               className="absolute bottom-1 right-1 h-9 w-9 rounded-full bg-brand text-white flex items-center justify-center shadow-md ring-2 ring-card hover:brightness-110 transition-all"
             >

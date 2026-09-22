@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { User, ChevronDown, Check } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAvatarStore } from "@/lib/avatar-store";
 import navLogo from "@/assets/navbar-logo.svg.asset.json";
 import dolceLogo from "@/assets/brands/dolce-gabbana.svg";
 import { useBrand, ALL_BRANDS, type BrandName } from "@/lib/brand-context";
@@ -47,6 +48,10 @@ export function TopHeader() {
   const [sheetOpen, setSheetOpen] = useState(false);
   const { activeBrand } = useBrand();
   const headerLogo = activeBrand === "Dolce & Gabbana" ? dolceLogo : navLogo.url;
+  const avatar = useAvatarStore((s) => s.avatar);
+  const hydrateAvatar = useAvatarStore((s) => s.hydrate);
+
+  useEffect(() => hydrateAvatar(), [hydrateAvatar]);
 
   return (
     <>
@@ -68,9 +73,13 @@ export function TopHeader() {
           <Link
             to="/profile"
             aria-label="Profile"
-            className="shrink-0 h-8 w-8 rounded-full border border-brand/35 flex items-center justify-center text-brand"
+            className="shrink-0 h-8 w-8 rounded-full border border-brand/35 flex items-center justify-center text-brand overflow-hidden"
           >
-            <User className="h-4 w-4" />
+            {avatar ? (
+              <img src={avatar} alt="" className="h-full w-full object-cover" />
+            ) : (
+              <User className="h-4 w-4" />
+            )}
           </Link>
         </div>
       </header>
