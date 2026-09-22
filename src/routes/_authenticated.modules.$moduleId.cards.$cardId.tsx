@@ -243,7 +243,7 @@ function KnowledgeDetail() {
         <Link
           to="/modules/$moduleId"
           params={{ moduleId: m.id }}
-          className="absolute top-[31px] left-[14px] inline-flex items-center gap-1 text-white drop-shadow text-[15px] font-semibold"
+          className="absolute top-[31px] left-[14px] inline-flex items-center gap-1 bg-white text-brand text-[13px] font-semibold rounded-full pl-2.5 pr-3.5 py-1.5 shadow-sm"
         >
           <ChevronLeft className="h-4 w-4" /> {t("backToModules")}
         </Link>
