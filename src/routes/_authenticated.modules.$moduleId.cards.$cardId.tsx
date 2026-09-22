@@ -249,7 +249,7 @@ function KnowledgeDetail() {
         </Link>
       </div>
 
-      <div className="px-[15px] -mt-[147px] relative z-10 overflow-visible">
+      <div className="px-[15px] -mt-[125px] relative z-10 overflow-visible">
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={card.id}
