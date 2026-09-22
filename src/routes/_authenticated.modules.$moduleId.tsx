@@ -51,7 +51,15 @@ function ModuleDetail() {
   const isKnowledgeCardRoute = pathname.includes(`/modules/${m.id}/cards/`);
   const pct = Math.round((m.completed / m.total) * 1000) / 10;
   const railRef = useRef<HTMLDivElement>(null);
-  const scroll = (dir: -1 | 1) => railRef.current?.scrollBy({ left: dir * 200, behavior: "smooth" });
+  // Step by exactly one card (width + the flex gap) so the chevrons land on the
+  // same positions the scroll-snap does, instead of stopping mid-card.
+  const scroll = (dir: -1 | 1) => {
+    const rail = railRef.current;
+    if (!rail) return;
+    const card = rail.firstElementChild as HTMLElement | null;
+    const step = card ? card.offsetWidth + 12 : 200;
+    rail.scrollBy({ left: dir * step, behavior: "smooth" });
+  };
 
   const isBrandLevelModule = m.categoryId === "brand-overview";
   const backCategory = !isBrandLevelModule ? getCategory(m.categoryId) : undefined;
@@ -172,9 +180,14 @@ function ModuleDetail() {
       {others.length === 0 ? (
         <p className="mt-4 text-sm text-foreground/60">{t("noModulesForLevel")}</p>
       ) : (
-        <div ref={railRef} className="mt-3 flex gap-3 overflow-x-auto scrollbar-none snap-x">
+        // Negative margin + matching inner padding: the rail scrolls edge-to-edge
+        // of the shell while the first card still lines up with the page content.
+        <div
+          ref={railRef}
+          className="mt-3 -mx-[14px] px-[14px] scroll-px-[14px] flex gap-3 overflow-x-auto scrollbar-none snap-x"
+        >
           {others.map((o) => (
-            <div key={o.id} className="shrink-0 w-[48%] snap-start">
+            <div key={o.id} className="shrink-0 w-[56%] snap-start">
               <ModuleCard module={o} />
             </div>
           ))}
