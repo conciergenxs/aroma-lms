@@ -1,11 +1,11 @@
 import { createFileRoute, useNavigate, notFound } from "@tanstack/react-router";
-import { ChevronLeft, History, SquarePen, X, Mic } from "lucide-react";
+import { ChevronLeft, History, SquarePen, X, Mic, Search } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useI18n } from "@/lib/i18n";
 import { type ChatMessage, type ChatSession } from "@/data/chat";
 import { getModule } from "@/data/modules";
 import { useNavHistory } from "@/lib/nav-history";
-import { useChatStore } from "@/lib/chat-store";
+import { useChatStore, isNewChatId, createNewChatSession } from "@/lib/chat-store";
 import baHelperLogo from "@/assets/ba-helper-logo.png.asset.json";
 import aiLogo from "@/assets/ai-logo-new.svg.asset.json";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -16,8 +16,15 @@ import { Shimmer } from "@/components/ai-elements/shimmer";
 
 export const Route = createFileRoute("/_authenticated/chat/$assistantId")({
   loader: ({ params }) => {
+    useChatStore.getState().hydrate();
     let s = useChatStore.getState().getSession(params.assistantId);
     if (!s) {
+      // A chat the user just started is only in this browser's storage, which
+      // the server can't see — fall back to an empty shell for those ids and
+      // let the client swap the real messages in once it has hydrated.
+      if (isNewChatId(params.assistantId)) {
+        return { session: createNewChatSession(params.assistantId, currentTime()) };
+      }
       const m = getModule(params.assistantId);
       if (!m) throw notFound();
       s = {
@@ -73,6 +80,11 @@ function ChatRoom() {
   const saveSession = useChatStore((s) => s.saveSession);
   const [showProduct, setShowProduct] = useState(!!session.product);
   const [historyOpen, setHistoryOpen] = useState(false);
+  const [historyQuery, setHistoryQuery] = useState("");
+  const historyFilter = historyQuery.trim().toLowerCase();
+  const visibleSessions = historyFilter
+    ? sessions.filter((s) => s.title.toLowerCase().includes(historyFilter))
+    : sessions;
   const initialMessages = useMemo(() => session.messages.map(toUiMessage), [session.id, session.messages]);
   const [messages, setMessages] = useState<UiChatMessage[]>(initialMessages);
   const [busy, setBusy] = useState(false);
@@ -83,6 +95,29 @@ function ChatRoom() {
     setError(null);
     setBusy(false);
   }, [initialMessages]);
+
+  // The loader can only see seed sessions on a cold load (localStorage is
+  // client-only), so restore this chat's real messages once the store is
+  // hydrated — after mount, so it never changes the hydration-time render.
+  useEffect(() => {
+    const store = useChatStore.getState();
+    store.hydrate();
+    const stored = store.getSession(session.id);
+    if (stored && stored.messages.length > session.messages.length) {
+      setMessages(stored.messages.map(toUiMessage));
+    }
+  }, [session.id, session.messages.length]);
+
+  // Keep the persisted copy in step with the conversation so a reload restores
+  // it. Skipped while streaming so we're not writing on every token.
+  useEffect(() => {
+    if (busy || messages === initialMessages) return;
+    saveSession({
+      ...session,
+      messages: messages.map(({ id, role, text, time }) => ({ id, role, text, time })),
+      lastTime: currentTime(),
+    });
+  }, [busy, messages, initialMessages, session, saveSession]);
 
   const sendAiMessage = async (text: string) => {
     if (busy) return;
@@ -131,19 +166,7 @@ function ChatRoom() {
       lastTime: currentTime(),
     });
     // ...then start a fresh session and switch to it.
-    const newSession: ChatSession = {
-      id: crypto.randomUUID(),
-      title: "Chat Baru",
-      lastTime: "Now",
-      messages: [
-        {
-          id: crypto.randomUUID(),
-          role: "assistant",
-          time: currentTime(),
-          text: "Halo! Aku **Aroma Abadi BA-Helper**. Tanyakan apa saja seputar produk, tips beauty, atau training kamu di sini ✨",
-        },
-      ],
-    };
+    const newSession = createNewChatSession(crypto.randomUUID(), currentTime());
     saveSession(newSession);
     navigate({ to: "/chat/$assistantId", params: { assistantId: newSession.id } });
   };
@@ -164,11 +187,25 @@ function ChatRoom() {
             </button>
           </SheetTrigger>
           <SheetContent side="right" className="bg-card max-w-[320px]">
-            <SheetHeader>
-              <SheetTitle className="font-serif text-2xl">{t("chatHistory")}</SheetTitle>
+            {/* SheetHeader centers its text below the sm breakpoint, which this
+                app never reaches — force left alignment. */}
+            <SheetHeader className="text-left">
+              <SheetTitle className="font-serif text-[17px] font-medium">
+                {t("chatHistory")}
+              </SheetTitle>
             </SheetHeader>
-            <div className="mt-4 space-y-2">
-              {sessions.map((s) => (
+            <div className="mt-3 relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-tan" />
+              <input
+                type="search"
+                value={historyQuery}
+                onChange={(e) => setHistoryQuery(e.target.value)}
+                placeholder={t("searchChatPlaceholder")}
+                className="w-full bg-card rounded-lg border border-[#dcc9bd] pl-9 pr-3 py-2 text-[12px] shadow-sm placeholder:text-tan/70 focus:outline-none focus:ring-2 focus:ring-brand/20"
+              />
+            </div>
+            <div className="mt-3 space-y-2">
+              {visibleSessions.map((s) => (
                 <button
                   key={s.id}
                   onClick={() => {

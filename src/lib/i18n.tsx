@@ -132,6 +132,7 @@ const T = {
     // Chat
     backTo: "Back to",
     chatHistory: "Chat History",
+    searchChatPlaceholder: "Search chat...",
     chatPlaceholder: "Type your message here..",
     thinking: "Thinking...",
     // Footer
@@ -283,6 +284,7 @@ const T = {
     // Chat
     backTo: "Kembali ke",
     chatHistory: "Riwayat Chat",
+    searchChatPlaceholder: "Cari chat...",
     chatPlaceholder: "Ketik pesanmu di sini..",
     thinking: "Sedang berpikir...",
     // Footer
