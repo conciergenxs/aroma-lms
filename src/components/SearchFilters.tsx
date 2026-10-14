@@ -114,9 +114,9 @@ export function SearchFilters({
             </SheetTitle>
           </SheetHeader>
 
-          <div className="mt-5 space-y-6 pb-2">
+          <div className="mt-5 space-y-6 pb-[13px]">
             <section>
-              <h3 className="text-[13px] font-semibold text-foreground/70">{t("sortBy")}</h3>
+              <h3 className="text-[14px] font-semibold text-foreground/70">{t("sortBy")}</h3>
               <div className="mt-2.5 flex flex-wrap gap-2">
                 {sorts.map((s) => (
                   <button
@@ -132,7 +132,7 @@ export function SearchFilters({
             </section>
 
             <section>
-              <h3 className="text-[13px] font-semibold text-foreground/70">
+              <h3 className="text-[14px] font-semibold text-foreground/70">
                 {t("filterCategory")}
               </h3>
               <div className="mt-2.5 flex flex-wrap gap-2">
@@ -156,7 +156,7 @@ export function SearchFilters({
             </section>
           </div>
 
-          <div className="sticky bottom-0 -mx-6 mt-2 border-t border-border bg-card px-6 pt-4 pb-[10px]">
+          <div className="sticky bottom-0 -mx-6 mt-2 border-t border-border bg-card px-6 pt-[21px] pb-[15px]">
             <button
               type="button"
               onClick={() => {
