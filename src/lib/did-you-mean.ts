@@ -53,7 +53,10 @@ function buildVocabulary(pool: Module[]): string[] {
     add(titleCase(m.category));
     // The house brand sits on every level module and would match nearly anything.
     if (m.brand !== "PT Aroma Abadi") add(m.brand);
-    for (const word of m.title.split(/[\s—–\-,.()/&]+/)) add(word);
+    for (const chunk of m.title.split(/[\s—–,.()/&]+/)) {
+      add(chunk); // "Dasar-Dasar" whole...
+      for (const word of chunk.split("-")) add(word); // ...and each half
+    }
   }
   return [...seen.values()];
 }
