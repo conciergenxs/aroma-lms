@@ -81,3 +81,26 @@ export function didYouMean(query: string, pool: Module[], limit = 3): string[] {
       .map(({ term }) => term)
   );
 }
+
+const CATEGORY_PICKS = 3;
+const MODULE_PICKS = 2;
+
+/**
+ * Last resort, for a query nothing resembles: a few real places to go instead of a dead
+ * end. Drawn from `pool`, so every one of them returns something. Half-finished modules
+ * come first — the most useful thing to hand back to someone who is already learning.
+ */
+export function browseSuggestions(pool: Module[]): string[] {
+  const titleCased = (s: string) =>
+    s.toLowerCase().replace(/(^|\s)\p{L}/gu, (c) => c.toUpperCase());
+  const categories = [...new Set(pool.map((m) => m.category))]
+    .map(titleCased)
+    .slice(0, CATEGORY_PICKS);
+  const modules = [
+    ...pool.filter((m) => m.completed > 0 && m.completed < m.total),
+    ...pool.filter((m) => m.completed === 0),
+  ]
+    .slice(0, MODULE_PICKS)
+    .map((m) => m.title);
+  return [...categories, ...modules];
+}

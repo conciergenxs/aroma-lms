@@ -4,7 +4,7 @@ import { useI18n } from "@/lib/i18n";
 import { motion } from "framer-motion";
 import { SearchX } from "lucide-react";
 import { modules, type Module } from "@/data/modules";
-import { didYouMean } from "@/lib/did-you-mean";
+import { didYouMean, browseSuggestions } from "@/lib/did-you-mean";
 
 const chipClass =
   "rounded-full border border-brand/35 bg-card px-3.5 py-2 text-[13px] font-medium text-brand transition-colors hover:bg-brand hover:text-white active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/30";
@@ -33,6 +33,12 @@ export function NoSearchResults({
   const elsewhere = useMemo(
     () => (inScope.length > 0 ? [] : didYouMean(query, modules)),
     [query, inScope.length],
+  );
+  // Nothing resembles the query at all. Rather than stop at "not found", hand back a few
+  // real categories and modules to go to.
+  const browse = useMemo(
+    () => (inScope.length > 0 || elsewhere.length > 0 ? [] : browseSuggestions(pool)),
+    [inScope.length, elsewhere.length, pool],
   );
 
   return (
@@ -75,6 +81,24 @@ export function NoSearchResults({
               <Link key={s} to="/search" search={{ q: s }} className={chipClass}>
                 {s}
               </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {browse.length > 0 && (
+        <div className="mt-6">
+          <p className="text-[13px] text-foreground/60">{t("orTryThese")}</p>
+          <div className="mt-2.5 flex flex-wrap justify-center gap-2">
+            {browse.map((s) => (
+              <button
+                key={s}
+                type="button"
+                onClick={() => onSuggestionSelect(s)}
+                className={chipClass}
+              >
+                {s}
+              </button>
             ))}
           </div>
         </div>
