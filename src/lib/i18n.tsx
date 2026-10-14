@@ -322,7 +322,7 @@ const T = {
     sortProgressAsc: "Progres Terendah",
     sortTitle: "Judul A\u2013Z",
     applyFilter: "Tampilkan Hasil",
-    resetFilter: "Atur Ulang",
+    resetFilter: "Reset",
     clearSearch: "Hapus pencarian",
     matchedIn: "cocok di",
     viewBrand: "Lihat",

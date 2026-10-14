@@ -28,24 +28,27 @@ function AuthLayout() {
 
   return (
     <BrandProvider>
-    <div className="min-h-screen bg-cream">
-      {!isChat && <TopHeader />}
-      <main className="mobile-shell overflow-hidden">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={pathname}
-            initial={{ opacity: 0, x: 18 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -18 }}
-            transition={{ type: "spring", stiffness: 320, damping: 32, mass: 0.8 }}
-          >
-            <Outlet />
-          </motion.div>
-        </AnimatePresence>
-      </main>
-      {!isChat && <FloatingAI />}
-      {!isChat && <BottomNav />}
-    </div>
+      <div className="min-h-screen bg-cream">
+        {!isChat && <TopHeader />}
+        {/* overflow-x-clip, not overflow-hidden: hidden makes this a scroll container, which
+          silently disables `position: sticky` for everything inside it. clip still contains
+          the page-transition slide without creating that container. */}
+        <main className="mobile-shell overflow-x-clip">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={pathname}
+              initial={{ opacity: 0, x: 18 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -18 }}
+              transition={{ type: "spring", stiffness: 320, damping: 32, mass: 0.8 }}
+            >
+              <Outlet />
+            </motion.div>
+          </AnimatePresence>
+        </main>
+        {!isChat && <FloatingAI />}
+        {!isChat && <BottomNav />}
+      </div>
     </BrandProvider>
   );
 }

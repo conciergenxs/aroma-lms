@@ -1,7 +1,6 @@
 import type { Module, KnowledgeCard } from "@/data/modules";
 
 const norm = (s: string) => s.toLowerCase();
-const titleCase = (s: string) => s.toLowerCase().replace(/(^|\s)\p{L}/gu, (c) => c.toUpperCase());
 
 /** Where a module turned up, so a result can say why it is in the list. */
 export type SearchHit = {
@@ -31,8 +30,11 @@ function cardText(card: KnowledgeCard): string[] {
  */
 function findMatch(m: Module, q: string): SearchHit | null {
   if (norm(m.title).includes(q)) return { module: m, rank: 0, matchedIn: null };
-  if (norm(m.brand).includes(q)) return { module: m, rank: 1, matchedIn: m.brand };
-  if (norm(m.category).includes(q)) return { module: m, rank: 1, matchedIn: titleCase(m.category) };
+  // Brand and category matches carry no note: searching "sisley" and being told every card
+  // matched "Sisley" repeats the query back, and the card already shows its category tag.
+  // Only a match buried in the knowledge cards is worth explaining.
+  if (norm(m.brand).includes(q)) return { module: m, rank: 1, matchedIn: null };
+  if (norm(m.category).includes(q)) return { module: m, rank: 1, matchedIn: null };
 
   for (const card of m.cards) {
     // An ingredient name is the most quotable reason, so it wins over a looser body match.

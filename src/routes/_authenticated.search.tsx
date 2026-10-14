@@ -78,39 +78,48 @@ function SearchResultsPage() {
   return (
     <>
       <div className="px-[14px] pt-[28px]">
-        {/* ── the search bar itself ─────────────────────────────────── */}
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={goBack}
-            aria-label={t("back")}
-            className="shrink-0 rounded-full p-1 text-brand transition-colors hover:bg-brand/10"
-          >
-            <ChevronLeft className="h-5 w-5" />
-          </button>
-          <div className="relative flex-1">
-            <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-tan" />
-            <input
-              type="text"
-              // Only when there is nothing to read yet. Arriving from Home with a query
-              // already filled, autofocus would throw the keyboard over the results.
-              autoFocus={!q}
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder={t("searchPlaceholder")}
-              className="w-full rounded-full border border-[#dcc9bd] bg-card py-3 pl-11 pr-10 text-[13px] shadow-sm placeholder:text-tan/70 focus:outline-none focus:ring-2 focus:ring-brand/20"
-            />
-            {query && (
-              <button
-                type="button"
-                onClick={() => setQuery("")}
-                aria-label={t("clearSearch")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-tan transition-colors hover:bg-tan/15 hover:text-brand"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            )}
+        {/* ── the search bar and its filters, kept in reach while the results scroll ── */}
+        <div
+          className="sticky z-20 -mx-[14px] bg-cream px-[14px] pb-2.5 pt-1 transition-[top] duration-300 ease-out motion-reduce:transition-none"
+          style={{ top: "var(--sticky-offset, 0px)" }}
+        >
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={goBack}
+              aria-label={t("back")}
+              className="shrink-0 rounded-full p-1 text-brand transition-colors hover:bg-brand/10"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <div className="relative flex-1">
+              <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-tan" />
+              <input
+                type="text"
+                // Only when there is nothing to read yet. Arriving from Home with a query
+                // already filled, autofocus would throw the keyboard over the results.
+                autoFocus={!q}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={t("searchPlaceholder")}
+                className="w-full rounded-full border border-[#dcc9bd] bg-card py-3 pl-11 pr-10 text-[13px] shadow-sm placeholder:text-tan/70 focus:outline-none focus:ring-2 focus:ring-brand/20"
+              />
+              {query && (
+                <button
+                  type="button"
+                  onClick={() => setQuery("")}
+                  aria-label={t("clearSearch")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-tan transition-colors hover:bg-tan/15 hover:text-brand"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
           </div>
+
+          {trimmed !== "" && hits.length > 0 && (
+            <SearchFilters value={filters} onChange={setFilters} />
+          )}
         </div>
 
         {trimmed === "" ? (
@@ -119,9 +128,6 @@ function SearchResultsPage() {
           <NoSearchResults query={query} pool={modules} onSuggestionSelect={setQuery} />
         ) : (
           <>
-            {/* ── filters ───────────────────────────────────────────── */}
-            <SearchFilters value={filters} onChange={setFilters} />
-
             {/* ── the brand or category the query named ─────────────── */}
             {/* Fed the filtered list, not the raw hits: a card reading "11 Modul" above a
                 list of 2 would contradict it, and it drops out by itself at zero. */}

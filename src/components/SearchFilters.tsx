@@ -107,7 +107,7 @@ export function SearchFilters({
           )}
         </SheetTrigger>
 
-        <SheetContent side="bottom" className="max-h-[85vh] overflow-y-auto rounded-t-2xl">
+        <SheetContent side="bottom" className="max-h-[85vh] overflow-y-auto rounded-t-2xl pb-0">
           <SheetHeader>
             <SheetTitle className="font-serif text-[20px] font-medium">
               {t("filterTitle")}
@@ -176,23 +176,23 @@ export function SearchFilters({
             </section>
           </div>
 
-          <div className="sticky bottom-0 -mx-6 mt-2 flex gap-3 border-t border-border bg-card px-6 py-4">
-            <button
-              type="button"
-              onClick={() => setDraft(EMPTY_FILTERS)}
-              className="rounded-full border border-brand/40 px-5 py-3 text-[13px] font-semibold text-brand transition-colors hover:bg-brand/10"
-            >
-              {t("resetFilter")}
-            </button>
+          <div className="sticky bottom-0 -mx-6 mt-2 border-t border-border bg-card px-6 pt-4 pb-[5px]">
             <button
               type="button"
               onClick={() => {
                 onChange(draft);
                 setOpen(false);
               }}
-              className="flex-1 rounded-full bg-brand py-3 text-[13px] font-semibold uppercase tracking-[0.12em] text-brand-foreground transition-all hover:brightness-110 active:scale-[0.99]"
+              className="w-full rounded-full bg-brand py-3 text-[13px] font-semibold uppercase tracking-[0.12em] text-brand-foreground transition-all hover:brightness-110 active:scale-[0.99]"
             >
               {t("applyFilter")}
+            </button>
+            <button
+              type="button"
+              onClick={() => setDraft(EMPTY_FILTERS)}
+              className="mt-1 w-full py-2.5 text-[13px] font-semibold uppercase tracking-[0.1em] text-brand transition-colors hover:text-brand/65 active:text-brand/50"
+            >
+              {t("resetFilter")}
             </button>
           </div>
         </SheetContent>
