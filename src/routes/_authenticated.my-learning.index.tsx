@@ -113,19 +113,20 @@ function MyLearningPage() {
               return (
                 // The divider is pulled left of the column it belongs to (-ml-3 against a
                 // gap-2 gutter) so it reads as sitting between the two columns rather than
-                // hugging the label after it; pl-5 puts that label back where it was. The
-                // link's own mr-2 keeps its hover tint clear of the next divider.
-                <div key={lvl} className={i > 0 ? "-ml-3 border-l border-border pl-5" : ""}>
+                // hugging the label after it; pl-3 cancels that pull for the content, which
+                // leaves the count the width it needs to stay on one line. The link's own
+                // mr-2 keeps its hover tint clear of the next divider.
+                <div key={lvl} className={i > 0 ? "-ml-3 border-l border-border pl-3" : ""}>
                   <Link
                     to="/my-learning/$level"
                     params={{ level: lvl }}
                     aria-label={t(unfinishedAriaKey(lvl))}
-                    className="group block -ml-1.5 mr-2 rounded-lg px-1.5 py-1 transition-colors hover:bg-brand/[0.07] active:bg-brand/[0.12] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/30"
+                    className="group block -ml-1.5 mr-2 rounded-lg pl-1.5 pr-1 py-1 transition-colors hover:bg-brand/[0.07] active:bg-brand/[0.12] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/30"
                   >
                     <div className="text-[12px] font-semibold text-tan transition-colors group-hover:text-brand">
                       {levelLabel(lvl)}
                     </div>
-                    <div className="mt-1.5 text-[13px] font-medium text-foreground/70">
+                    <div className="mt-1.5 whitespace-nowrap text-[13px] font-medium text-foreground/70">
                       {completedCount}/{items.length} {t("modulesCompleted")}
                     </div>
                   </Link>
@@ -155,7 +156,7 @@ function MyLearningPage() {
         {baseItems.length === 0 ? (
           <p className="text-[15px] text-foreground/75 mt-4">{t("noModulesForLevel")}</p>
         ) : total === 0 ? (
-          <NoSearchResults query={search.trim()} pool={baseItems} />
+          <NoSearchResults query={search.trim()} />
         ) : (
           <>
             <p className="text-[13px] text-foreground/60 mt-3">

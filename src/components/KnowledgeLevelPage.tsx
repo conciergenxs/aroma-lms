@@ -22,6 +22,9 @@ export function KnowledgeLevelPage({
 }) {
   const { t } = useI18n();
   const router = useRouter();
+  // Opened directly rather than from a banner, there is no history entry to return to.
+  const goBack = () =>
+    router.history.canGoBack() ? router.history.back() : router.navigate({ to: "/home" });
   return (
     <>
       <div className="px-[14px] pt-[28px]">
@@ -29,7 +32,7 @@ export function KnowledgeLevelPage({
             would be wrong half the time — go back to wherever the banner was tapped. */}
         <button
           type="button"
-          onClick={() => router.history.back()}
+          onClick={goBack}
           className="inline-flex items-center text-sm text-brand font-semibold mb-4 underline-offset-4 hover:underline"
         >
           <ChevronLeft className="h-4 w-4" /> {t("back")}

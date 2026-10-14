@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { ChevronLeft, Search } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -7,12 +7,6 @@ import { z } from "zod";
 import { modules } from "@/data/modules";
 import { ModuleCard } from "@/components/ModuleCard";
 import { NoSearchResults } from "@/components/NoSearchResults";
-import {
-  LevelFilterChips,
-  DEFAULT_LEVEL,
-  matchesLevel,
-  type ModuleLevelFilter,
-} from "@/components/LevelFilterChips";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 
 const searchSchema = z.object({
@@ -27,8 +21,13 @@ export const Route = createFileRoute("/_authenticated/search")({
 function SearchResultsPage() {
   const { t } = useI18n();
   const { q } = Route.useSearch();
+  const router = useRouter();
   const [query, setQuery] = useState(q ?? "");
-  const [level, setLevel] = useState<ModuleLevelFilter>(DEFAULT_LEVEL);
+
+  // Back to whatever page the search was started from. Opened directly (a shared link, a
+  // bookmark) there is nothing to go back to, so fall back to Home rather than leaving the app.
+  const goBack = () =>
+    router.history.canGoBack() ? router.history.back() : router.navigate({ to: "/home" });
 
   // Keep the input in sync if the URL's `q` changes without this component
   // remounting — e.g. browser back/forward between two /search?q=... states.
@@ -37,11 +36,10 @@ function SearchResultsPage() {
   }, [q]);
 
   const trimmed = query.trim().toLowerCase();
-  // What the query is searched within — also what the empty state draws its keyword
-  // suggestions and recommendations from, so both stay inside the active level.
-  const levelPool = modules.filter((m) => matchesLevel(m, level));
+  // Searched across every level at once. Splitting these behind Brand/Category/Product tabs
+  // meant a module could match and still look like "no results" until you guessed the tab.
   const results = trimmed
-    ? levelPool.filter(
+    ? modules.filter(
         (m) =>
           m.title.toLowerCase().includes(trimmed) ||
           m.brand.toLowerCase().includes(trimmed) ||
@@ -52,9 +50,13 @@ function SearchResultsPage() {
   return (
     <>
       <div className="px-[14px] pt-[28px]">
-        <Link to="/home" className="inline-flex items-center text-sm text-brand font-semibold mb-4">
-          <ChevronLeft className="h-4 w-4" /> {t("backToHome")}
-        </Link>
+        <button
+          type="button"
+          onClick={goBack}
+          className="inline-flex items-center text-sm text-brand font-semibold mb-4 underline-offset-4 hover:underline"
+        >
+          <ChevronLeft className="h-4 w-4" /> {t("back")}
+        </button>
 
         <h1 className="font-serif text-[27px] font-medium leading-tight text-foreground">
           {t("searchResultsTitle")}
@@ -72,14 +74,10 @@ function SearchResultsPage() {
           />
         </div>
 
-        <div className="mt-5">
-          <LevelFilterChips value={level} onChange={setLevel} includeBrand />
-        </div>
-
         {trimmed === "" ? (
           <p className="text-[15px] text-foreground/75 mt-6">{t("searchEmptyPrompt")}</p>
         ) : results.length === 0 ? (
-          <NoSearchResults query={query} pool={levelPool} />
+          <NoSearchResults query={query} />
         ) : (
           <>
             <p className="text-[13px] text-foreground/60 mt-6">

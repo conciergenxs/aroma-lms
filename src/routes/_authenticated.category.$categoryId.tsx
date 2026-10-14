@@ -105,7 +105,7 @@ function CategoryDetailPage() {
             {t("noModulesInCategory")}
           </div>
         ) : total === 0 ? (
-          <NoSearchResults query={search.trim()} pool={baseItems} />
+          <NoSearchResults query={search.trim()} />
         ) : (
           <>
             <p className="text-[15px] text-foreground/75 mt-4">
