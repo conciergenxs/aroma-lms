@@ -3,6 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { modules } from "@/data/modules";
 import { ModuleCard } from "@/components/ModuleCard";
+import { NoSearchResults } from "@/components/NoSearchResults";
 import {
   LevelFilterChips,
   DEFAULT_LEVEL,
@@ -12,7 +13,7 @@ import {
 import { PrevNextPagination } from "@/components/PrevNextPagination";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { motion } from "framer-motion";
-import { Info, Search, SearchX } from "lucide-react";
+import { Info, Search } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/my-learning/")({
   component: MyLearningPage,
@@ -103,7 +104,7 @@ function MyLearningPage() {
             <span className="text-[16px] font-bold text-brand shrink-0">{overallPct}%</span>
           </div>
 
-          <div className="mt-4 grid grid-cols-3 gap-2">
+          <div className="mt-3 grid grid-cols-3 gap-2">
             {LEVELS.map((lvl, i) => {
               const items = modules.filter((m) => matchesLevel(m, lvl));
               const completedCount = items.filter(
@@ -154,19 +155,7 @@ function MyLearningPage() {
         {baseItems.length === 0 ? (
           <p className="text-[15px] text-foreground/75 mt-4">{t("noModulesForLevel")}</p>
         ) : total === 0 ? (
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-10 flex flex-col items-center text-center"
-          >
-            <div className="h-14 w-14 rounded-full bg-tan/15 flex items-center justify-center">
-              <SearchX className="h-6 w-6 text-tan" />
-            </div>
-            <p className="text-[15px] text-foreground/80 font-medium mt-4">
-              {t("noSearchResults")} "{search.trim()}"
-            </p>
-            <p className="text-[13px] text-foreground/55 mt-1.5">{t("noSearchResultsHint")}</p>
-          </motion.div>
+          <NoSearchResults query={search.trim()} pool={baseItems} onSuggestionSelect={setSearch} />
         ) : (
           <>
             <p className="text-[13px] text-foreground/60 mt-3">

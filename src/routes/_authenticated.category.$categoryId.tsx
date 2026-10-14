@@ -1,10 +1,11 @@
 import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ChevronLeft, Search, SearchX } from "lucide-react";
+import { ChevronLeft, Search } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { getCategory, getModulesByCategory, type Module } from "@/data/modules";
 import { ModuleCard } from "@/components/ModuleCard";
+import { NoSearchResults } from "@/components/NoSearchResults";
 import { matchesLevel } from "@/components/LevelFilterChips";
 import { LevelBanner } from "@/components/LevelBanner";
 import { PrevNextPagination } from "@/components/PrevNextPagination";
@@ -104,19 +105,7 @@ function CategoryDetailPage() {
             {t("noModulesInCategory")}
           </div>
         ) : total === 0 ? (
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-10 flex flex-col items-center text-center"
-          >
-            <div className="h-14 w-14 rounded-full bg-tan/15 flex items-center justify-center">
-              <SearchX className="h-6 w-6 text-tan" />
-            </div>
-            <p className="text-[15px] text-foreground/80 font-medium mt-4">
-              {t("noSearchResults")} "{search.trim()}"
-            </p>
-            <p className="text-[13px] text-foreground/55 mt-1.5">{t("noSearchResultsHint")}</p>
-          </motion.div>
+          <NoSearchResults query={search.trim()} pool={baseItems} onSuggestionSelect={setSearch} />
         ) : (
           <>
             <p className="text-[15px] text-foreground/75 mt-4">

@@ -1,11 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
-import { ChevronLeft, Search, SearchX } from "lucide-react";
+import { ChevronLeft, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { z } from "zod";
 import { modules } from "@/data/modules";
 import { ModuleCard } from "@/components/ModuleCard";
+import { NoSearchResults } from "@/components/NoSearchResults";
 import {
   LevelFilterChips,
   DEFAULT_LEVEL,
@@ -36,13 +37,15 @@ function SearchResultsPage() {
   }, [q]);
 
   const trimmed = query.trim().toLowerCase();
+  // What the query is searched within — also what the empty state draws its keyword
+  // suggestions and recommendations from, so both stay inside the active level.
+  const levelPool = modules.filter((m) => matchesLevel(m, level));
   const results = trimmed
-    ? modules.filter(
+    ? levelPool.filter(
         (m) =>
-          matchesLevel(m, level) &&
-          (m.title.toLowerCase().includes(trimmed) ||
-            m.brand.toLowerCase().includes(trimmed) ||
-            m.category.toLowerCase().includes(trimmed)),
+          m.title.toLowerCase().includes(trimmed) ||
+          m.brand.toLowerCase().includes(trimmed) ||
+          m.category.toLowerCase().includes(trimmed),
       )
     : [];
 
@@ -76,19 +79,7 @@ function SearchResultsPage() {
         {trimmed === "" ? (
           <p className="text-[15px] text-foreground/75 mt-6">{t("searchEmptyPrompt")}</p>
         ) : results.length === 0 ? (
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-10 flex flex-col items-center text-center"
-          >
-            <div className="h-14 w-14 rounded-full bg-tan/15 flex items-center justify-center">
-              <SearchX className="h-6 w-6 text-tan" />
-            </div>
-            <p className="text-[15px] text-foreground/80 font-medium mt-4">
-              {t("noSearchResults")} "{query}"
-            </p>
-            <p className="text-[13px] text-foreground/55 mt-1.5">{t("noSearchResultsHint")}</p>
-          </motion.div>
+          <NoSearchResults query={query} pool={levelPool} onSuggestionSelect={setQuery} />
         ) : (
           <>
             <p className="text-[13px] text-foreground/60 mt-6">
