@@ -67,6 +67,7 @@ const T = {
     noModulesInCategory: "No modules available yet in this category.",
     allCategories: "All Categories",
     countCategories: "Categories",
+    productsSuffix: "Products",
     // Level filter chips
     chipBrand: "Brand",
     chipCategory: "Category",
@@ -239,6 +240,7 @@ const T = {
     noModulesInCategory: "Belum ada modul di kategori ini.",
     allCategories: "Semua Kategori",
     countCategories: "Kategori",
+    productsSuffix: "Products",
     // Level filter chips
     chipBrand: "Brand",
     chipCategory: "Category",

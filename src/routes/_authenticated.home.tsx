@@ -1,9 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { Search, ChevronLeft, ChevronRight } from "lucide-react";
-import { modules, brands, getVisibleCategories, getBrandLevelModule } from "@/data/modules";
+import { brands, getVisibleCategories, getBrandLevelModule } from "@/data/modules";
 import { CategoryCard } from "@/components/CategoryCard";
-import { LevelBanner } from "@/components/LevelBanner";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { useBrand } from "@/lib/brand-context";
 import { useRef, useState } from "react";
@@ -18,11 +17,6 @@ function HomePage() {
   const navigate = useNavigate();
   const { activeBrand } = useBrand();
   const [query, setQuery] = useState("");
-  // Brand-level content is no longer a tab beside Category — it has its own banner and
-  // page, so what's left inline is the category grid. Deliberately NOT scoped to
-  // activeBrand: the Brand tab this replaces was unscoped too, and the default brand
-  // (Laura Mercier) has no brand-level module of its own to show.
-  const brandLevelModules = modules.filter((m) => m.level === "brand");
   const railRef = useRef<HTMLDivElement>(null);
   const scroll = (dir: -1 | 1) =>
     railRef.current?.scrollBy({ left: dir * 280, behavior: "smooth" });
@@ -58,18 +52,7 @@ function HomePage() {
           />
         </form>
 
-        {brandLevelModules.length > 0 && (
-          <div className="mt-8">
-            <LevelBanner
-              to="/knowledge/brand"
-              title={`${t("aboutPrefix")} ${t("chipBrand")}`}
-              count={brandLevelModules.length}
-              image={brandLevelModules[0].image}
-            />
-          </div>
-        )}
-
-        <div className="mt-7 flex items-center justify-between">
+        <div className="mt-8 flex items-center justify-between">
           <h2 className="font-serif text-[20px] font-medium">{t("learningModules")}</h2>
           <Link
             to="/modules"

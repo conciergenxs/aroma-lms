@@ -87,7 +87,15 @@ function CategoryDetailPage() {
           />
         )}
 
-        <h1 className="font-serif text-[31px] font-medium leading-none mt-6">{category.name}</h1>
+        <h1 className="font-serif text-[31px] font-medium leading-tight mt-6">
+          {category.name} {t("productsSuffix")}
+        </h1>
+
+        {total > 0 && (
+          <p className="text-[13px] text-foreground/60 mt-3">
+            {total} {t(countLabelKey)}
+          </p>
+        )}
 
         <form onSubmit={(e) => e.preventDefault()} className="mt-5 relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-tan" />
@@ -108,10 +116,7 @@ function CategoryDetailPage() {
           <NoSearchResults query={search.trim()} />
         ) : (
           <>
-            <p className="text-[15px] text-foreground/75 mt-4">
-              {total} {t(countLabelKey)}
-            </p>
-            <div className="mt-4 grid grid-cols-2 gap-3">
+            <div className="mt-5 grid grid-cols-2 gap-3">
               {pageItems.map((m: Module, i: number) => (
                 <motion.div
                   key={m.id}
