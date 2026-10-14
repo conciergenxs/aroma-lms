@@ -3,7 +3,7 @@ import { useI18n } from "@/lib/i18n";
 import { motion } from "framer-motion";
 import type { Module } from "@/data/modules";
 
-export function ModuleCard({ module: m }: { module: Module }) {
+export function ModuleCard({ module: m, matchNote }: { module: Module; matchNote?: string }) {
   const { t } = useI18n();
   const pct = Math.round((m.completed / m.total) * 1000) / 10;
   return (
@@ -19,7 +19,9 @@ export function ModuleCard({ module: m }: { module: Module }) {
       >
         <div className="px-2.5 pt-3">
           <div className="flex items-center justify-between text-[11px] mb-1.5">
-            <span className="text-brand font-normal">{m.completed}/{m.total} {t("cardsCompleted")}</span>
+            <span className="text-brand font-normal">
+              {m.completed}/{m.total} {t("cardsCompleted")}
+            </span>
             <span className="font-semibold text-brand">{pct}%</span>
           </div>
           <div className="h-1.5 rounded-full bg-rose-line overflow-hidden">
@@ -42,8 +44,15 @@ export function ModuleCard({ module: m }: { module: Module }) {
           />
         </div>
         <div className="px-2.5 py-3 min-h-[73px]">
-          <div className="text-[10px] tracking-wider text-tan font-medium">{m.category}</div>
-          <div className="font-serif text-[16px] font-medium leading-[1.1] mt-1 line-clamp-2">{m.title}</div>
+          <div className="text-[12px] tracking-wide text-tan font-medium">{m.category}</div>
+          <div className="font-serif text-[16px] font-medium leading-[1.1] mt-1 line-clamp-2">
+            {m.title}
+          </div>
+          {matchNote && (
+            <div className="mt-1.5 text-[12px] leading-snug text-foreground/55 line-clamp-1">
+              {t("matchedIn")} <span className="text-brand font-medium">{matchNote}</span>
+            </div>
+          )}
         </div>
       </Link>
     </motion.div>
