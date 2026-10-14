@@ -107,7 +107,11 @@ export function SearchFilters({
           )}
         </SheetTrigger>
 
-        <SheetContent side="bottom" className="max-h-[85vh] overflow-y-auto rounded-t-2xl pb-0">
+        <SheetContent
+          side="bottom"
+          hideClose
+          className="max-h-[85vh] overflow-y-auto rounded-t-2xl pb-0"
+        >
           <SheetHeader>
             <SheetTitle className="font-serif text-[20px] font-medium">
               {t("filterTitle")}
