@@ -88,7 +88,7 @@ function HomePage() {
         <motion.div whileTap={{ scale: 0.98 }}>
           <Link
             to="/category"
-            className="mt-7 block text-center bg-brand text-brand-foreground font-semibold tracking-[0.2em] text-sm py-[17px] rounded-full hover:brightness-110 transition-all"
+            className="mt-7 block text-center bg-brand text-brand-foreground font-semibold uppercase tracking-[0.2em] text-sm py-[17px] rounded-full hover:brightness-110 transition-all"
           >
             {t("seeAllCategories")}
           </Link>

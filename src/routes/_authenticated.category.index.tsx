@@ -15,7 +15,7 @@ function CategoryPage() {
   const visibleCategories = getVisibleCategories(activeBrand);
   return (
     <>
-      <div className="px-[34px] pt-[28px]">
+      <div className="px-[14px] pt-[28px]">
         <h1 className="font-serif text-[31px] font-medium leading-none">{t("pageCategory")}</h1>
         <p className="text-[15px] text-foreground/75 mt-4">{t("categorySubtitle")}</p>
         <div className="mt-[34px] grid grid-cols-2 gap-x-4 gap-y-4">
