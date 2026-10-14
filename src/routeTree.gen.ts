@@ -20,17 +20,22 @@ import { Route as AuthenticatedSearchRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated.profile'
 import { Route as AuthenticatedPrivacyRouteImport } from './routes/_authenticated.privacy'
 import { Route as AuthenticatedMyLearningRouteImport } from './routes/_authenticated.my-learning'
+import { Route as AuthenticatedKnowledgeRouteImport } from './routes/_authenticated.knowledge'
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated.home'
 import { Route as AuthenticatedHelpRouteImport } from './routes/_authenticated.help'
 import { Route as AuthenticatedFaqRouteImport } from './routes/_authenticated.faq'
 import { Route as AuthenticatedChangeUsernameRouteImport } from './routes/_authenticated.change-username'
 import { Route as AuthenticatedChangePasswordRouteImport } from './routes/_authenticated.change-password'
 import { Route as AuthenticatedCategoryRouteImport } from './routes/_authenticated.category'
+import { Route as AuthenticatedMyLearningIndexRouteImport } from './routes/_authenticated.my-learning.index'
 import { Route as AuthenticatedModulesIndexRouteImport } from './routes/_authenticated.modules.index'
 import { Route as AuthenticatedCategoryIndexRouteImport } from './routes/_authenticated.category.index'
+import { Route as AuthenticatedMyLearningLevelRouteImport } from './routes/_authenticated.my-learning.$level'
 import { Route as AuthenticatedModulesModuleIdRouteImport } from './routes/_authenticated.modules.$moduleId'
+import { Route as AuthenticatedKnowledgeBrandRouteImport } from './routes/_authenticated.knowledge.brand'
 import { Route as AuthenticatedChatAssistantIdRouteImport } from './routes/_authenticated.chat.$assistantId'
 import { Route as AuthenticatedCategoryCategoryIdRouteImport } from './routes/_authenticated.category.$categoryId'
+import { Route as AuthenticatedKnowledgeCategoryCategoryIdRouteImport } from './routes/_authenticated.knowledge.category.$categoryId'
 import { Route as AuthenticatedModulesModuleIdCardsCardIdRouteImport } from './routes/_authenticated.modules.$moduleId.cards.$cardId'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -87,6 +92,11 @@ const AuthenticatedMyLearningRoute = AuthenticatedMyLearningRouteImport.update({
   path: '/my-learning',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedKnowledgeRoute = AuthenticatedKnowledgeRouteImport.update({
+  id: '/knowledge',
+  path: '/knowledge',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
   id: '/home',
   path: '/home',
@@ -119,6 +129,12 @@ const AuthenticatedCategoryRoute = AuthenticatedCategoryRouteImport.update({
   path: '/category',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedMyLearningIndexRoute =
+  AuthenticatedMyLearningIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedMyLearningRoute,
+  } as any)
 const AuthenticatedModulesIndexRoute =
   AuthenticatedModulesIndexRouteImport.update({
     id: '/modules/',
@@ -131,11 +147,23 @@ const AuthenticatedCategoryIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedCategoryRoute,
   } as any)
+const AuthenticatedMyLearningLevelRoute =
+  AuthenticatedMyLearningLevelRouteImport.update({
+    id: '/$level',
+    path: '/$level',
+    getParentRoute: () => AuthenticatedMyLearningRoute,
+  } as any)
 const AuthenticatedModulesModuleIdRoute =
   AuthenticatedModulesModuleIdRouteImport.update({
     id: '/modules/$moduleId',
     path: '/modules/$moduleId',
     getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedKnowledgeBrandRoute =
+  AuthenticatedKnowledgeBrandRouteImport.update({
+    id: '/brand',
+    path: '/brand',
+    getParentRoute: () => AuthenticatedKnowledgeRoute,
   } as any)
 const AuthenticatedChatAssistantIdRoute =
   AuthenticatedChatAssistantIdRouteImport.update({
@@ -148,6 +176,12 @@ const AuthenticatedCategoryCategoryIdRoute =
     id: '/$categoryId',
     path: '/$categoryId',
     getParentRoute: () => AuthenticatedCategoryRoute,
+  } as any)
+const AuthenticatedKnowledgeCategoryCategoryIdRoute =
+  AuthenticatedKnowledgeCategoryCategoryIdRouteImport.update({
+    id: '/category/$categoryId',
+    path: '/category/$categoryId',
+    getParentRoute: () => AuthenticatedKnowledgeRoute,
   } as any)
 const AuthenticatedModulesModuleIdCardsCardIdRoute =
   AuthenticatedModulesModuleIdCardsCardIdRouteImport.update({
@@ -167,7 +201,8 @@ export interface FileRoutesByFullPath {
   '/faq': typeof AuthenticatedFaqRoute
   '/help': typeof AuthenticatedHelpRoute
   '/home': typeof AuthenticatedHomeRoute
-  '/my-learning': typeof AuthenticatedMyLearningRoute
+  '/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
+  '/my-learning': typeof AuthenticatedMyLearningRouteWithChildren
   '/privacy': typeof AuthenticatedPrivacyRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/search': typeof AuthenticatedSearchRoute
@@ -175,9 +210,13 @@ export interface FileRoutesByFullPath {
   '/api/chat': typeof ApiChatRoute
   '/category/$categoryId': typeof AuthenticatedCategoryCategoryIdRoute
   '/chat/$assistantId': typeof AuthenticatedChatAssistantIdRoute
+  '/knowledge/brand': typeof AuthenticatedKnowledgeBrandRoute
   '/modules/$moduleId': typeof AuthenticatedModulesModuleIdRouteWithChildren
+  '/my-learning/$level': typeof AuthenticatedMyLearningLevelRoute
   '/category/': typeof AuthenticatedCategoryIndexRoute
   '/modules/': typeof AuthenticatedModulesIndexRoute
+  '/my-learning/': typeof AuthenticatedMyLearningIndexRoute
+  '/knowledge/category/$categoryId': typeof AuthenticatedKnowledgeCategoryCategoryIdRoute
   '/modules/$moduleId/cards/$cardId': typeof AuthenticatedModulesModuleIdCardsCardIdRoute
 }
 export interface FileRoutesByTo {
@@ -190,7 +229,7 @@ export interface FileRoutesByTo {
   '/faq': typeof AuthenticatedFaqRoute
   '/help': typeof AuthenticatedHelpRoute
   '/home': typeof AuthenticatedHomeRoute
-  '/my-learning': typeof AuthenticatedMyLearningRoute
+  '/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
   '/privacy': typeof AuthenticatedPrivacyRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/search': typeof AuthenticatedSearchRoute
@@ -198,9 +237,13 @@ export interface FileRoutesByTo {
   '/api/chat': typeof ApiChatRoute
   '/category/$categoryId': typeof AuthenticatedCategoryCategoryIdRoute
   '/chat/$assistantId': typeof AuthenticatedChatAssistantIdRoute
+  '/knowledge/brand': typeof AuthenticatedKnowledgeBrandRoute
   '/modules/$moduleId': typeof AuthenticatedModulesModuleIdRouteWithChildren
+  '/my-learning/$level': typeof AuthenticatedMyLearningLevelRoute
   '/category': typeof AuthenticatedCategoryIndexRoute
   '/modules': typeof AuthenticatedModulesIndexRoute
+  '/my-learning': typeof AuthenticatedMyLearningIndexRoute
+  '/knowledge/category/$categoryId': typeof AuthenticatedKnowledgeCategoryCategoryIdRoute
   '/modules/$moduleId/cards/$cardId': typeof AuthenticatedModulesModuleIdCardsCardIdRoute
 }
 export interface FileRoutesById {
@@ -216,7 +259,8 @@ export interface FileRoutesById {
   '/_authenticated/faq': typeof AuthenticatedFaqRoute
   '/_authenticated/help': typeof AuthenticatedHelpRoute
   '/_authenticated/home': typeof AuthenticatedHomeRoute
-  '/_authenticated/my-learning': typeof AuthenticatedMyLearningRoute
+  '/_authenticated/knowledge': typeof AuthenticatedKnowledgeRouteWithChildren
+  '/_authenticated/my-learning': typeof AuthenticatedMyLearningRouteWithChildren
   '/_authenticated/privacy': typeof AuthenticatedPrivacyRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/search': typeof AuthenticatedSearchRoute
@@ -224,9 +268,13 @@ export interface FileRoutesById {
   '/api/chat': typeof ApiChatRoute
   '/_authenticated/category/$categoryId': typeof AuthenticatedCategoryCategoryIdRoute
   '/_authenticated/chat/$assistantId': typeof AuthenticatedChatAssistantIdRoute
+  '/_authenticated/knowledge/brand': typeof AuthenticatedKnowledgeBrandRoute
   '/_authenticated/modules/$moduleId': typeof AuthenticatedModulesModuleIdRouteWithChildren
+  '/_authenticated/my-learning/$level': typeof AuthenticatedMyLearningLevelRoute
   '/_authenticated/category/': typeof AuthenticatedCategoryIndexRoute
   '/_authenticated/modules/': typeof AuthenticatedModulesIndexRoute
+  '/_authenticated/my-learning/': typeof AuthenticatedMyLearningIndexRoute
+  '/_authenticated/knowledge/category/$categoryId': typeof AuthenticatedKnowledgeCategoryCategoryIdRoute
   '/_authenticated/modules/$moduleId/cards/$cardId': typeof AuthenticatedModulesModuleIdCardsCardIdRoute
 }
 export interface FileRouteTypes {
@@ -242,6 +290,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/help'
     | '/home'
+    | '/knowledge'
     | '/my-learning'
     | '/privacy'
     | '/profile'
@@ -250,9 +299,13 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/category/$categoryId'
     | '/chat/$assistantId'
+    | '/knowledge/brand'
     | '/modules/$moduleId'
+    | '/my-learning/$level'
     | '/category/'
     | '/modules/'
+    | '/my-learning/'
+    | '/knowledge/category/$categoryId'
     | '/modules/$moduleId/cards/$cardId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -265,7 +318,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/help'
     | '/home'
-    | '/my-learning'
+    | '/knowledge'
     | '/privacy'
     | '/profile'
     | '/search'
@@ -273,9 +326,13 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/category/$categoryId'
     | '/chat/$assistantId'
+    | '/knowledge/brand'
     | '/modules/$moduleId'
+    | '/my-learning/$level'
     | '/category'
     | '/modules'
+    | '/my-learning'
+    | '/knowledge/category/$categoryId'
     | '/modules/$moduleId/cards/$cardId'
   id:
     | '__root__'
@@ -290,6 +347,7 @@ export interface FileRouteTypes {
     | '/_authenticated/faq'
     | '/_authenticated/help'
     | '/_authenticated/home'
+    | '/_authenticated/knowledge'
     | '/_authenticated/my-learning'
     | '/_authenticated/privacy'
     | '/_authenticated/profile'
@@ -298,9 +356,13 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/_authenticated/category/$categoryId'
     | '/_authenticated/chat/$assistantId'
+    | '/_authenticated/knowledge/brand'
     | '/_authenticated/modules/$moduleId'
+    | '/_authenticated/my-learning/$level'
     | '/_authenticated/category/'
     | '/_authenticated/modules/'
+    | '/_authenticated/my-learning/'
+    | '/_authenticated/knowledge/category/$categoryId'
     | '/_authenticated/modules/$moduleId/cards/$cardId'
   fileRoutesById: FileRoutesById
 }
@@ -392,6 +454,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMyLearningRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/knowledge': {
+      id: '/_authenticated/knowledge'
+      path: '/knowledge'
+      fullPath: '/knowledge'
+      preLoaderRoute: typeof AuthenticatedKnowledgeRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/home': {
       id: '/_authenticated/home'
       path: '/home'
@@ -434,6 +503,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCategoryRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/my-learning/': {
+      id: '/_authenticated/my-learning/'
+      path: '/'
+      fullPath: '/my-learning/'
+      preLoaderRoute: typeof AuthenticatedMyLearningIndexRouteImport
+      parentRoute: typeof AuthenticatedMyLearningRoute
+    }
     '/_authenticated/modules/': {
       id: '/_authenticated/modules/'
       path: '/modules'
@@ -448,12 +524,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCategoryIndexRouteImport
       parentRoute: typeof AuthenticatedCategoryRoute
     }
+    '/_authenticated/my-learning/$level': {
+      id: '/_authenticated/my-learning/$level'
+      path: '/$level'
+      fullPath: '/my-learning/$level'
+      preLoaderRoute: typeof AuthenticatedMyLearningLevelRouteImport
+      parentRoute: typeof AuthenticatedMyLearningRoute
+    }
     '/_authenticated/modules/$moduleId': {
       id: '/_authenticated/modules/$moduleId'
       path: '/modules/$moduleId'
       fullPath: '/modules/$moduleId'
       preLoaderRoute: typeof AuthenticatedModulesModuleIdRouteImport
       parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/knowledge/brand': {
+      id: '/_authenticated/knowledge/brand'
+      path: '/brand'
+      fullPath: '/knowledge/brand'
+      preLoaderRoute: typeof AuthenticatedKnowledgeBrandRouteImport
+      parentRoute: typeof AuthenticatedKnowledgeRoute
     }
     '/_authenticated/chat/$assistantId': {
       id: '/_authenticated/chat/$assistantId'
@@ -468,6 +558,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/category/$categoryId'
       preLoaderRoute: typeof AuthenticatedCategoryCategoryIdRouteImport
       parentRoute: typeof AuthenticatedCategoryRoute
+    }
+    '/_authenticated/knowledge/category/$categoryId': {
+      id: '/_authenticated/knowledge/category/$categoryId'
+      path: '/category/$categoryId'
+      fullPath: '/knowledge/category/$categoryId'
+      preLoaderRoute: typeof AuthenticatedKnowledgeCategoryCategoryIdRouteImport
+      parentRoute: typeof AuthenticatedKnowledgeRoute
     }
     '/_authenticated/modules/$moduleId/cards/$cardId': {
       id: '/_authenticated/modules/$moduleId/cards/$cardId'
@@ -494,6 +591,39 @@ const AuthenticatedCategoryRouteWithChildren =
     AuthenticatedCategoryRouteChildren,
   )
 
+interface AuthenticatedKnowledgeRouteChildren {
+  AuthenticatedKnowledgeBrandRoute: typeof AuthenticatedKnowledgeBrandRoute
+  AuthenticatedKnowledgeCategoryCategoryIdRoute: typeof AuthenticatedKnowledgeCategoryCategoryIdRoute
+}
+
+const AuthenticatedKnowledgeRouteChildren: AuthenticatedKnowledgeRouteChildren =
+  {
+    AuthenticatedKnowledgeBrandRoute: AuthenticatedKnowledgeBrandRoute,
+    AuthenticatedKnowledgeCategoryCategoryIdRoute:
+      AuthenticatedKnowledgeCategoryCategoryIdRoute,
+  }
+
+const AuthenticatedKnowledgeRouteWithChildren =
+  AuthenticatedKnowledgeRoute._addFileChildren(
+    AuthenticatedKnowledgeRouteChildren,
+  )
+
+interface AuthenticatedMyLearningRouteChildren {
+  AuthenticatedMyLearningLevelRoute: typeof AuthenticatedMyLearningLevelRoute
+  AuthenticatedMyLearningIndexRoute: typeof AuthenticatedMyLearningIndexRoute
+}
+
+const AuthenticatedMyLearningRouteChildren: AuthenticatedMyLearningRouteChildren =
+  {
+    AuthenticatedMyLearningLevelRoute: AuthenticatedMyLearningLevelRoute,
+    AuthenticatedMyLearningIndexRoute: AuthenticatedMyLearningIndexRoute,
+  }
+
+const AuthenticatedMyLearningRouteWithChildren =
+  AuthenticatedMyLearningRoute._addFileChildren(
+    AuthenticatedMyLearningRouteChildren,
+  )
+
 interface AuthenticatedModulesModuleIdRouteChildren {
   AuthenticatedModulesModuleIdCardsCardIdRoute: typeof AuthenticatedModulesModuleIdCardsCardIdRoute
 }
@@ -516,7 +646,8 @@ interface AuthenticatedRouteChildren {
   AuthenticatedFaqRoute: typeof AuthenticatedFaqRoute
   AuthenticatedHelpRoute: typeof AuthenticatedHelpRoute
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
-  AuthenticatedMyLearningRoute: typeof AuthenticatedMyLearningRoute
+  AuthenticatedKnowledgeRoute: typeof AuthenticatedKnowledgeRouteWithChildren
+  AuthenticatedMyLearningRoute: typeof AuthenticatedMyLearningRouteWithChildren
   AuthenticatedPrivacyRoute: typeof AuthenticatedPrivacyRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedSearchRoute: typeof AuthenticatedSearchRoute
@@ -533,7 +664,8 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedFaqRoute: AuthenticatedFaqRoute,
   AuthenticatedHelpRoute: AuthenticatedHelpRoute,
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
-  AuthenticatedMyLearningRoute: AuthenticatedMyLearningRoute,
+  AuthenticatedKnowledgeRoute: AuthenticatedKnowledgeRouteWithChildren,
+  AuthenticatedMyLearningRoute: AuthenticatedMyLearningRouteWithChildren,
   AuthenticatedPrivacyRoute: AuthenticatedPrivacyRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedSearchRoute: AuthenticatedSearchRoute,

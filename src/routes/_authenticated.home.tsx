@@ -2,13 +2,8 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { Search, ChevronLeft, ChevronRight } from "lucide-react";
 import { modules, brands, getVisibleCategories, getBrandLevelModule } from "@/data/modules";
-import { ModuleCard } from "@/components/ModuleCard";
 import { CategoryCard } from "@/components/CategoryCard";
-import {
-  LevelFilterChips,
-  matchesLevel,
-  type ModuleLevelFilter,
-} from "@/components/LevelFilterChips";
+import { LevelBanner } from "@/components/LevelBanner";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { useBrand } from "@/lib/brand-context";
 import { useRef, useState } from "react";
@@ -23,9 +18,11 @@ function HomePage() {
   const navigate = useNavigate();
   const { activeBrand } = useBrand();
   const [query, setQuery] = useState("");
-  // Home only offers Brand/Category (no Product tab), so the sensible default
-  // is the first of those two rather than the shared DEFAULT_LEVEL ("product").
-  const [level, setLevel] = useState<ModuleLevelFilter>("brand");
+  // Brand-level content is no longer a tab beside Category — it has its own banner and
+  // page, so what's left inline is the category grid. Deliberately NOT scoped to
+  // activeBrand: the Brand tab this replaces was unscoped too, and the default brand
+  // (Laura Mercier) has no brand-level module of its own to show.
+  const brandLevelModules = modules.filter((m) => m.level === "brand");
   const railRef = useRef<HTMLDivElement>(null);
   const scroll = (dir: -1 | 1) =>
     railRef.current?.scrollBy({ left: dir * 280, behavior: "smooth" });
@@ -61,37 +58,29 @@ function HomePage() {
           />
         </form>
 
-        <div className="mt-8 flex items-center justify-between">
+        {brandLevelModules.length > 0 && (
+          <div className="mt-8">
+            <LevelBanner
+              to="/knowledge/brand"
+              title={`${t("aboutPrefix")} ${t("chipBrand")}`}
+              count={brandLevelModules.length}
+              image={brandLevelModules[0].image}
+            />
+          </div>
+        )}
+
+        <div className="mt-7 flex items-center justify-between">
           <h2 className="font-serif text-[20px] font-medium">{t("learningModules")}</h2>
           <Link to="/modules" className="text-xs font-bold tracking-widest text-brand underline-offset-4 underline">
             {t("seeAll")}
           </Link>
         </div>
 
-        <div className="mt-3">
-          <LevelFilterChips value={level} onChange={setLevel} includeBrand includeProduct={false} />
+        <div className="mt-4 grid grid-cols-2 gap-x-4 gap-y-4">
+          {getVisibleCategories(activeBrand).map((c, i) => (
+            <CategoryCard key={c.id} category={c} index={i} />
+          ))}
         </div>
-
-        {level === "category" ? (
-          <div className="mt-4 grid grid-cols-2 gap-x-4 gap-y-4">
-            {getVisibleCategories(activeBrand).map((c, i) => (
-              <CategoryCard key={c.id} category={c} index={i} />
-            ))}
-          </div>
-        ) : (
-          (() => {
-            const filtered = modules.filter((m) => matchesLevel(m, level)).slice(0, 12);
-            return filtered.length === 0 ? (
-              <p className="mt-4 text-sm text-foreground/60">{t("noModulesForLevel")}</p>
-            ) : (
-              <div className="mt-4 grid grid-cols-2 gap-3">
-                {filtered.map((m) => (
-                  <ModuleCard key={m.id} module={m} />
-                ))}
-              </div>
-            );
-          })()
-        )}
 
         <motion.div whileTap={{ scale: 0.98 }}>
           <Link

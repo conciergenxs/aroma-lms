@@ -5,12 +5,8 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { getCategory, getModulesByCategory, type Module } from "@/data/modules";
 import { ModuleCard } from "@/components/ModuleCard";
-import {
-  LevelFilterChips,
-  DEFAULT_LEVEL,
-  matchesLevel,
-  type ModuleLevelFilter,
-} from "@/components/LevelFilterChips";
+import { matchesLevel } from "@/components/LevelFilterChips";
+import { LevelBanner } from "@/components/LevelBanner";
 import { PrevNextPagination } from "@/components/PrevNextPagination";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { useBrand } from "@/lib/brand-context";
@@ -35,21 +31,20 @@ function CategoryDetailPage() {
   const { t } = useI18n();
   const { category, items: allItems } = Route.useLoaderData();
   const { activeBrand } = useBrand();
-  const [chip, setChip] = useState<ModuleLevelFilter>(DEFAULT_LEVEL);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    setChip(DEFAULT_LEVEL);
     setSearch("");
     setPage(1);
   }, [category.id]);
 
-  useEffect(() => setPage(1), [chip, search]);
+  useEffect(() => setPage(1), [search]);
 
   // Category-level content is brand-neutral by design — deliberately NOT run through the
   // D&G brand-scoping filter below (preserves the existing behavior exactly: it's pulled
-  // before that filter and shown to every brand's BA).
+  // before that filter and shown to every brand's BA). It no longer shares this page with
+  // the product grid: it's what the banner above the title opens.
   const categoryLevelItems = allItems.filter((m) => matchesLevel(m, "category"));
 
   // D&G's Skin Care and Makeup modules are scoped to their own brand — untouched quirk,
@@ -62,7 +57,7 @@ function CategoryDetailPage() {
       : allItems
   ).filter((m) => matchesLevel(m, "product"));
 
-  const baseItems = chip === "category" ? categoryLevelItems : brandScopedProductItems;
+  const baseItems = brandScopedProductItems;
   const q = search.trim().toLowerCase();
   const filtered = q ? baseItems.filter((m) => m.title.toLowerCase().includes(q)) : baseItems;
 
@@ -70,7 +65,7 @@ function CategoryDetailPage() {
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const start = (page - 1) * PAGE_SIZE;
   const pageItems = filtered.slice(start, start + PAGE_SIZE);
-  const countLabelKey = chip === "category" ? "countModulesCategory" : "countModulesProduct";
+  const countLabelKey = "countModulesProduct" as const;
 
   return (
     <>
@@ -81,11 +76,17 @@ function CategoryDetailPage() {
         >
           <ChevronLeft className="h-4 w-4" /> {t("backToCategory")}
         </Link>
-        <h1 className="font-serif text-[31px] font-medium leading-none">{category.name}</h1>
+        {categoryLevelItems.length > 0 && (
+          <LevelBanner
+            to="/knowledge/category/$categoryId"
+            params={{ categoryId: category.id }}
+            title={`${t("aboutPrefix")} ${category.name} ${t("chipCategory")}`}
+            count={categoryLevelItems.length}
+            image={categoryLevelItems[0].image}
+          />
+        )}
 
-        <div className="mt-5">
-          <LevelFilterChips value={chip} onChange={setChip} includeBrand={false} />
-        </div>
+        <h1 className="font-serif text-[31px] font-medium leading-none mt-6">{category.name}</h1>
 
         <form onSubmit={(e) => e.preventDefault()} className="mt-5 relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-tan" />
@@ -100,7 +101,7 @@ function CategoryDetailPage() {
 
         {baseItems.length === 0 ? (
           <div className="mt-10 text-center text-foreground/60 text-sm">
-            {chip === "category" ? t("noModulesForLevel") : t("noModulesInCategory")}
+            {t("noModulesInCategory")}
           </div>
         ) : total === 0 ? (
           <motion.div

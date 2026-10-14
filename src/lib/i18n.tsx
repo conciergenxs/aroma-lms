@@ -85,6 +85,25 @@ const T = {
     countModulesBrand: "Brand modules",
     countModulesCategory: "Category modules",
     countModulesProduct: "Product modules",
+    // Progress -> unfinished-modules drill-down
+    unfinishedModules: "Unfinished Modules",
+    unfinishedSubtitleBrand: "Brand-level modules you haven't finished yet.",
+    unfinishedSubtitleCategory: "Category-level modules you haven't finished yet.",
+    unfinishedSubtitleProduct: "Product-level modules you haven't finished yet.",
+    viewUnfinishedBrand: "View unfinished Brand modules",
+    viewUnfinishedCategory: "View unfinished Category modules",
+    viewUnfinishedProduct: "View unfinished Product modules",
+    levelAllDoneTitle: "Nothing Left at This Level",
+    levelAllDoneDesc:
+      "You've finished every module here. Try another level, or browse all modules.",
+    browseAllModules: "Browse All Modules",
+    backToMyLearning: "Back to Progress",
+    // Knowledge-level entry banners + their destination pages
+    aboutPrefix: "About",
+    brandKnowledgeSubtitle: "Modules about a brand as a whole, before you go category by category.",
+    categoryKnowledgeSubtitle:
+      "Modules about this category as a whole, before you go product by product.",
+    noKnowledgeModules: "No modules at this level yet.",
     // Home
     goodMorning: "Good Morning",
     homeSubtitle: "Continue your beauty learning journey.",
@@ -237,6 +256,26 @@ const T = {
     countModulesBrand: "modul Brand",
     countModulesCategory: "modul Kategori",
     countModulesProduct: "modul Produk",
+    // Progress -> unfinished-modules drill-down
+    unfinishedModules: "Modul Belum Selesai",
+    unfinishedSubtitleBrand: "Modul level Brand yang belum kamu selesaikan.",
+    unfinishedSubtitleCategory: "Modul level Category yang belum kamu selesaikan.",
+    unfinishedSubtitleProduct: "Modul level Product yang belum kamu selesaikan.",
+    viewUnfinishedBrand: "Lihat modul Brand yang belum selesai",
+    viewUnfinishedCategory: "Lihat modul Category yang belum selesai",
+    viewUnfinishedProduct: "Lihat modul Product yang belum selesai",
+    levelAllDoneTitle: "Level Ini Sudah Selesai",
+    levelAllDoneDesc:
+      "Semua modul di level ini sudah kamu selesaikan. Coba level lain, atau jelajahi semua modul.",
+    browseAllModules: "Jelajahi Semua Modul",
+    backToMyLearning: "Kembali ke Progres",
+    // Knowledge-level entry banners + their destination pages
+    aboutPrefix: "About",
+    brandKnowledgeSubtitle:
+      "Modul tentang brand secara keseluruhan, sebelum masuk ke tiap kategori.",
+    categoryKnowledgeSubtitle:
+      "Modul tentang kategori ini secara keseluruhan, sebelum masuk ke tiap produk.",
+    noKnowledgeModules: "Belum ada modul di level ini.",
     // Home
     goodMorning: "Selamat Pagi",
     homeSubtitle: "Lanjutkan perjalanan belajar kecantikanmu.",
