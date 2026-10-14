@@ -88,7 +88,7 @@ function SearchResultsPage() {
         {trimmed === "" ? (
           <p className="text-[15px] text-foreground/75 mt-6">{t("searchEmptyPrompt")}</p>
         ) : results.length === 0 ? (
-          <NoSearchResults query={query} />
+          <NoSearchResults query={query} pool={modules} onSuggestionSelect={setQuery} />
         ) : (
           <>
             <p className="text-[13px] text-foreground/60 mt-6">

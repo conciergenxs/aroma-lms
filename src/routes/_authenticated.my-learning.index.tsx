@@ -156,7 +156,7 @@ function MyLearningPage() {
         {baseItems.length === 0 ? (
           <p className="text-[15px] text-foreground/75 mt-4">{t("noModulesForLevel")}</p>
         ) : total === 0 ? (
-          <NoSearchResults query={search.trim()} />
+          <NoSearchResults query={search.trim()} pool={baseItems} onSuggestionSelect={setSearch} />
         ) : (
           <>
             <p className="text-[13px] text-foreground/60 mt-3">

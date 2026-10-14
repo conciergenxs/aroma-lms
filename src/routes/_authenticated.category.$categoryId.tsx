@@ -113,7 +113,7 @@ function CategoryDetailPage() {
             {t("noModulesInCategory")}
           </div>
         ) : total === 0 ? (
-          <NoSearchResults query={search.trim()} />
+          <NoSearchResults query={search.trim()} pool={baseItems} onSuggestionSelect={setSearch} />
         ) : (
           <>
             <div className="mt-5 grid grid-cols-2 gap-3">
