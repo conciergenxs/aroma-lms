@@ -36,9 +36,11 @@ function AllModulesPage() {
           />
         )}
 
-        <h1 className="font-serif text-[31px] font-medium leading-none mt-6">{t("allModules")}</h1>
+        <h1 className="font-serif text-[31px] font-medium leading-none mt-6">
+          {t("allCategories")}
+        </h1>
         <p className="text-[15px] text-foreground/75 mt-3">
-          {categories.length} {t("countModulesCategory")}
+          {categories.length} {t("countCategories")}
         </p>
 
         <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-4">

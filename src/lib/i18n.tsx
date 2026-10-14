@@ -65,7 +65,8 @@ const T = {
     statusInProgress: "IN PROGRESS",
     statusCompleted: "COMPLETED",
     noModulesInCategory: "No modules available yet in this category.",
-    allModules: "All Modules",
+    allCategories: "All Categories",
+    countCategories: "Categories",
     // Level filter chips
     chipBrand: "Brand",
     chipCategory: "Category",
@@ -115,7 +116,7 @@ const T = {
     searchEmptyPrompt: "Type a module name to search.",
     learningModules: "Learning Modules",
     seeAll: "See All",
-    seeAllModules: "See All Modules",
+    seeAllCategories: "See All Categories",
     otherBrands: "Other Brands",
     // Change username/password
     changeUsernamePage: "Change Username",
@@ -236,7 +237,8 @@ const T = {
     statusInProgress: "SEDANG BELAJAR",
     statusCompleted: "SELESAI",
     noModulesInCategory: "Belum ada modul di kategori ini.",
-    allModules: "Semua Modul",
+    allCategories: "Semua Kategori",
+    countCategories: "Kategori",
     // Level filter chips
     chipBrand: "Brand",
     chipCategory: "Category",
@@ -287,7 +289,7 @@ const T = {
     searchEmptyPrompt: "Ketik nama modul untuk mencari.",
     learningModules: "Modul Belajar",
     seeAll: "LIHAT SEMUA",
-    seeAllModules: "LIHAT SEMUA MODUL",
+    seeAllCategories: "Lihat Semua Kategori",
     otherBrands: "Brand Lainnya",
     // Change username/password
     changeUsernamePage: "Ubah Username",

@@ -87,10 +87,10 @@ function HomePage() {
 
         <motion.div whileTap={{ scale: 0.98 }}>
           <Link
-            to="/modules"
+            to="/category"
             className="mt-7 block text-center bg-brand text-brand-foreground font-semibold tracking-[0.2em] text-sm py-[17px] rounded-full hover:brightness-110 transition-all"
           >
-            {t("seeAllModules")}
+            {t("seeAllCategories")}
           </Link>
         </motion.div>
 
@@ -114,7 +114,10 @@ function HomePage() {
           </div>
         </div>
 
-        <div ref={railRef} className="mt-3 flex gap-3 overflow-x-auto scrollbar-none snap-x pb-2">
+        <div
+          ref={railRef}
+          className="mt-3 -mr-[14px] flex gap-3 overflow-x-auto scrollbar-none snap-x pb-2 pr-[14px]"
+        >
           {brands.map((b) => {
             // Each brand has exactly one brand-level overview module — the tile
             // opens that directly rather than a filtered module list.
