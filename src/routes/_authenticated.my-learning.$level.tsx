@@ -146,11 +146,7 @@ function UnfinishedModulesPage() {
             </form>
 
             {total === 0 ? (
-              <NoSearchResults
-                query={search.trim()}
-                pool={baseItems}
-                onSuggestionSelect={setSearch}
-              />
+              <NoSearchResults query={search.trim()} pool={baseItems} />
             ) : (
               <>
                 <p className="text-[13px] text-foreground/60 mt-3">

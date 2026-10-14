@@ -71,7 +71,10 @@ function HomePage() {
 
         <div className="mt-7 flex items-center justify-between">
           <h2 className="font-serif text-[20px] font-medium">{t("learningModules")}</h2>
-          <Link to="/modules" className="text-xs font-bold tracking-widest text-brand underline-offset-4 underline">
+          <Link
+            to="/modules"
+            className="text-xs font-bold tracking-widest text-brand underline-offset-4 underline"
+          >
             {t("seeAll")}
           </Link>
         </div>
@@ -94,10 +97,18 @@ function HomePage() {
         <div className="mt-[60px] flex items-center justify-between">
           <h2 className="font-serif text-[20px] font-medium">{t("otherBrands")}</h2>
           <div className="flex gap-2">
-            <button onClick={() => scroll(-1)} aria-label="Previous" className="h-8 w-8 rounded-full border border-brand/35 text-brand flex items-center justify-center bg-card hover:bg-brand hover:text-white transition-colors">
+            <button
+              onClick={() => scroll(-1)}
+              aria-label="Previous"
+              className="h-8 w-8 rounded-full border border-brand/35 text-brand flex items-center justify-center bg-card hover:bg-brand hover:text-white transition-colors"
+            >
               <ChevronLeft className="h-4 w-4" />
             </button>
-            <button onClick={() => scroll(1)} aria-label="Next" className="h-8 w-8 rounded-full border border-brand/35 text-brand flex items-center justify-center bg-card hover:bg-brand hover:text-white transition-colors">
+            <button
+              onClick={() => scroll(1)}
+              aria-label="Next"
+              className="h-8 w-8 rounded-full border border-brand/35 text-brand flex items-center justify-center bg-card hover:bg-brand hover:text-white transition-colors"
+            >
               <ChevronRight className="h-4 w-4" />
             </button>
           </div>
@@ -121,11 +132,24 @@ function HomePage() {
                   whileTap={{ scale: 0.97 }}
                   className="relative w-full h-full"
                 >
-                  <img src={b.image} alt="" className="absolute inset-0 w-full h-full object-cover" loading="lazy" width={1024} height={640} />
+                  <img
+                    src={b.image}
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover"
+                    loading="lazy"
+                    width={1024}
+                    height={640}
+                  />
                   <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/55 to-black/80" />
                   <div className="absolute inset-0 flex flex-col items-center justify-center px-6">
-                    <img src={b.logo} alt={b.name} className="max-h-[44px] w-auto max-w-[80%] object-contain" />
-                    <div className="text-xs mt-3 text-tan tracking-wide">{b.count} {t("countModules")}</div>
+                    <img
+                      src={b.logo}
+                      alt={b.name}
+                      className="max-h-[44px] w-auto max-w-[80%] object-contain"
+                    />
+                    <div className="text-xs mt-3 text-tan tracking-wide">
+                      {b.count} {t("countModules")}
+                    </div>
                   </div>
                 </motion.div>
               </Link>
