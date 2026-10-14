@@ -9,43 +9,42 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as LoginSuccessRouteImport } from './routes/login-success'
-import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
-import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ApiChatRouteImport } from './routes/api/chat'
-import { Route as AuthenticatedTermsRouteImport } from './routes/_authenticated.terms'
-import { Route as AuthenticatedSearchRouteImport } from './routes/_authenticated.search'
-import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated.profile'
-import { Route as AuthenticatedPrivacyRouteImport } from './routes/_authenticated.privacy'
-import { Route as AuthenticatedMyLearningRouteImport } from './routes/_authenticated.my-learning'
-import { Route as AuthenticatedKnowledgeRouteImport } from './routes/_authenticated.knowledge'
-import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated.home'
-import { Route as AuthenticatedHelpRouteImport } from './routes/_authenticated.help'
-import { Route as AuthenticatedFaqRouteImport } from './routes/_authenticated.faq'
-import { Route as AuthenticatedChangeUsernameRouteImport } from './routes/_authenticated.change-username'
-import { Route as AuthenticatedChangePasswordRouteImport } from './routes/_authenticated.change-password'
+import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as LoginSuccessRouteImport } from './routes/login-success'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedCategoryRouteImport } from './routes/_authenticated.category'
-import { Route as AuthenticatedMyLearningIndexRouteImport } from './routes/_authenticated.my-learning.index'
-import { Route as AuthenticatedModulesIndexRouteImport } from './routes/_authenticated.modules.index'
+import { Route as AuthenticatedChangePasswordRouteImport } from './routes/_authenticated.change-password'
+import { Route as AuthenticatedChangeUsernameRouteImport } from './routes/_authenticated.change-username'
+import { Route as AuthenticatedFaqRouteImport } from './routes/_authenticated.faq'
+import { Route as AuthenticatedHelpRouteImport } from './routes/_authenticated.help'
+import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated.home'
+import { Route as AuthenticatedKnowledgeRouteImport } from './routes/_authenticated.knowledge'
+import { Route as AuthenticatedMyLearningRouteImport } from './routes/_authenticated.my-learning'
+import { Route as AuthenticatedPrivacyRouteImport } from './routes/_authenticated.privacy'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated.profile'
+import { Route as AuthenticatedSearchRouteImport } from './routes/_authenticated.search'
+import { Route as AuthenticatedTermsRouteImport } from './routes/_authenticated.terms'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthenticatedCategoryIndexRouteImport } from './routes/_authenticated.category.index'
-import { Route as AuthenticatedMyLearningLevelRouteImport } from './routes/_authenticated.my-learning.$level'
-import { Route as AuthenticatedModulesModuleIdRouteImport } from './routes/_authenticated.modules.$moduleId'
-import { Route as AuthenticatedKnowledgeBrandRouteImport } from './routes/_authenticated.knowledge.brand'
-import { Route as AuthenticatedChatAssistantIdRouteImport } from './routes/_authenticated.chat.$assistantId'
 import { Route as AuthenticatedCategoryCategoryIdRouteImport } from './routes/_authenticated.category.$categoryId'
+import { Route as AuthenticatedChatAssistantIdRouteImport } from './routes/_authenticated.chat.$assistantId'
+import { Route as AuthenticatedKnowledgeBrandRouteImport } from './routes/_authenticated.knowledge.brand'
+import { Route as AuthenticatedModulesIndexRouteImport } from './routes/_authenticated.modules.index'
+import { Route as AuthenticatedModulesModuleIdRouteImport } from './routes/_authenticated.modules.$moduleId'
+import { Route as AuthenticatedMyLearningIndexRouteImport } from './routes/_authenticated.my-learning.index'
+import { Route as AuthenticatedMyLearningLevelRouteImport } from './routes/_authenticated.my-learning.$level'
 import { Route as AuthenticatedKnowledgeCategoryCategoryIdRouteImport } from './routes/_authenticated.knowledge.category.$categoryId'
 import { Route as AuthenticatedModulesModuleIdCardsCardIdRouteImport } from './routes/_authenticated.modules.$moduleId.cards.$cardId'
 
-const ResetPasswordRoute = ResetPasswordRouteImport.update({
-  id: '/reset-password',
-  path: '/reset-password',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LoginSuccessRoute = LoginSuccessRouteImport.update({
-  id: '/login-success',
-  path: '/login-success',
+const AuthenticatedRoute = AuthenticatedRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
@@ -53,53 +52,36 @@ const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
   path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedRoute = AuthenticatedRouteImport.update({
-  id: '/_authenticated',
+const LoginSuccessRoute = LoginSuccessRouteImport.update({
+  id: '/login-success',
+  path: '/login-success',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiChatRoute = ApiChatRouteImport.update({
-  id: '/api/chat',
-  path: '/api/chat',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedTermsRoute = AuthenticatedTermsRouteImport.update({
-  id: '/terms',
-  path: '/terms',
+const AuthenticatedCategoryRoute = AuthenticatedCategoryRouteImport.update({
+  id: '/category',
+  path: '/category',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
-const AuthenticatedSearchRoute = AuthenticatedSearchRouteImport.update({
-  id: '/search',
-  path: '/search',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-const AuthenticatedPrivacyRoute = AuthenticatedPrivacyRouteImport.update({
-  id: '/privacy',
-  path: '/privacy',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-const AuthenticatedMyLearningRoute = AuthenticatedMyLearningRouteImport.update({
-  id: '/my-learning',
-  path: '/my-learning',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-const AuthenticatedKnowledgeRoute = AuthenticatedKnowledgeRouteImport.update({
-  id: '/knowledge',
-  path: '/knowledge',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
-  id: '/home',
-  path: '/home',
+const AuthenticatedChangePasswordRoute =
+  AuthenticatedChangePasswordRouteImport.update({
+    id: '/change-password',
+    path: '/change-password',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedChangeUsernameRoute =
+  AuthenticatedChangeUsernameRouteImport.update({
+    id: '/change-username',
+    path: '/change-username',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedFaqRoute = AuthenticatedFaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedHelpRoute = AuthenticatedHelpRouteImport.update({
@@ -107,56 +89,62 @@ const AuthenticatedHelpRoute = AuthenticatedHelpRouteImport.update({
   path: '/help',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
-const AuthenticatedFaqRoute = AuthenticatedFaqRouteImport.update({
-  id: '/faq',
-  path: '/faq',
+const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
-const AuthenticatedChangeUsernameRoute =
-  AuthenticatedChangeUsernameRouteImport.update({
-    id: '/change-username',
-    path: '/change-username',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
-const AuthenticatedChangePasswordRoute =
-  AuthenticatedChangePasswordRouteImport.update({
-    id: '/change-password',
-    path: '/change-password',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
-const AuthenticatedCategoryRoute = AuthenticatedCategoryRouteImport.update({
-  id: '/category',
-  path: '/category',
+const AuthenticatedKnowledgeRoute = AuthenticatedKnowledgeRouteImport.update({
+  id: '/knowledge',
+  path: '/knowledge',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
-const AuthenticatedMyLearningIndexRoute =
-  AuthenticatedMyLearningIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => AuthenticatedMyLearningRoute,
-  } as any)
-const AuthenticatedModulesIndexRoute =
-  AuthenticatedModulesIndexRouteImport.update({
-    id: '/modules/',
-    path: '/modules/',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
+const AuthenticatedMyLearningRoute = AuthenticatedMyLearningRouteImport.update({
+  id: '/my-learning',
+  path: '/my-learning',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedPrivacyRoute = AuthenticatedPrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedSearchRoute = AuthenticatedSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedTermsRoute = AuthenticatedTermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedCategoryIndexRoute =
   AuthenticatedCategoryIndexRouteImport.update({
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedCategoryRoute,
   } as any)
-const AuthenticatedMyLearningLevelRoute =
-  AuthenticatedMyLearningLevelRouteImport.update({
-    id: '/$level',
-    path: '/$level',
-    getParentRoute: () => AuthenticatedMyLearningRoute,
+const AuthenticatedCategoryCategoryIdRoute =
+  AuthenticatedCategoryCategoryIdRouteImport.update({
+    id: '/$categoryId',
+    path: '/$categoryId',
+    getParentRoute: () => AuthenticatedCategoryRoute,
   } as any)
-const AuthenticatedModulesModuleIdRoute =
-  AuthenticatedModulesModuleIdRouteImport.update({
-    id: '/modules/$moduleId',
-    path: '/modules/$moduleId',
+const AuthenticatedChatAssistantIdRoute =
+  AuthenticatedChatAssistantIdRouteImport.update({
+    id: '/chat/$assistantId',
+    path: '/chat/$assistantId',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 const AuthenticatedKnowledgeBrandRoute =
@@ -165,17 +153,29 @@ const AuthenticatedKnowledgeBrandRoute =
     path: '/brand',
     getParentRoute: () => AuthenticatedKnowledgeRoute,
   } as any)
-const AuthenticatedChatAssistantIdRoute =
-  AuthenticatedChatAssistantIdRouteImport.update({
-    id: '/chat/$assistantId',
-    path: '/chat/$assistantId',
+const AuthenticatedModulesIndexRoute =
+  AuthenticatedModulesIndexRouteImport.update({
+    id: '/modules/',
+    path: '/modules/',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
-const AuthenticatedCategoryCategoryIdRoute =
-  AuthenticatedCategoryCategoryIdRouteImport.update({
-    id: '/$categoryId',
-    path: '/$categoryId',
-    getParentRoute: () => AuthenticatedCategoryRoute,
+const AuthenticatedModulesModuleIdRoute =
+  AuthenticatedModulesModuleIdRouteImport.update({
+    id: '/modules/$moduleId',
+    path: '/modules/$moduleId',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedMyLearningIndexRoute =
+  AuthenticatedMyLearningIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedMyLearningRoute,
+  } as any)
+const AuthenticatedMyLearningLevelRoute =
+  AuthenticatedMyLearningLevelRouteImport.update({
+    id: '/$level',
+    path: '/$level',
+    getParentRoute: () => AuthenticatedMyLearningRoute,
   } as any)
 const AuthenticatedKnowledgeCategoryCategoryIdRoute =
   AuthenticatedKnowledgeCategoryCategoryIdRouteImport.update({
@@ -377,25 +377,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/reset-password': {
-      id: '/reset-password'
-      path: '/reset-password'
-      fullPath: '/reset-password'
-      preLoaderRoute: typeof ResetPasswordRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login-success': {
-      id: '/login-success'
-      path: '/login-success'
-      fullPath: '/login-success'
-      preLoaderRoute: typeof LoginSuccessRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/forgot-password': {
-      id: '/forgot-password'
-      path: '/forgot-password'
-      fullPath: '/forgot-password'
-      preLoaderRoute: typeof ForgotPasswordRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -405,88 +391,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/chat': {
-      id: '/api/chat'
-      path: '/api/chat'
-      fullPath: '/api/chat'
-      preLoaderRoute: typeof ApiChatRouteImport
+    '/login-success': {
+      id: '/login-success'
+      path: '/login-success'
+      fullPath: '/login-success'
+      preLoaderRoute: typeof LoginSuccessRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/terms': {
-      id: '/_authenticated/terms'
-      path: '/terms'
-      fullPath: '/terms'
-      preLoaderRoute: typeof AuthenticatedTermsRouteImport
-      parentRoute: typeof AuthenticatedRoute
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/search': {
-      id: '/_authenticated/search'
-      path: '/search'
-      fullPath: '/search'
-      preLoaderRoute: typeof AuthenticatedSearchRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/profile': {
-      id: '/_authenticated/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof AuthenticatedProfileRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/privacy': {
-      id: '/_authenticated/privacy'
-      path: '/privacy'
-      fullPath: '/privacy'
-      preLoaderRoute: typeof AuthenticatedPrivacyRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/my-learning': {
-      id: '/_authenticated/my-learning'
-      path: '/my-learning'
-      fullPath: '/my-learning'
-      preLoaderRoute: typeof AuthenticatedMyLearningRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/knowledge': {
-      id: '/_authenticated/knowledge'
-      path: '/knowledge'
-      fullPath: '/knowledge'
-      preLoaderRoute: typeof AuthenticatedKnowledgeRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/home': {
-      id: '/_authenticated/home'
-      path: '/home'
-      fullPath: '/home'
-      preLoaderRoute: typeof AuthenticatedHomeRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/help': {
-      id: '/_authenticated/help'
-      path: '/help'
-      fullPath: '/help'
-      preLoaderRoute: typeof AuthenticatedHelpRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/faq': {
-      id: '/_authenticated/faq'
-      path: '/faq'
-      fullPath: '/faq'
-      preLoaderRoute: typeof AuthenticatedFaqRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/change-username': {
-      id: '/_authenticated/change-username'
-      path: '/change-username'
-      fullPath: '/change-username'
-      preLoaderRoute: typeof AuthenticatedChangeUsernameRouteImport
+    '/_authenticated/category': {
+      id: '/_authenticated/category'
+      path: '/category'
+      fullPath: '/category'
+      preLoaderRoute: typeof AuthenticatedCategoryRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/change-password': {
@@ -496,26 +426,82 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedChangePasswordRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
-    '/_authenticated/category': {
-      id: '/_authenticated/category'
-      path: '/category'
-      fullPath: '/category'
-      preLoaderRoute: typeof AuthenticatedCategoryRouteImport
+    '/_authenticated/change-username': {
+      id: '/_authenticated/change-username'
+      path: '/change-username'
+      fullPath: '/change-username'
+      preLoaderRoute: typeof AuthenticatedChangeUsernameRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
-    '/_authenticated/my-learning/': {
-      id: '/_authenticated/my-learning/'
-      path: '/'
-      fullPath: '/my-learning/'
-      preLoaderRoute: typeof AuthenticatedMyLearningIndexRouteImport
-      parentRoute: typeof AuthenticatedMyLearningRoute
-    }
-    '/_authenticated/modules/': {
-      id: '/_authenticated/modules/'
-      path: '/modules'
-      fullPath: '/modules/'
-      preLoaderRoute: typeof AuthenticatedModulesIndexRouteImport
+    '/_authenticated/faq': {
+      id: '/_authenticated/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof AuthenticatedFaqRouteImport
       parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/help': {
+      id: '/_authenticated/help'
+      path: '/help'
+      fullPath: '/help'
+      preLoaderRoute: typeof AuthenticatedHelpRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/home': {
+      id: '/_authenticated/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof AuthenticatedHomeRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/knowledge': {
+      id: '/_authenticated/knowledge'
+      path: '/knowledge'
+      fullPath: '/knowledge'
+      preLoaderRoute: typeof AuthenticatedKnowledgeRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/my-learning': {
+      id: '/_authenticated/my-learning'
+      path: '/my-learning'
+      fullPath: '/my-learning'
+      preLoaderRoute: typeof AuthenticatedMyLearningRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/privacy': {
+      id: '/_authenticated/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof AuthenticatedPrivacyRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/search': {
+      id: '/_authenticated/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof AuthenticatedSearchRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/terms': {
+      id: '/_authenticated/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof AuthenticatedTermsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/category/': {
       id: '/_authenticated/category/'
@@ -524,18 +510,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCategoryIndexRouteImport
       parentRoute: typeof AuthenticatedCategoryRoute
     }
-    '/_authenticated/my-learning/$level': {
-      id: '/_authenticated/my-learning/$level'
-      path: '/$level'
-      fullPath: '/my-learning/$level'
-      preLoaderRoute: typeof AuthenticatedMyLearningLevelRouteImport
-      parentRoute: typeof AuthenticatedMyLearningRoute
+    '/_authenticated/category/$categoryId': {
+      id: '/_authenticated/category/$categoryId'
+      path: '/$categoryId'
+      fullPath: '/category/$categoryId'
+      preLoaderRoute: typeof AuthenticatedCategoryCategoryIdRouteImport
+      parentRoute: typeof AuthenticatedCategoryRoute
     }
-    '/_authenticated/modules/$moduleId': {
-      id: '/_authenticated/modules/$moduleId'
-      path: '/modules/$moduleId'
-      fullPath: '/modules/$moduleId'
-      preLoaderRoute: typeof AuthenticatedModulesModuleIdRouteImport
+    '/_authenticated/chat/$assistantId': {
+      id: '/_authenticated/chat/$assistantId'
+      path: '/chat/$assistantId'
+      fullPath: '/chat/$assistantId'
+      preLoaderRoute: typeof AuthenticatedChatAssistantIdRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/knowledge/brand': {
@@ -545,19 +531,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedKnowledgeBrandRouteImport
       parentRoute: typeof AuthenticatedKnowledgeRoute
     }
-    '/_authenticated/chat/$assistantId': {
-      id: '/_authenticated/chat/$assistantId'
-      path: '/chat/$assistantId'
-      fullPath: '/chat/$assistantId'
-      preLoaderRoute: typeof AuthenticatedChatAssistantIdRouteImport
+    '/_authenticated/modules/': {
+      id: '/_authenticated/modules/'
+      path: '/modules'
+      fullPath: '/modules/'
+      preLoaderRoute: typeof AuthenticatedModulesIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
-    '/_authenticated/category/$categoryId': {
-      id: '/_authenticated/category/$categoryId'
-      path: '/$categoryId'
-      fullPath: '/category/$categoryId'
-      preLoaderRoute: typeof AuthenticatedCategoryCategoryIdRouteImport
-      parentRoute: typeof AuthenticatedCategoryRoute
+    '/_authenticated/modules/$moduleId': {
+      id: '/_authenticated/modules/$moduleId'
+      path: '/modules/$moduleId'
+      fullPath: '/modules/$moduleId'
+      preLoaderRoute: typeof AuthenticatedModulesModuleIdRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/my-learning/': {
+      id: '/_authenticated/my-learning/'
+      path: '/'
+      fullPath: '/my-learning/'
+      preLoaderRoute: typeof AuthenticatedMyLearningIndexRouteImport
+      parentRoute: typeof AuthenticatedMyLearningRoute
+    }
+    '/_authenticated/my-learning/$level': {
+      id: '/_authenticated/my-learning/$level'
+      path: '/$level'
+      fullPath: '/my-learning/$level'
+      preLoaderRoute: typeof AuthenticatedMyLearningLevelRouteImport
+      parentRoute: typeof AuthenticatedMyLearningRoute
     }
     '/_authenticated/knowledge/category/$categoryId': {
       id: '/_authenticated/knowledge/category/$categoryId'
