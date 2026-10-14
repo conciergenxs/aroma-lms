@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useI18n } from "@/lib/i18n";
 import { SlidersHorizontal, Check } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { categories as allCategories, brands as allBrands } from "@/data/modules";
+import { categories as allCategories } from "@/data/modules";
 import {
   EMPTY_FILTERS,
   activeFilterCount,
@@ -154,29 +154,9 @@ export function SearchFilters({
                 })}
               </div>
             </section>
-
-            <section>
-              <h3 className="text-[13px] font-semibold text-foreground/70">{t("filterBrand")}</h3>
-              <div className="mt-2.5 flex flex-wrap gap-2">
-                {allBrands.map((b) => {
-                  const on = draft.brands.includes(b.name);
-                  return (
-                    <button
-                      key={b.id}
-                      type="button"
-                      onClick={() => setDraft({ ...draft, brands: toggle(draft.brands, b.name) })}
-                      className={chip(on)}
-                    >
-                      {on && <Check className="mr-1 inline h-3.5 w-3.5" />}
-                      {b.name}
-                    </button>
-                  );
-                })}
-              </div>
-            </section>
           </div>
 
-          <div className="sticky bottom-0 -mx-6 mt-2 border-t border-border bg-card px-6 pt-4 pb-[5px]">
+          <div className="sticky bottom-0 -mx-6 mt-2 border-t border-border bg-card px-6 pt-4 pb-[10px]">
             <button
               type="button"
               onClick={() => {

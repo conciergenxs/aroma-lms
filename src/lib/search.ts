@@ -69,16 +69,11 @@ const pct = (m: Module) => (m.total > 0 ? m.completed / m.total : 0);
 
 export function applyFilters(
   hits: SearchHit[],
-  {
-    status,
-    categoryIds,
-    brands,
-  }: { status: StatusFilter; categoryIds: string[]; brands: string[] },
+  { status, categoryIds }: { status: StatusFilter; categoryIds: string[] },
 ): SearchHit[] {
   return hits.filter(({ module: m }) => {
     if (status !== "all" && statusOf(m) !== status) return false;
     if (categoryIds.length > 0 && !categoryIds.includes(m.categoryId)) return false;
-    if (brands.length > 0 && !brands.includes(m.brand)) return false;
     return true;
   });
 }
@@ -92,24 +87,22 @@ export function applySort(hits: SearchHit[], sort: SortKey): SearchHit[] {
   return sorted;
 }
 
-/** The filter/sort selection a results page holds. */
+/**
+ * The filter/sort selection a results page holds. No brand axis: an account is dedicated to
+ * one brand, so filtering by brand would offer shelves this BA does not work.
+ */
 export type FilterState = {
   status: StatusFilter;
   categoryIds: string[];
-  brands: string[];
   sort: SortKey;
 };
 
 export const EMPTY_FILTERS: FilterState = {
   status: "all",
   categoryIds: [],
-  brands: [],
   sort: "relevance",
 };
 
 /** How many choices are narrowing the list right now, for the badge on the filter button. */
 export const activeFilterCount = (f: FilterState) =>
-  (f.status !== "all" ? 1 : 0) +
-  f.categoryIds.length +
-  f.brands.length +
-  (f.sort !== "relevance" ? 1 : 0);
+  (f.status !== "all" ? 1 : 0) + f.categoryIds.length + (f.sort !== "relevance" ? 1 : 0);
