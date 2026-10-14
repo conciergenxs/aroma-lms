@@ -12,7 +12,7 @@ import {
 import { PrevNextPagination } from "@/components/PrevNextPagination";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { motion } from "framer-motion";
-import { ChevronRight, Info, Search, SearchX } from "lucide-react";
+import { Info, Search, SearchX } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/my-learning/")({
   component: MyLearningPage,
@@ -110,21 +110,19 @@ function MyLearningPage() {
                 (m) => m.total > 0 && m.completed === m.total,
               ).length;
               return (
-                // The divider is pulled half a gutter left (-ml-1 against gap-2) so it sits
-                // optically centred between the two columns instead of hugging the label
-                // that follows it; pl-3 puts that label back where it was.
-                <div key={lvl} className={i > 0 ? "-ml-1 border-l border-border pl-3" : ""}>
+                // The divider is pulled left of the column it belongs to (-ml-3 against a
+                // gap-2 gutter) so it reads as sitting between the two columns rather than
+                // hugging the label after it; pl-5 puts that label back where it was. The
+                // link's own mr-2 keeps its hover tint clear of the next divider.
+                <div key={lvl} className={i > 0 ? "-ml-3 border-l border-border pl-5" : ""}>
                   <Link
                     to="/my-learning/$level"
                     params={{ level: lvl }}
                     aria-label={t(unfinishedAriaKey(lvl))}
-                    className="group block -ml-1.5 rounded-lg px-1.5 py-1 transition-colors hover:bg-brand/[0.07] active:bg-brand/[0.12] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/30"
+                    className="group block -ml-1.5 mr-2 rounded-lg px-1.5 py-1 transition-colors hover:bg-brand/[0.07] active:bg-brand/[0.12] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/30"
                   >
-                    <div className="flex items-center gap-px">
-                      <span className="text-[12px] font-semibold text-tan transition-colors group-hover:text-brand">
-                        {levelLabel(lvl)}
-                      </span>
-                      <ChevronRight className="h-3 w-3 shrink-0 text-tan transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-brand" />
+                    <div className="text-[12px] font-semibold text-tan transition-colors group-hover:text-brand">
+                      {levelLabel(lvl)}
                     </div>
                     <div className="mt-1.5 text-[13px] font-medium text-foreground/70">
                       {completedCount}/{items.length} {t("modulesCompleted")}
