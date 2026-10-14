@@ -77,10 +77,10 @@ function SearchResultsPage() {
 
   return (
     <>
-      <div className="px-[14px] pt-[28px]">
+      <div className="px-[14px] pt-[16px]">
         {/* ── the search bar and its filters, kept in reach while the results scroll ── */}
         <div
-          className="sticky z-20 -mx-[14px] bg-cream px-[14px] pb-2.5 pt-1 transition-[top] duration-300 ease-out motion-reduce:transition-none"
+          className="sticky z-20 -mx-[14px] bg-cream px-[14px] pb-3 pt-3 transition-[top] duration-300 ease-out motion-reduce:transition-none"
           style={{ top: "var(--sticky-offset, 0px)" }}
         >
           <div className="flex items-center gap-2">
@@ -149,7 +149,7 @@ function SearchResultsPage() {
               </div>
             ) : (
               <>
-                <p className="mt-5 text-[13px] text-foreground/60">
+                <p className="mt-4 text-[13px] text-foreground/60">
                   {t("showing")} {start + 1}–{Math.min(start + PAGE_SIZE, total)} {t("of")} {total}{" "}
                   {t("searchResultsFor")} "{trimmed}"
                 </p>

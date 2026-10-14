@@ -24,7 +24,7 @@ export function SearchMatchSection({ query, hits }: { query: string; hits: Modul
   if (related.length === 0) return null;
 
   return (
-    <section className="mt-5 rounded-xl border border-border bg-card p-3.5 shadow-sm">
+    <section className="mt-2 rounded-xl border border-border bg-card p-3.5 shadow-sm">
       <div className="flex items-center gap-3">
         <img
           src={category.image}
@@ -57,8 +57,10 @@ export function SearchMatchSection({ query, hits }: { query: string; hits: Modul
             className="w-[112px] shrink-0 overflow-hidden rounded-lg border border-border bg-card transition-shadow hover:shadow-md"
           >
             <img src={m.image} alt="" className="h-[104px] w-full object-cover" loading="lazy" />
-            <div className="line-clamp-2 px-2 py-2 text-[12px] font-medium leading-snug">
-              {m.title}
+            <div className="px-2 py-2">
+              <span className="line-clamp-2 block h-[34px] overflow-hidden text-[12px] font-medium leading-[17px]">
+                {m.title}
+              </span>
             </div>
           </Link>
         ))}
