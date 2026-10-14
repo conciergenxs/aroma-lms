@@ -89,3 +89,25 @@ export function applySort(hits: SearchHit[], sort: SortKey): SearchHit[] {
   if (sort === "progress-asc") sorted.sort((a, b) => pct(a.module) - pct(b.module));
   return sorted;
 }
+
+/** The filter/sort selection a results page holds. */
+export type FilterState = {
+  status: StatusFilter;
+  categoryIds: string[];
+  brands: string[];
+  sort: SortKey;
+};
+
+export const EMPTY_FILTERS: FilterState = {
+  status: "all",
+  categoryIds: [],
+  brands: [],
+  sort: "relevance",
+};
+
+/** How many choices are narrowing the list right now, for the badge on the filter button. */
+export const activeFilterCount = (f: FilterState) =>
+  (f.status !== "all" ? 1 : 0) +
+  f.categoryIds.length +
+  f.brands.length +
+  (f.sort !== "relevance" ? 1 : 0);

@@ -3,27 +3,13 @@ import { useI18n } from "@/lib/i18n";
 import { SlidersHorizontal, Check } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { categories as allCategories, brands as allBrands } from "@/data/modules";
-import type { StatusFilter, SortKey } from "@/lib/search";
-
-export type FilterState = {
-  status: StatusFilter;
-  categoryIds: string[];
-  brands: string[];
-  sort: SortKey;
-};
-
-export const EMPTY_FILTERS: FilterState = {
-  status: "all",
-  categoryIds: [],
-  brands: [],
-  sort: "relevance",
-};
-
-export const activeFilterCount = (f: FilterState) =>
-  (f.status !== "all" ? 1 : 0) +
-  f.categoryIds.length +
-  f.brands.length +
-  (f.sort !== "relevance" ? 1 : 0);
+import {
+  EMPTY_FILTERS,
+  activeFilterCount,
+  type StatusFilter,
+  type SortKey,
+  type FilterState,
+} from "@/lib/search";
 
 const chip = (active: boolean) =>
   `shrink-0 rounded-full border px-3.5 py-2 text-[13px] font-medium transition-colors ${
@@ -47,6 +33,14 @@ export function SearchFilters({
   const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState<FilterState>(value);
+  // The four status chips do not fit a phone width. They scroll, but a chip sliced by the
+  // edge reads as broken rather than as "there is more" — so fade the edge while there is
+  // more, and drop the fade once the row is scrolled out.
+  const [atEnd, setAtEnd] = useState(false);
+  const onRowScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const el = e.currentTarget;
+    setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 2);
+  };
 
   const statuses: { key: StatusFilter; label: string }[] = [
     { key: "all", label: t("filterAll") },
@@ -68,17 +62,28 @@ export function SearchFilters({
 
   return (
     <div className="mt-4 flex items-center gap-2">
-      <div className="flex min-w-0 flex-1 gap-2 overflow-x-auto scrollbar-none">
-        {statuses.map((s) => (
-          <button
-            key={s.key}
-            type="button"
-            onClick={() => onChange({ ...value, status: s.key })}
-            className={chip(value.status === s.key)}
-          >
-            {s.label}
-          </button>
-        ))}
+      <div className="relative min-w-0 flex-1">
+        <div
+          onScroll={onRowScroll}
+          className="flex gap-2 overflow-x-auto scrollbar-none snap-x scroll-px-1"
+        >
+          {statuses.map((s) => (
+            <button
+              key={s.key}
+              type="button"
+              onClick={() => onChange({ ...value, status: s.key })}
+              className={`${chip(value.status === s.key)} snap-start`}
+            >
+              {s.label}
+            </button>
+          ))}
+        </div>
+        {!atEnd && (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-cream to-transparent"
+          />
+        )}
       </div>
 
       <Sheet
@@ -174,7 +179,7 @@ export function SearchFilters({
           <div className="sticky bottom-0 -mx-6 mt-2 flex gap-3 border-t border-border bg-card px-6 py-4">
             <button
               type="button"
-              onClick={() => setDraft({ ...EMPTY_FILTERS, status: draft.status })}
+              onClick={() => setDraft(EMPTY_FILTERS)}
               className="rounded-full border border-brand/40 px-5 py-3 text-[13px] font-semibold text-brand transition-colors hover:bg-brand/10"
             >
               {t("resetFilter")}

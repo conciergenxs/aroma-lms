@@ -8,9 +8,15 @@ import { modules } from "@/data/modules";
 import { ModuleCard } from "@/components/ModuleCard";
 import { NoSearchResults } from "@/components/NoSearchResults";
 import { PrevNextPagination } from "@/components/PrevNextPagination";
-import { SearchFilters, EMPTY_FILTERS, type FilterState } from "@/components/SearchFilters";
+import { SearchFilters } from "@/components/SearchFilters";
 import { SearchMatchSection } from "@/components/SearchMatchSection";
-import { searchModules, applyFilters, applySort } from "@/lib/search";
+import {
+  searchModules,
+  applyFilters,
+  applySort,
+  EMPTY_FILTERS,
+  type FilterState,
+} from "@/lib/search";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 
 const searchSchema = z.object({ q: z.string().optional() });
@@ -34,6 +40,23 @@ function SearchResultsPage() {
   // remounting — e.g. browser back/forward between two /search?q=... states.
   useEffect(() => setQuery(q ?? ""), [q]);
   useEffect(() => setPage(1), [query, filters]);
+
+  // ...and push what is typed back into the URL, so a refresh or a shared link reopens the
+  // search actually on screen instead of the one it started from. Replaced rather than
+  // pushed: every keystroke in the history would make Back unusable. Debounced so typing
+  // does not write a history entry per character.
+  useEffect(() => {
+    const typed = query.trim();
+    if (typed === (q ?? "").trim()) return;
+    const id = setTimeout(() => {
+      router.navigate({
+        to: "/search",
+        search: typed ? { q: typed } : {},
+        replace: true,
+      });
+    }, 350);
+    return () => clearTimeout(id);
+  }, [query, q, router]);
 
   const goBack = () =>
     router.history.canGoBack() ? router.history.back() : router.navigate({ to: "/home" });
@@ -69,7 +92,9 @@ function SearchResultsPage() {
             <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-tan" />
             <input
               type="text"
-              autoFocus
+              // Only when there is nothing to read yet. Arriving from Home with a query
+              // already filled, autofocus would throw the keyboard over the results.
+              autoFocus={!q}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={t("searchPlaceholder")}
@@ -104,9 +129,18 @@ function SearchResultsPage() {
 
             {/* ── the results themselves ────────────────────────────── */}
             {total === 0 ? (
-              <p className="mt-8 text-center text-[15px] text-foreground/70">
-                {t("noResultsForFilter")}
-              </p>
+              <div className="mt-10 flex flex-col items-center text-center">
+                <p className="text-[15px] text-foreground/70 max-w-[300px]">
+                  {t("noResultsForFilter")}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setFilters(EMPTY_FILTERS)}
+                  className="mt-5 rounded-full border border-brand/40 px-5 py-3 text-[13px] font-semibold text-brand transition-colors hover:bg-brand hover:text-white active:scale-[0.98]"
+                >
+                  {t("resetFilter")}
+                </button>
+              </div>
             ) : (
               <>
                 <p className="mt-5 text-[13px] text-foreground/60">
