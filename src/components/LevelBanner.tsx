@@ -1,7 +1,6 @@
 import { Link, type LinkProps } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { motion } from "framer-motion";
-import { ChevronRight } from "lucide-react";
 
 type LevelBannerProps = {
   /** Reads as the destination's own name, e.g. "About Sisley" or "About Skin Care Category". */
@@ -38,14 +37,11 @@ export function LevelBanner({ title, count, image, to, params }: LevelBannerProp
           height={576}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-black/10" />
-        <div className="absolute inset-x-4 bottom-4 flex items-end justify-between gap-3 text-white">
-          <div className="min-w-0">
-            <div className="font-serif text-[20px] font-medium leading-tight">{title}</div>
-            <div className="mt-1.5 text-[13px] opacity-90">
-              {count} {t("countModules")}
-            </div>
+        <div className="absolute inset-x-4 bottom-4 text-white">
+          <div className="font-serif text-[20px] font-medium leading-tight">{title}</div>
+          <div className="mt-1.5 text-[13px] opacity-90">
+            {count} {t("countModules")}
           </div>
-          <ChevronRight className="mb-0.5 h-5 w-5 shrink-0 transition-transform duration-200 group-hover:translate-x-1" />
         </div>
       </Link>
     </motion.div>
