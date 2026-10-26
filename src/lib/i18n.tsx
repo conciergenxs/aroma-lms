@@ -173,6 +173,7 @@ const T = {
     // Chat
     backTo: "Back to",
     chatHistory: "Chat History",
+    chatWithArma: "Chat with ARMA",
     searchChatPlaceholder: "Search chat...",
     chatPlaceholder: "Type your message here..",
     thinking: "Thinking...",
@@ -367,6 +368,7 @@ const T = {
     // Chat
     backTo: "Kembali ke",
     chatHistory: "Riwayat Chat",
+    chatWithArma: "Chat with ARMA",
     searchChatPlaceholder: "Cari chat...",
     chatPlaceholder: "Ketik pesanmu di sini..",
     thinking: "Sedang berpikir...",

@@ -1,8 +1,10 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { motion } from "framer-motion";
+import { useI18n } from "@/lib/i18n";
 import aiLogo from "@/assets/ai-logo-new.svg.asset.json";
 
 export function FloatingAI() {
+  const { t } = useI18n();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const moduleMatch = pathname.match(/\/modules\/([^/]+)/);
   const target = moduleMatch ? moduleMatch[1] : "general";
@@ -16,10 +18,17 @@ export function FloatingAI() {
         <Link
           to="/chat/$assistantId"
           params={{ assistantId: target }}
-          aria-label="Chat with AI assistant"
           className="pointer-events-auto absolute right-5 block"
         >
           <span className="relative block h-[49px] w-[49px]">
+            <motion.span
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.25, type: "spring", stiffness: 260, damping: 20 }}
+              className="absolute bottom-[calc(100%+10px)] right-0 whitespace-nowrap rounded-full bg-brand px-3 py-1.5 text-[12px] font-semibold text-white shadow-[0_8px_20px_rgba(113,0,20,0.35)]"
+            >
+              {t("chatWithArma")}
+            </motion.span>
             <motion.span
               aria-hidden
               className="absolute inset-0 rounded-full bg-brand/30"

@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { SiteFooter } from "@/components/layout/SiteFooter";
-import { User, Lock, HelpCircle, LogOut, Camera, Mail, Check, ArrowLeftRight } from "lucide-react";
+import { User, HelpCircle, LogOut, Camera, Check, ArrowLeftRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { useAvatarStore, fileToAvatarDataUrl } from "@/lib/avatar-store";
@@ -25,18 +25,30 @@ function LangToggle() {
   );
 }
 
-function BottomSheet({ open, onClose, children }: { open: boolean; onClose: () => void; children: React.ReactNode }) {
+function BottomSheet({
+  open,
+  onClose,
+  children,
+}: {
+  open: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+}) {
   return (
     <AnimatePresence>
       {open && (
         <>
           <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             className="fixed inset-0 z-40 bg-black/40"
             onClick={onClose}
           />
           <motion.div
-            initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }}
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 32 }}
             className="fixed bottom-0 left-0 right-0 z-50 bg-card rounded-t-2xl pb-10 shadow-2xl font-sans"
           >
@@ -73,23 +85,27 @@ function ProfilePage() {
     }
   };
 
-  const menuItems = [
-{ icon: Lock, label: t("changePassword"), to: "/change-password" as const },
-    { icon: HelpCircle, label: t("help"), to: "/help" as const },
-  ];
+  const menuItems = [{ icon: HelpCircle, label: t("help"), to: "/help" as const }];
 
   return (
     <>
       {/* Brand sheet */}
       <BottomSheet open={brandSheetOpen} onClose={() => setBrandSheetOpen(false)}>
-        <p className="px-6 text-[13px] font-bold tracking-widest text-foreground/50 mb-2">{t("selectBrand")}</p>
+        <p className="px-6 text-[13px] font-bold tracking-widest text-foreground/50 mb-2">
+          {t("selectBrand")}
+        </p>
         {ALL_BRANDS.map((b) => (
           <button
             key={b}
-            onClick={() => { setActiveBrand(b as BrandName); setBrandSheetOpen(false); }}
+            onClick={() => {
+              setActiveBrand(b as BrandName);
+              setBrandSheetOpen(false);
+            }}
             className="w-full flex items-center justify-between px-6 py-4 text-[15px] hover:bg-cream transition-colors border-t border-border first:border-t-0 font-sans"
           >
-            <span className={b === activeBrand ? "font-semibold text-brand" : "text-foreground"}>{b}</span>
+            <span className={b === activeBrand ? "font-semibold text-brand" : "text-foreground"}>
+              {b}
+            </span>
             {b === activeBrand && <Check className="h-4 w-4 text-brand" />}
           </button>
         ))}
@@ -99,10 +115,15 @@ function ProfilePage() {
       <BottomSheet open={logoutOpen} onClose={() => setLogoutOpen(false)}>
         <div className="px-6 pb-2">
           <p className="font-serif text-[22px] font-medium text-foreground">{t("logoutTitle")}</p>
-          <p className="mt-2 text-[14px] text-foreground/60 font-sans leading-relaxed">{t("logoutDesc")}</p>
+          <p className="mt-2 text-[14px] text-foreground/60 font-sans leading-relaxed">
+            {t("logoutDesc")}
+          </p>
           <div className="mt-6 flex flex-col gap-3">
             <button
-              onClick={() => { setLogoutOpen(false); navigate({ to: "/" }); }}
+              onClick={() => {
+                setLogoutOpen(false);
+                navigate({ to: "/" });
+              }}
               className="w-full h-12 rounded-full bg-brand text-white font-semibold text-[16px] font-sans hover:brightness-110 transition-all"
             >
               {t("logout")}
@@ -132,7 +153,13 @@ function ProfilePage() {
           >
             <div className="h-[120px] w-[120px] rounded-full overflow-hidden ring-4 ring-card shadow-md bg-card border border-brand/35 flex items-center justify-center text-brand">
               {avatar ? (
-                <img src={avatar} alt="" className="h-full w-full object-cover" width={320} height={320} />
+                <img
+                  src={avatar}
+                  alt=""
+                  className="h-full w-full object-cover"
+                  width={320}
+                  height={320}
+                />
               ) : (
                 <User className="h-12 w-12" />
               )}
@@ -153,9 +180,6 @@ function ProfilePage() {
             </button>
           </motion.div>
           <h1 className="mt-4 font-serif text-[28px] font-medium leading-none">Bella Victoria</h1>
-          <div className="mt-2 flex items-center gap-1.5 text-sm text-foreground/65 font-sans">
-            <Mail className="h-4 w-4" /> bella.thompson@aroma.id
-          </div>
         </div>
 
         {/* Brand switcher card */}
@@ -170,8 +194,9 @@ function ProfilePage() {
           <ArrowLeftRight className="h-[18px] w-[18px] text-foreground/50" />
         </motion.button>
 
-        <h2 className="mt-8 font-serif text-[22px] font-medium">{t("accountSettings")}</h2>
-        <div className="mt-3 space-y-2.5">
+        <div className="mt-7 border-t border-border" />
+
+        <div className="mt-6 space-y-2.5">
           {menuItems.map(({ icon: Icon, label, to }) => (
             <motion.div key={label} whileTap={{ scale: 0.98 }}>
               <button
