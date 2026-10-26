@@ -4,7 +4,22 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAvatarStore } from "@/lib/avatar-store";
 import navLogo from "@/assets/navbar-logo.svg.asset.json";
+import aromaMark from "@/assets/logo-aroma.svg.asset.json";
 import dolceLogo from "@/assets/brands/dolce-gabbana.svg";
+import bareLogo from "@/assets/brands/bareminerals.svg.asset.json";
+import rimmelLogo from "@/assets/brands/rimmel.svg.asset.json";
+import sisleyLogo from "@/assets/brands/sisley.svg.asset.json";
+
+// Each brand's own mark, kept here rather than pulled from data/modules so the header does
+// not drag the whole module catalogue into the bundle every page loads.
+// Laura Mercier is absent on purpose: its mark only exists inside the combined
+// "Aroma | Laura Mercier" lockup, which that brand keeps using.
+const BRAND_MARKS: Partial<Record<BrandName, string>> = {
+  "Dolce & Gabbana": dolceLogo,
+  bareMinerals: bareLogo.url,
+  Rimmel: rimmelLogo.url,
+  Sisley: sisleyLogo.url,
+};
 import { useBrand, ALL_BRANDS, type BrandName } from "@/lib/brand-context";
 
 function BrandSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
@@ -128,7 +143,7 @@ export function TopHeader() {
   const headerRef = useRef<HTMLElement>(null);
   usePublishStickyOffset(headerRef, hidden);
   const { activeBrand } = useBrand();
-  const headerLogo = activeBrand === "Dolce & Gabbana" ? dolceLogo : navLogo.url;
+  const brandMark = BRAND_MARKS[activeBrand];
   const avatar = useAvatarStore((s) => s.avatar);
   const hydrateAvatar = useAvatarStore((s) => s.hydrate);
 
@@ -145,9 +160,23 @@ export function TopHeader() {
       >
         <div className="w-full px-6 h-[70px] flex items-center justify-between">
           <div className="flex items-center">
-            <Link to="/home" className="shrink-0">
-              <img src={headerLogo} alt={`Aroma · ${activeBrand}`} className="h-[31px] w-auto" />
-            </Link>
+            {brandMark ? (
+              <Link to="/home" className="flex shrink-0 items-center gap-2.5">
+                <img src={aromaMark.url} alt="Aroma" className="h-[26px] w-auto" />
+                <span aria-hidden className="h-6 w-px bg-black/15" />
+                <span className="flex h-[34px] w-[34px] items-center justify-center overflow-hidden rounded-md bg-white">
+                  <img
+                    src={brandMark}
+                    alt={activeBrand}
+                    className="max-h-full max-w-full object-contain"
+                  />
+                </span>
+              </Link>
+            ) : (
+              <Link to="/home" className="shrink-0">
+                <img src={navLogo.url} alt={`Aroma · ${activeBrand}`} className="h-[31px] w-auto" />
+              </Link>
+            )}
             <button
               onClick={() => setSheetOpen(true)}
               aria-label="Switch brand"
