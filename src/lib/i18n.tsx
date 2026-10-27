@@ -168,7 +168,6 @@ const T = {
     contactSupportDesc:
       "Chat with our AI assistant directly on WhatsApp for instant answers about products, training modules, or account help. Available 24/7.",
     chatOnWhatsApp: "Chat on WhatsApp",
-    orEmailUs: "Or email us at",
     waMessage: "Hi Aroma AI, I need help with my account.",
     // Chat
     backTo: "Back to",
@@ -363,7 +362,6 @@ const T = {
     contactSupportDesc:
       "Chat dengan asisten AI kami langsung di WhatsApp untuk jawaban cepat tentang produk, modul pelatihan, atau bantuan akun. Tersedia 24 jam.",
     chatOnWhatsApp: "Chat di WhatsApp",
-    orEmailUs: "Atau email kami di",
     waMessage: "Halo Aroma AI, saya butuh bantuan untuk akun saya.",
     // Chat
     backTo: "Kembali ke",

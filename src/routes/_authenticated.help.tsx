@@ -9,24 +9,21 @@ export const Route = createFileRoute("/_authenticated/help")({
 });
 
 const WA_NUMBER = "6281200000000";
-const WA_MESSAGE = encodeURIComponent(
-  "Halo Aroma AI, saya butuh bantuan untuk akun saya.",
-) // keep static to avoid hook in module scope;
+const WA_MESSAGE = encodeURIComponent("Halo Aroma AI, saya butuh bantuan untuk akun saya."); // keep static to avoid hook in module scope;
 
 function HelpPage() {
   const { t } = useI18n();
   return (
     <>
       <div className="px-[24px] pt-[28px]">
-        <Link to="/profile" className="inline-flex items-center text-sm text-brand font-semibold mb-4">
+        <Link
+          to="/profile"
+          className="inline-flex items-center text-sm text-brand font-semibold mb-4"
+        >
           <ChevronLeft className="h-4 w-4" /> {t("backToProfile")}
         </Link>
-        <h1 className="font-serif text-[28px] font-medium leading-tight">
-          {t("helpTitle")}
-        </h1>
-        <p className="text-[14px] text-foreground/75 mt-4 leading-relaxed">
-          {t("helpSubtitle")}
-        </p>
+        <h1 className="font-serif text-[28px] font-medium leading-tight">{t("helpTitle")}</h1>
+        <p className="text-[14px] text-foreground/75 mt-4 leading-relaxed">{t("helpSubtitle")}</p>
 
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -50,10 +47,6 @@ function HelpPage() {
             {t("chatOnWhatsApp")}
           </motion.a>
         </motion.div>
-
-        <div className="mt-6 text-center text-[12px] text-foreground/60">
-          {t("orEmailUs")} <span className="text-brand font-semibold">support@aroma.id</span>
-        </div>
       </div>
       <SiteFooter />
     </>
